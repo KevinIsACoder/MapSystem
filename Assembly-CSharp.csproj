@@ -41,21 +41,78 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\MapSystem\TerrainManager.cs" />
+     <Compile Include="Assets\Scripts\Noise.cs" />
+     <Compile Include="Assets\Scripts\MapSystem\AssetsManager.cs" />
+     <Compile Include="Assets\Scripts\MapSystem\RoadTest.cs" />
+     <Compile Include="Assets\Scripts\MapSystem\Singleton.cs" />
+     <Compile Include="Assets\Scripts\TextureCreatorWindow.cs" />
+     <Compile Include="Assets\GUITable\Examples\Scripts\LogoTable.cs" />
+     <Compile Include="Assets\Scripts\PerlinNoise\PerlinNoiseTerrainEditor.cs" />
+     <Compile Include="Assets\Scripts\Utils.cs" />
+     <Compile Include="Assets\Scripts\MapSystem\MapConsts.cs" />
+     <Compile Include="Assets\Scripts\MapConfig.cs" />
+     <Compile Include="Assets\Scripts\MapSystem\MapUtils.cs" />
+     <Compile Include="Assets\GUITable\Examples\Scripts\Enemy.cs" />
+     <Compile Include="Assets\Scripts\HeightMapGenerator.cs" />
+     <Compile Include="Assets\Scripts\PerlinNoise\PerlinNoiseTerrain.cs" />
      <Compile Include="Assets\Scripts\MapGrid.cs" />
+     <Compile Include="Assets\Scripts\ForestGenerator.cs" />
+     <Compile Include="Assets\GUITable\Examples\Scripts\LiteExample.cs" />
+     <Compile Include="Assets\GUITable\Examples\Scripts\SimpleExample.cs" />
+     <Compile Include="Assets\Scripts\MeshGenerator.cs" />
+     <Compile Include="Assets\Scripts\WaterManager.cs" />
+     <Compile Include="Assets\Scripts\TerrainMapGenerator.cs" />
+     <Compile Include="Assets\Scripts\CityMaps\SplineTest.cs" />
+     <Compile Include="Assets\Scripts\MapSystem\MeshData.cs" />
+     <Compile Include="Assets\GUITable\Examples\Scripts\PropertyAttributeExample.cs" />
      <Compile Include="Assets\Scripts\MapCell.cs" />
+     <Compile Include="Assets\Scripts\CityMaps\PlotVoronoi.cs" />
+     <Compile Include="Assets\Scripts\CityMaps\PerlingNoiseTest.cs" />
      <Compile Include="Assets\Scripts\MapGenerator.cs" />
+     <Compile Include="Assets\Scripts\MapSystem\MapSlot.cs" />
+     <Compile Include="Assets\Scripts\MapManager.cs" />
+     <Compile Include="Assets\Scripts\Falloff.cs" />
      <Compile Include="Assets\Leven\RandomCityGenerator\Scripts\CityGenerator.cs" />
+     <Compile Include="Assets\GUITable\Examples\Scripts\ActionExample.cs" />
+     <Compile Include="Assets\Scripts\CustomTerrain.cs" />
+     <Compile Include="Assets\Scripts\MapSystem\TerrainData.cs" />
+     <Compile Include="Assets\Scripts\HydraulicErosion.cs" />
+     <Compile Include="Assets\Scripts\PerlinNoiseMapGenerator.cs" />
+     <Compile Include="Assets\Scripts\MapChunkController.cs" />
+     <Compile Include="Assets\Scripts\CustomTerrainEditor.cs" />
+     <Compile Include="Assets\GUITable\Examples\Scripts\AdvancedExample.cs" />
+     <Compile Include="Assets\Scripts\MapSystem\RoadGenerator.cs" />
+     <Compile Include="Assets\Scripts\SimplexNoiseGenerator.cs" />
+     <Compile Include="Assets\Scripts\MapSystem\MapGenerator.cs" />
      <Compile Include="Assets\Leven\RandomCityGenerator\Scripts\Example.cs" />
      <Folder Include="Assets" />
+     <Folder Include="Assets\GUITable" />
+     <Folder Include="Assets\Prefabs" />
+     <Folder Include="Assets\Shaders" />
+     <Folder Include="Assets\Scripts\PerlinNoise" />
      <Folder Include="Assets\Leven\RandomCityGenerator" />
+     <Folder Include="Assets\Textures" />
      <Folder Include="Assets\Leven\RandomCityGenerator\Demo" />
+     <Folder Include="Assets\GUITable\Code" />
+     <Folder Include="Assets\Settings" />
+     <Folder Include="Assets\Scripts" />
+     <Folder Include="Assets\Scripts\MapSystem" />
      <Folder Include="Assets\Leven\RandomCityGenerator\Art" />
      <Folder Include="Assets\Leven\RandomCityGenerator\Documentation" />
-     <Folder Include="Assets\Scripts" />
+     <Folder Include="Assets\GUITable\Examples\Scenes" />
+     <Folder Include="Assets\GUITable\Examples" />
+     <Folder Include="Assets\GUITable\Examples\Prefabs" />
+     <Folder Include="Assets\AeonicTexturePack" />
+     <Folder Include="Assets\GUITable\Examples\Scripts" />
+     <Folder Include="Assets\Houses" />
+     <Folder Include="Assets\Commercials-1" />
      <Folder Include="Assets\Leven\RandomCityGenerator\Scripts" />
      <Folder Include="Assets\Leven\RandomCityGenerator\Prefab" />
+     <None Include="Assets\README.txt" />
      <Folder Include="Assets\Scenes" />
      <Folder Include="Assets\Leven" />
+     <Folder Include="Assets\Scripts\CityMaps" />
      <Reference Include="UnityEngine">
      <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.29f1c1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
      </Reference>
@@ -306,10 +363,13 @@
      <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.29f1c1\Editor\Data\Managed\UnityEngine\UnityEditor.UnityConnectModule.dll</HintPath>
      </Reference>
      <Reference Include="Unity.VisualScripting.Antlr3.Runtime">
-     <HintPath>G:\Unity\MapSystem\Library\PackageCache\com.unity.visualscripting@1.8.0\Runtime\VisualScripting.Flow\Dependencies\NCalc\Unity.VisualScripting.Antlr3.Runtime.dll</HintPath>
+     <HintPath>G:\MapSystem\Library\PackageCache\com.unity.visualscripting@1.8.0\Runtime\VisualScripting.Flow\Dependencies\NCalc\Unity.VisualScripting.Antlr3.Runtime.dll</HintPath>
+     </Reference>
+     <Reference Include="EditorGUITable">
+     <HintPath>G:\MapSystem\Assets\GUITable\Code\EditorGUITable.dll</HintPath>
      </Reference>
      <Reference Include="ReportGeneratorMerged">
-     <HintPath>G:\Unity\MapSystem\Library\PackageCache\com.unity.testtools.codecoverage@1.2.4\lib\ReportGenerator\ReportGeneratorMerged.dll</HintPath>
+     <HintPath>G:\MapSystem\Library\PackageCache\com.unity.testtools.codecoverage@1.2.4\lib\ReportGenerator\ReportGeneratorMerged.dll</HintPath>
      </Reference>
      <Reference Include="Unity.Android.Types">
      <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.29f1c1\Editor\Data\PlaybackEngines\AndroidPlayer\Unity.Android.Types.dll</HintPath>
@@ -684,73 +744,73 @@
      <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.29f1c1\Editor\Data\NetStandard\compat\2.1.0\shims\netfx\System.Xml.Serialization.dll</HintPath>
      </Reference>
      <Reference Include="Unity.VisualScripting.Flow.Editor">
-     <HintPath>G:\Unity\MapSystem\Library\ScriptAssemblies\Unity.VisualScripting.Flow.Editor.dll</HintPath>
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\Unity.VisualScripting.Flow.Editor.dll</HintPath>
      </Reference>
      <Reference Include="Unity.VSCode.Editor">
-     <HintPath>G:\Unity\MapSystem\Library\ScriptAssemblies\Unity.VSCode.Editor.dll</HintPath>
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\Unity.VSCode.Editor.dll</HintPath>
      </Reference>
      <Reference Include="Unity.VisualScripting.Shared.Editor">
-     <HintPath>G:\Unity\MapSystem\Library\ScriptAssemblies\Unity.VisualScripting.Shared.Editor.dll</HintPath>
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\Unity.VisualScripting.Shared.Editor.dll</HintPath>
      </Reference>
      <Reference Include="Unity.TextMeshPro.Editor">
-     <HintPath>G:\Unity\MapSystem\Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll</HintPath>
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll</HintPath>
      </Reference>
      <Reference Include="Unity.VisualStudio.Editor">
-     <HintPath>G:\Unity\MapSystem\Library\ScriptAssemblies\Unity.VisualStudio.Editor.dll</HintPath>
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\Unity.VisualStudio.Editor.dll</HintPath>
      </Reference>
      <Reference Include="Unity.Performance.Profile-Analyzer.Editor">
-     <HintPath>G:\Unity\MapSystem\Library\ScriptAssemblies\Unity.Performance.Profile-Analyzer.Editor.dll</HintPath>
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\Unity.Performance.Profile-Analyzer.Editor.dll</HintPath>
      </Reference>
      <Reference Include="Unity.TestTools.CodeCoverage.Editor.OpenCover.Model">
-     <HintPath>G:\Unity\MapSystem\Library\ScriptAssemblies\Unity.TestTools.CodeCoverage.Editor.OpenCover.Model.dll</HintPath>
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\Unity.TestTools.CodeCoverage.Editor.OpenCover.Model.dll</HintPath>
      </Reference>
      <Reference Include="Unity.Timeline.Editor">
-     <HintPath>G:\Unity\MapSystem\Library\ScriptAssemblies\Unity.Timeline.Editor.dll</HintPath>
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\Unity.Timeline.Editor.dll</HintPath>
      </Reference>
      <Reference Include="Unity.Timeline">
-     <HintPath>G:\Unity\MapSystem\Library\ScriptAssemblies\Unity.Timeline.dll</HintPath>
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\Unity.Timeline.dll</HintPath>
      </Reference>
      <Reference Include="Unity.VisualScripting.Core.Editor">
-     <HintPath>G:\Unity\MapSystem\Library\ScriptAssemblies\Unity.VisualScripting.Core.Editor.dll</HintPath>
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\Unity.VisualScripting.Core.Editor.dll</HintPath>
      </Reference>
      <Reference Include="Unity.TextMeshPro">
-     <HintPath>G:\Unity\MapSystem\Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
      </Reference>
      <Reference Include="Unity.VisualScripting.State.Editor">
-     <HintPath>G:\Unity\MapSystem\Library\ScriptAssemblies\Unity.VisualScripting.State.Editor.dll</HintPath>
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\Unity.VisualScripting.State.Editor.dll</HintPath>
      </Reference>
      <Reference Include="Unity.VisualScripting.SettingsProvider.Editor">
-     <HintPath>G:\Unity\MapSystem\Library\ScriptAssemblies\Unity.VisualScripting.SettingsProvider.Editor.dll</HintPath>
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\Unity.VisualScripting.SettingsProvider.Editor.dll</HintPath>
      </Reference>
      <Reference Include="Unity.TestTools.CodeCoverage.Editor.OpenCover.Mono.Reflection">
-     <HintPath>G:\Unity\MapSystem\Library\ScriptAssemblies\Unity.TestTools.CodeCoverage.Editor.OpenCover.Mono.Reflection.dll</HintPath>
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\Unity.TestTools.CodeCoverage.Editor.OpenCover.Mono.Reflection.dll</HintPath>
      </Reference>
      <Reference Include="Unity.VisualScripting.Flow">
-     <HintPath>G:\Unity\MapSystem\Library\ScriptAssemblies\Unity.VisualScripting.Flow.dll</HintPath>
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\Unity.VisualScripting.Flow.dll</HintPath>
      </Reference>
      <Reference Include="UnityEditor.UI">
-     <HintPath>G:\Unity\MapSystem\Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
      </Reference>
      <Reference Include="Unity.PlasticSCM.Editor">
-     <HintPath>G:\Unity\MapSystem\Library\ScriptAssemblies\Unity.PlasticSCM.Editor.dll</HintPath>
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\Unity.PlasticSCM.Editor.dll</HintPath>
      </Reference>
      <Reference Include="Unity.Rider.Editor">
-     <HintPath>G:\Unity\MapSystem\Library\ScriptAssemblies\Unity.Rider.Editor.dll</HintPath>
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\Unity.Rider.Editor.dll</HintPath>
      </Reference>
      <Reference Include="Unity.TestTools.CodeCoverage.Editor">
-     <HintPath>G:\Unity\MapSystem\Library\ScriptAssemblies\Unity.TestTools.CodeCoverage.Editor.dll</HintPath>
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\Unity.TestTools.CodeCoverage.Editor.dll</HintPath>
      </Reference>
      <Reference Include="UnityEngine.UI">
-     <HintPath>G:\Unity\MapSystem\Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
      </Reference>
      <Reference Include="Unity.VisualScripting.State">
-     <HintPath>G:\Unity\MapSystem\Library\ScriptAssemblies\Unity.VisualScripting.State.dll</HintPath>
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\Unity.VisualScripting.State.dll</HintPath>
      </Reference>
      <Reference Include="Unity.VisualScripting.Core">
-     <HintPath>G:\Unity\MapSystem\Library\ScriptAssemblies\Unity.VisualScripting.Core.dll</HintPath>
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\Unity.VisualScripting.Core.dll</HintPath>
      </Reference>
      <Reference Include="Unity.EditorCoroutines.Editor">
-     <HintPath>G:\Unity\MapSystem\Library\ScriptAssemblies\Unity.EditorCoroutines.Editor.dll</HintPath>
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\Unity.EditorCoroutines.Editor.dll</HintPath>
      </Reference>
   </ItemGroup>
   <ItemGroup>
