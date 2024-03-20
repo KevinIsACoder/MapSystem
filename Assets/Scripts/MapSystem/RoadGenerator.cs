@@ -4,25 +4,82 @@ using UnityEngine;
 
 namespace MapSystem
 {
-
-    public class LineData
+    public class RoadData
     {
-            
+        private Vector3[] m_points;
+        private Vector3[] verts;
+        private int[] tris;
+        private float roadWidth = 5f;
+        private int triIndex = 0;
+        private int vertIndex = 0;
+        
+        public RoadData(Vector3[] points, float roadWidth)
+        {
+            m_points = points;
+            verts = new Vector3[2 * points.Length]; 
+            tris = new int[2 * (points.Length - 1) * 3]; //三角形索引数组
+        }
+
+        public Mesh CreateRoadMesh()
+        {
+            for (var i = 0; i < m_points.Length; i++)
+            {
+                var forward = Vector3.zero; //找每个点的forward direction
+                if (i < m_points.Length - 1)
+                {
+                    forward += m_points[i + 1] - m_points[i];
+                }
+                if (i > 0)
+                {
+                    forward += m_points[i] - m_points[i - 1];
+                }
+                forward.Normalize();
+
+                var left = new Vector3(-forward.z, forward.y, forward.x);
+                verts[i] = m_points[i] + left * roadWidth * 0.5f;
+                verts[i + 1] = m_points[i] - left * roadWidth * 0.5f;
+                if (i < m_points.Length - 1)
+                {
+                    tris[triIndex] = vertIndex;
+                    tris[triIndex + 1] = vertIndex + 2;
+                    tris[triIndex + 2] = vertIndex + 1;
+
+                    tris[triIndex + 3] = vertIndex + 2;
+                    tris[triIndex + 4] = vertIndex + 3;
+                }
+                
+                vertIndex += 2; //顶点加2
+                triIndex += 6;
+            }
+            var ms = new Mesh();
+            ms.vertices = verts;
+            ms.triangles = tris;
+            ms.RecalculateNormals();
+            return ms;
+        }
     }
-    
+
     [Serializable]
+    [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
     public class RoadGenerator : MonoBehaviour
     {
         public int curveResolution = 1;
         public Material roadMaterial;
         
+        [Range(0, 5)] 
+        private int xRoadNum = 3;
+        [Range(0, 5)] 
+        private int yRoadNum = 3;
+
+        private List<RoadData> m_RoadLists;
         public RoadGenerator()
         {
             
         }
 
-        public void Generate()
+        public void Generate(Vector3[] points, bool isClose)
         {
+            var roadParent = new GameObject("RoadMesh");
             
         }
 
@@ -39,7 +96,7 @@ namespace MapSystem
             return mesh;
         }
         
-        public  List<Vector3> CreateSplinePoints(List<Vector3> controlPoints)
+        public List<Vector3> CreateSplinePoints(List<Vector3> controlPoints)
         {
             List<Vector3> points = new List<Vector3>(); //All points of the spline
             points.Clear();
