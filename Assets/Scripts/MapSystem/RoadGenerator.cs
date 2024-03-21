@@ -91,7 +91,7 @@ namespace MapSystem
                 return;
             for (int i = 0; i < m_splinePoints.Count; i++)
             {
-                Gizmos.DrawSphere(m_splinePoints[i], 10);
+                //Gizmos.DrawSphere(m_splinePoints[i], 10);
             }
         }
 
@@ -115,14 +115,8 @@ namespace MapSystem
                    selectPoints.Add(new Vector3(xCoord, MapConsts.terrainHeight + 5, yCoord));
                    verticalIndex += 1;
                }
+               
                m_splinePoints = CreateSplinePoints(selectPoints);
-               m_splinePoints = new List<Vector3>()
-               {
-                    new Vector3(0, 0, 0),
-                    new Vector3(50, 0, 50),
-                    new Vector3(0, 0, 100),
-                    new Vector3(150, 0, 150)
-               };
                CreateRoad(m_splinePoints);
             }
         }
