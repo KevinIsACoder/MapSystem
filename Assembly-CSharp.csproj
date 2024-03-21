@@ -103,6 +103,7 @@
      <Folder Include="Assets\GUITable\Examples\Scenes" />
      <Folder Include="Assets\GUITable\Examples" />
      <Folder Include="Assets\GUITable\Examples\Prefabs" />
+     <Folder Include="Assets\Material" />
      <Folder Include="Assets\AeonicTexturePack" />
      <Folder Include="Assets\GUITable\Examples\Scripts" />
      <Folder Include="Assets\Houses" />

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace MapSystem
 {
@@ -13,9 +14,10 @@ namespace MapSystem
         private int triIndex = 0;
         private int vertIndex = 0;
         
-        public RoadData(Vector3[] points, float roadWidth)
+        public RoadData(Vector3[] points, float roadwidth)
         {
             m_points = points;
+            roadWidth = roadwidth;
             verts = new Vector3[2 * points.Length]; 
             tris = new int[2 * (points.Length - 1) * 3]; //三角形索引数组
         }
@@ -34,26 +36,30 @@ namespace MapSystem
                     forward += m_points[i] - m_points[i - 1];
                 }
                 forward.Normalize();
-
+                
                 var left = new Vector3(-forward.z, forward.y, forward.x);
-                verts[i] = m_points[i] + left * roadWidth * 0.5f;
-                verts[i + 1] = m_points[i] - left * roadWidth * 0.5f;
+                verts[vertIndex] = m_points[i] + left * roadWidth * 0.5f;
+                verts[vertIndex + 1] = m_points[i] - left * roadWidth * 0.5f;
                 if (i < m_points.Length - 1)
                 {
                     tris[triIndex] = vertIndex;
                     tris[triIndex + 1] = vertIndex + 2;
                     tris[triIndex + 2] = vertIndex + 1;
 
-                    tris[triIndex + 3] = vertIndex + 2;
-                    tris[triIndex + 4] = vertIndex + 3;
+                    tris[triIndex + 3] = vertIndex + 1;
+                    tris[triIndex + 4] = vertIndex + 2;
+                    tris[triIndex + 5] = vertIndex + 3;
                 }
                 
                 vertIndex += 2; //顶点加2
                 triIndex += 6;
             }
-            var ms = new Mesh();
-            ms.vertices = verts;
-            ms.triangles = tris;
+            
+            var ms = new Mesh
+            {
+                vertices = verts,
+                triangles = tris
+            };
             ms.RecalculateNormals();
             return ms;
         }
@@ -66,21 +72,69 @@ namespace MapSystem
         public int curveResolution = 1;
         public Material roadMaterial;
         
-        [Range(0, 5)] 
-        private int xRoadNum = 3;
-        [Range(0, 5)] 
-        private int yRoadNum = 3;
+        private int m_xRoadNum = 3;
+        private int m_yRoadNum = 3;
 
+        private GameObject m_roadParent;
+        
         private List<RoadData> m_RoadLists;
+        private List<Vector3> m_splinePoints;
+        
         public RoadGenerator()
         {
             
         }
 
-        public void Generate(Vector3[] points, bool isClose)
+        private void OnDrawGizmos()
         {
-            var roadParent = new GameObject("RoadMesh");
-            
+            if(m_splinePoints == null)
+                return;
+            for (int i = 0; i < m_splinePoints.Count; i++)
+            {
+                Gizmos.DrawSphere(m_splinePoints[i], 10);
+            }
+        }
+
+        public void Generate(int mapSize, bool isClose)
+        {
+            m_roadParent = new GameObject("RoadMesh");
+            m_xRoadNum = Random.Range(1, 4);
+            m_yRoadNum = Random.Range(1, 4);
+            for (var x = 0; x < 1; x++)
+            {
+                var selectPoints = new List<Vector3>();
+               
+               var chunkNum = mapSize / MapConsts.terrainSize;
+               var verticalIndex = 0;
+               for (var y = 0; y < chunkNum; y++)
+               {
+                   var trunkIndex = Random.Range(0, chunkNum - 1);
+                   var selectTrunk = verticalIndex * chunkNum + trunkIndex;
+                   var xCoord = trunkIndex * MapConsts.terrainSize + Random.Range(0, MapConsts.terrainSize - 1);
+                   var yCoord = verticalIndex * MapConsts.terrainSize + Random.Range(0, MapConsts.terrainSize - 1);
+                   selectPoints.Add(new Vector3(xCoord, MapConsts.terrainHeight + 5, yCoord));
+                   verticalIndex += 1;
+               }
+               m_splinePoints = CreateSplinePoints(selectPoints);
+               m_splinePoints = new List<Vector3>()
+               {
+                    new Vector3(0, 0, 0),
+                    new Vector3(50, 0, 50),
+                    new Vector3(0, 0, 100),
+                    new Vector3(150, 0, 150)
+               };
+               CreateRoad(m_splinePoints);
+            }
+        }
+
+        private void CreateRoad(List<Vector3> roadPoints)
+        {
+            var road = new GameObject("road");
+            road.transform.SetParent(m_roadParent.transform, false);
+            var roadData = new RoadData(roadPoints.ToArray(), MapConsts.roadWidth);
+            var mesh = roadData.CreateRoadMesh();
+            road.AddComponent<MeshFilter>().mesh = mesh;
+            road.AddComponent<MeshRenderer>().sharedMaterial = roadMaterial;
         }
 
         public Mesh Combine(List<GameObject> meshes)
@@ -96,6 +150,7 @@ namespace MapSystem
             return mesh;
         }
         
+        //生成
         public List<Vector3> CreateSplinePoints(List<Vector3> controlPoints)
         {
             List<Vector3> points = new List<Vector3>(); //All points of the spline

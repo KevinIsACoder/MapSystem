@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace MapSystem
 {
@@ -23,12 +19,12 @@ namespace MapSystem
         public Dictionary<Vector3, TerrainChunk> TerrainChunk = new Dictionary<Vector3, TerrainChunk>();
         private int m_terrainTrunckNum;
         
-        private TerrainMapGenerator m_terrainGenerator;
         private RoadGenerator m_roadGenerator;     
         private void OnEnable()
         {
             gameObject.GetComponent<MeshRenderer>().material = terrainMaterial;
-            m_terrainGenerator = gameObject.GetComponent<TerrainMapGenerator>();
+            m_roadGenerator = gameObject.GetComponent<RoadGenerator>();
+            Debug.Log("11111111111111");
         }
         
         private void Start()
@@ -42,7 +38,11 @@ namespace MapSystem
             //生成地形
             GenerateTerrain();
             //生成路线
-            m_roadGenerator = new RoadGenerator();
+            m_roadGenerator.Generate(terrainChunkWidth, false);
+        }
+
+        private void GenerateRoad()
+        {
         }
 
         private void GenerateTerrain()
