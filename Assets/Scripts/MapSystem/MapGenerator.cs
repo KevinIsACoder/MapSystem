@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,7 +25,6 @@ namespace MapSystem
         {
             gameObject.GetComponent<MeshRenderer>().material = terrainMaterial;
             m_roadGenerator = gameObject.GetComponent<RoadGenerator>();
-            Debug.Log("11111111111111");
         }
         
         private void Start()
@@ -37,12 +37,15 @@ namespace MapSystem
         {
             //生成地形
             GenerateTerrain();
-            //生成路线
-            m_roadGenerator.Generate(terrainChunkWidth, false);
+
+            StartCoroutine(GenerateRoad());
         }
 
-        private void GenerateRoad()
+        private IEnumerator GenerateRoad()
         {
+            yield return null;
+            //生成路线
+            m_roadGenerator.Generate(terrainChunkWidth, false);
         }
 
         private void GenerateTerrain()
