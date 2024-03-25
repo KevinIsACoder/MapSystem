@@ -1,10 +1,15 @@
-using Unity.VisualScripting;
+
+using System.Collections;
 using UnityEngine;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 
 namespace MapSystem
 {
     public static class MapUtils
     {
+        
+        public static int[,] voronoiMap = null;
         /// <summary>
         /// 生成perling噪声值
         /// </summary>
@@ -41,6 +46,33 @@ namespace MapSystem
             return position;
         }
         
-        
+        /// <summary>
+        /// 生成泰森多边形
+        /// </summary>
+        /// <param name="districtNum"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        public static void GenerateVoronoiMap(int districtNum, int width, int height)
+        {
+            voronoiMap = new int[width, height];
+            var locations = new Dictionary<Vector2Int, int>();
+            var index = 0;
+            while (index < districtNum)
+            {
+                var x = Random.Range(0, width);
+                var y = Random.Range(0, height);
+                var vectorInt = new Vector2Int(x, y);
+                if (!locations.ContainsKey(vectorInt))
+                {
+                    locations.Add(vectorInt, index);
+                    index++;
+                }
+            }
+            
+            for (var i = 0; i < width; i++)
+            {
+                
+            }
+        }
     }   
 }

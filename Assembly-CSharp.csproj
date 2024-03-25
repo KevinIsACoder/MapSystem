@@ -86,6 +86,9 @@
      <Compile Include="Assets\Scripts\SimplexNoiseGenerator.cs" />
      <Compile Include="Assets\Scripts\MapSystem\MapGenerator.cs" />
      <Compile Include="Assets\Leven\RandomCityGenerator\Scripts\Example.cs" />
+     <Compile Include="Assets\MeshUtils.cs" />
+     <Compile Include="Assets\PlotPerlin.cs" />
+     <Compile Include="Assets\CreateCity.cs" />
      <Folder Include="Assets" />
      <Folder Include="Assets\GUITable" />
      <Folder Include="Assets\Prefabs" />

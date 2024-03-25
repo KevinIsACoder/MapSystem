@@ -143,7 +143,7 @@ namespace MapSystem
                 }
                 
                 //设置
-                CreateRoad(m_splinePoints);
+               // CreateRoad(m_splinePoints);
             }
         }
 
