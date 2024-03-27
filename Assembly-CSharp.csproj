@@ -89,6 +89,10 @@
      <Compile Include="Assets\MeshUtils.cs" />
      <Compile Include="Assets\PlotPerlin.cs" />
      <Compile Include="Assets\CreateCity.cs" />
+     <Compile Include="Assets\Scripts\PerlinNoise\VornoiTest.cs" />
+     <Compile Include="Assets\Scripts\MapSystem\QuadTree.cs" />
+     <Compile Include="Assets\Scripts\MapSystem\Segment.cs" />
+     <Compile Include="Assets\Scripts\MapSystem\PriorityQueue.cs" />
      <Folder Include="Assets" />
      <Folder Include="Assets\GUITable" />
      <Folder Include="Assets\Prefabs" />

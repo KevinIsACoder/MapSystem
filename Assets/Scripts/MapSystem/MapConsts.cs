@@ -15,5 +15,7 @@ namespace MapSystem
         public static int terrainHeight = 5; //地形高度
         
         public static int roadWidth = 10; //路宽度
+
+        public static int normalStreetWidth = 5; //普通路段宽度
     }
 }

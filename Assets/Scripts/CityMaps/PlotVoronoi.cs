@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Random = System.Random;
 
 public class PlotVoronoi : MonoBehaviour
 {
@@ -13,12 +12,12 @@ public class PlotVoronoi : MonoBehaviour
         GetComponent<Renderer>().sharedMaterial.mainTexture = texture;
 
         Dictionary<Vector2Int, Color> locations = new Dictionary<Vector2Int, Color>();
-        while (locationCount < locations.Count)
+        while (locations.Count < locationCount)
         {
             var x = UnityEngine.Random.Range(0, texture.width);
             var y = UnityEngine.Random.Range(0, texture.height);
-            var color = new Color(UnityEngine.Random.Range(0, 1), UnityEngine.Random.Range(0, 1),
-                UnityEngine.Random.Range(0, 1));
+            var color = new Color(UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f),
+                UnityEngine.Random.Range(0f, 1f));
             if (!locations.ContainsKey(new Vector2Int(x, y)))
             {
                 locations.Add(new Vector2Int(x, y), color);

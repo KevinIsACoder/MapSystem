@@ -47,7 +47,7 @@ namespace MapSystem
         }
         
         /// <summary>
-        /// 生成泰森多边形
+        /// 生成诺伊多边形区域
         /// </summary>
         /// <param name="districtNum"></param>
         /// <param name="width"></param>
@@ -69,9 +69,21 @@ namespace MapSystem
                 }
             }
             
-            for (var i = 0; i < width; i++)
+            for (var y = 0; y < height; y++)
             {
-                
+                for (var x = 0; x < width; x++)
+                {
+                    var distance = Mathf.Infinity;
+                    foreach (var valuePair in locations)
+                    {
+                        var distTo = Vector2Int.Distance(valuePair.Key, new Vector2Int(x, y));
+                        if (distTo < distance)
+                        {
+                            distance = distTo;
+                            voronoiMap[x, y] = valuePair.Value;
+                        }
+                    }
+                }
             }
         }
     }   

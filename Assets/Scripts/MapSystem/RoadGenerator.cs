@@ -91,9 +91,7 @@ namespace MapSystem
         private List<RoadData> m_RoadLists;
         private List<Vector3> m_splinePoints;
 
-        public int xMajorRoadNum = 3;
-        public int yMajorRoadNum = 3;
-        public int circleRoadNum = 3;
+        public int Seed = 100;
         
         public RoadGenerator()
         {
@@ -111,7 +109,7 @@ namespace MapSystem
 
         public void Generate(int mapSize, bool isClose)
         {
-            m_roadParent = new GameObject("RoadMesh");
+            /*m_roadParent = new GameObject("RoadMesh");
             m_xRoadNum = Random.Range(1, 4);
             m_yRoadNum = Random.Range(1, 4);
             for (var x = 0; x < 1; x++)
@@ -143,8 +141,16 @@ namespace MapSystem
                 }
                 
                 //设置
-               // CreateRoad(m_splinePoints);
-            }
+                CreateRoad(m_splinePoints);
+            }*/
+            
+            Random.InitState(Seed);
+            
+        }
+
+        public void GenerateRoad()
+        {
+            
         }
 
         private void CreateRoad(List<Vector3> roadPoints)

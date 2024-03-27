@@ -72,6 +72,7 @@ namespace MapSystem
         
         public void Clear()
         {
+            
         }
         
         //生成柏林噪声值
