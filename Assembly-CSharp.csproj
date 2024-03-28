@@ -93,6 +93,7 @@
      <Compile Include="Assets\Scripts\MapSystem\QuadTree.cs" />
      <Compile Include="Assets\Scripts\MapSystem\Segment.cs" />
      <Compile Include="Assets\Scripts\MapSystem\PriorityQueue.cs" />
+     <Compile Include="Assets\Scripts\MapSystem\MathUtil.cs" />
      <Folder Include="Assets" />
      <Folder Include="Assets\GUITable" />
      <Folder Include="Assets\Prefabs" />
@@ -110,6 +111,7 @@
      <Folder Include="Assets\GUITable\Examples\Scenes" />
      <Folder Include="Assets\GUITable\Examples" />
      <Folder Include="Assets\GUITable\Examples\Prefabs" />
+     <Folder Include="Assets\Scripts\MapSystem\Road" />
      <Folder Include="Assets\Material" />
      <Folder Include="Assets\AeonicTexturePack" />
      <Folder Include="Assets\GUITable\Examples\Scripts" />

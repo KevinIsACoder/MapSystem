@@ -6,10 +6,9 @@ namespace MapSystem
     {
         private List<T> m_elements;
 
-        public PriorityQueue(T[] mElements)
+        public PriorityQueue()
         {
             m_elements = new List<T>();
-            m_elements.AddRange(mElements);
         }
 
         public void Enqueue(T element)

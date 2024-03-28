@@ -20,7 +20,10 @@ namespace MapSystem
         public Dictionary<Vector3, TerrainChunk> TerrainChunk = new Dictionary<Vector3, TerrainChunk>();
         private int m_terrainTrunckNum;
         
-        private RoadGenerator m_roadGenerator;     
+        private RoadGenerator m_roadGenerator;
+        public int distinctNum = 4; //区域数量
+        public GameObject[] buildings;
+        
         private void OnEnable()
         {
             gameObject.GetComponent<MeshRenderer>().material = terrainMaterial;
@@ -37,14 +40,16 @@ namespace MapSystem
         {
             //生成地形
             GenerateTerrain();
-
             StartCoroutine(GenerateRoad());
         }
 
         private IEnumerator GenerateRoad()
         {
             yield return null;
-            //生成路线
+            
+            //生成路网
+            MapUtils.GenerateVoronoiMap(distinctNum, terrainChunkWidth, terrainChunkWidth);
+            
             m_roadGenerator.Generate(terrainChunkWidth, false);
         }
 

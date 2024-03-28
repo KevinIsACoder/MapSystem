@@ -143,14 +143,21 @@ namespace MapSystem
                 //设置
                 CreateRoad(m_splinePoints);
             }*/
-            
-            Random.InitState(Seed);
-            
+
         }
 
         public void GenerateRoad()
         {
+            Random.InitState(Seed);
+            var segmentQueue = new PriorityQueue<Segment>();
             
+        }
+
+        private Segment[] InitialSegments()
+        {
+            var segment = new List<Segment>();
+          //  var firstSegment = new Segment();
+            return segment.ToArray();
         }
 
         private void CreateRoad(List<Vector3> roadPoints)

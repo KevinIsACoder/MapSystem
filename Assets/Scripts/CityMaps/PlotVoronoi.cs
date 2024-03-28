@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlotVoronoi : MonoBehaviour
 {
-    [Range(0, 10)] 
+    [Range(0, 20)] 
     public int locationCount;
     private void OnValidate()
     {
