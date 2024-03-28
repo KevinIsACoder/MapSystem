@@ -10,6 +10,13 @@ namespace MapSystem
         public bool served;
     }
 
+    public class InterSetctInfo
+    {
+        public float x;
+        public float y;
+        public float t;
+    }
+
     public class Segment
     {
         public bool isHignWay;
@@ -148,9 +155,24 @@ namespace MapSystem
             return new Segment(startPoint, endPoint, time);
         }
 
-        public void InterSectWith(Segment segment)
+        public InterSetctInfo InterSectWith(Segment segment)
         {
-            
+            var vec1 = MathUtil.SubtractPoints(endPoint, startPoint);
+            var vec2 = MathUtil.SubtractPoints(segment.endPoint, segment.startPoint);
+
+            var f = MathUtil.CrossProduct(MathUtil.SubtractPoints(segment.startPoint, startPoint), vec1);
+            var k = MathUtil.CrossProduct(vec1, vec2);
+            if ((f == 0 && k == 0) || k == 0)
+                return null;
+            f /= k;
+            var e = MathUtil.CrossProduct(MathUtil.SubtractPoints(segment.startPoint, startPoint), vec2) / k;
+            var intersetct = 0.001 < e && 0.999 > e && 0.001 < f && 0.999 > f;
+            return intersetct ? new InterSetctInfo()
+            {
+                x = startPoint.x + e * endPoint.x,
+                y = startPoint.y + e * endPoint.y
+                
+            } : null;
         }
 
         public Segment Clone()

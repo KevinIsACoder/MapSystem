@@ -185,10 +185,14 @@ namespace MapSystem
 
         bool LocalConstraints(Segment segment)
         {
-            
             foreach(var otherSegment in m_quadTreeSegment.Retrieve(segment.Limits))
             {
-                
+                //1 intersect
+                var intersect = segment.InterSectWith(otherSegment);
+                if (intersect != null)
+                {
+                    
+                }
             }
         }
 
