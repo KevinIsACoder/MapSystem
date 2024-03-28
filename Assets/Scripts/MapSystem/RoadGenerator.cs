@@ -150,13 +150,13 @@ namespace MapSystem
         {
             Random.InitState(Seed);
             var segmentQueue = new PriorityQueue<Segment>();
-            
+            var initSegment = new Segment(new Vector2(0, 0), new Vector2(MapConsts.terrainSize), 0, true);
         }
 
         private Segment[] InitialSegments()
         {
             var segment = new List<Segment>();
-          //  var firstSegment = new Segment();
+            //var firstSegment = new Segment();
             return segment.ToArray();
         }
 

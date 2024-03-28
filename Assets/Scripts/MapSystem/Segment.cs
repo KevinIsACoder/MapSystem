@@ -148,7 +148,7 @@ namespace MapSystem
             return new Segment(startPoint, endPoint, time);
         }
 
-        public void InterSectWidth(Segment segment)
+        public void InterSectWith(Segment segment)
         {
             
         }
