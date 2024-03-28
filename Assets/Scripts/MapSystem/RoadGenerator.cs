@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -92,6 +93,10 @@ namespace MapSystem
         private List<Vector3> m_splinePoints;
 
         public int Seed = 100;
+
+        private PriorityQueue<Segment> m_segmentqueue;
+        private List<Segment> m_generateSegment;
+        private QuadTree<Segment> m_quadTreeSegment;
         
         public RoadGenerator()
         {
@@ -149,8 +154,42 @@ namespace MapSystem
         public void GenerateRoad()
         {
             Random.InitState(Seed);
-            var segmentQueue = new PriorityQueue<Segment>();
-            var initSegment = new Segment(new Vector2(0, 0), new Vector2(MapConsts.terrainSize), 0, true);
+            m_segmentqueue = new PriorityQueue<Segment>();
+            var initSegment = new Segment(new Vector2(0, 0), new Vector2(50, 50), 0, true);
+            m_segmentqueue.Enqueue(initSegment);
+            m_quadTreeSegment = new QuadTree<Segment>(new Rect(0, 0, 0, 0), 10, 4, 0);
+            StartCoroutine(StartGenerateRoad());
+        }
+        
+        IEnumerator StartGenerateRoad()
+        {
+            yield return null;
+            while (!m_segmentqueue.Empty())
+            {
+                
+                yield return null;
+            }
+        }
+
+        void GenerateRoadStep()
+        {
+            var segment = m_segmentqueue.Dequeue();
+            if (segment == null)
+            {
+                Debug.Log("No Segment Remain!!");
+            }
+
+            var accept = LocalConstraints(segment);
+        }
+
+
+        bool LocalConstraints(Segment segment)
+        {
+            
+            foreach(var otherSegment in m_quadTreeSegment.Retrieve(segment.Limits))
+            {
+                
+            }
         }
 
         private Segment[] InitialSegments()

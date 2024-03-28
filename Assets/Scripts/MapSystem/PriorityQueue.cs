@@ -16,6 +16,11 @@ namespace MapSystem
             m_elements.Add(element);
         }
 
+        public T Dequeue()
+        {
+            return m_elements[0];
+        }
+
         public bool Empty()
         {
             return m_elements.Count == 0;

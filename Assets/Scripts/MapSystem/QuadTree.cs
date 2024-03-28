@@ -91,10 +91,9 @@ namespace MapSystem
             
         }
         
-        public T[] Retrieve(Rect bounds)
+        public List<T> Retrieve(Rect bounds)
         {
-            return new T[1];
+            return new List<T>();
         }
-        
     }
 }
