@@ -156,7 +156,7 @@ namespace MapSystem
             Random.InitState(Seed);
             m_segmentqueue = new PriorityQueue<Segment>();
             var initSegment = new Segment(new Vector2(0, 0), new Vector2(50, 50), 0, true);
-            m_segmentqueue.Enqueue(initSegment);
+            m_segmentqueue.Equeue(initSegment);
             m_quadTreeSegment = new QuadTree<Segment>(new Rect(0, 0, 0, 0), 10, 4, 0);
             StartCoroutine(StartGenerateRoad());
         }
@@ -176,13 +176,80 @@ namespace MapSystem
             var segment = m_segmentqueue.Dequeue();
             if (segment == null)
             {
-                Debug.Log("No Segment Remain!!");
+                Debug.Log("No Segment Remain!!!");
             }
 
             var accept = LocalConstraints(segment);
+            if (accept)
+            {
+                if (segment != null)
+                {
+                    segment.setupBranchLinks?.Invoke();
+                   // CreateRoad(new List<Vector3>(segment.startPoint, segment.endPoint));
+                    m_generateSegment.Add(segment);
+                    m_quadTreeSegment.Insert(segment.Limits, segment);
+                    foreach (var minSegment in GlobalGoalsGenerate(segment))
+                    {
+                        minSegment.m_time = minSegment.m_time + segment.m_time + 1; 
+                        m_segmentqueue.Equeue(minSegment);
+                    }
+                }
+            }
         }
 
+        List<Segment> GlobalGoalsGenerate(Segment preSegment)
+        {
+            var newBranches = new List<Segment>();
+            if (!preSegment.segmentMetaInfo.served)
+            {
+                var straightSegment =
+                    Segment.GenerateSegment(preSegment.endPoint, preSegment.Dir(), MapConsts.HighWayStreeetLength, 0);
+                var population = PopulationAtSegment(straightSegment);
+                if (preSegment.segmentMetaInfo.highway)
+                {
+                    for (var i = 0; i < 2; i++)
+                    {
+                        
+                    }
+                }
+                else if(population > MapConsts.normalStreetMaxPopulationNum)
+                {
+                    newBranches.Add(straightSegment);
+                }
+                
+            }
+            
+            // setup links between each current branch and each existing branch stemming from the previous segment
+            for (var i = 0; i < newBranches.Count; i++)
+            {
+                var branch = newBranches[i];
+                branch.setupBranchLinks = () =>
+                {
+                    foreach (var preforwardSegment  in  preSegment.forwardSegment)
+                    {
+                         branch.backwardSegment.Add(preforwardSegment); //
+                         var containing = preforwardSegment.LinksForEndContaining(preSegment);
+                         if (containing != null)
+                         {
+                             containing.Add(branch);
+                         }
+                    }
+                    preSegment.forwardSegment.Add(branch);
+                    branch.backwardSegment.Add(preSegment);
+                    return branch.backwardSegment;
+                };
+            }
 
+            return newBranches;
+        }
+
+        float PopulationAtSegment(Segment segment)
+        {
+            var start = Mathf.PerlinNoise(segment.startPoint.x, segment.startPoint.y);
+            var end = Mathf.PerlinNoise(segment.endPoint.x, segment.endPoint.y);
+            return (start + end) * 0.5f;
+        }
+        
         bool LocalConstraints(Segment segment)
         {
             foreach(var otherSegment in m_quadTreeSegment.Retrieve(segment.Limits))
@@ -191,9 +258,21 @@ namespace MapSystem
                 var intersect = segment.InterSectWith(otherSegment);
                 if (intersect != null)
                 {
-                    
+                    var angle = Vector2.Angle(otherSegment.Dir(), segment.Dir());
+                    if (angle < 30)
+                        return false;
+                    otherSegment.Split(new Vector2(intersect.x, intersect.y), segment, m_generateSegment, m_quadTreeSegment);
+                    segment.endPoint = new Vector2(intersect.x, intersect.y);
+                    segment.segmentMetaInfo.served = true;
+                    return true;
                 }
+                
+                //2 crossing
+                
             }
+            
+            
+            return true;
         }
 
         private Segment[] InitialSegments()

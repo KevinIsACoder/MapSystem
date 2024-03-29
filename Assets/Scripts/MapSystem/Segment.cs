@@ -26,7 +26,10 @@ namespace MapSystem
         public List<Segment> forwardSegment; //下个路段
         public List<Segment> backwardSegment; //上个路段
 
-        public Action setupBranchLinks;
+        public Func<List<Segment>> setupBranchLinks;
+
+        public MetaInfo segmentMetaInfo;
+        
         public float m_time;
 
         private float m_width;
@@ -153,6 +156,11 @@ namespace MapSystem
         {
             var endPoint = startPoint + direction * length;
             return new Segment(startPoint, endPoint, time);
+        }
+
+        public Vector2 Dir()
+        {
+            return (endPoint - startPoint).normalized;
         }
 
         public InterSetctInfo InterSectWith(Segment segment)

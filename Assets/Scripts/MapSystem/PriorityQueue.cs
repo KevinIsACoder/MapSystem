@@ -2,23 +2,23 @@
 
 namespace MapSystem
 {
-    public class PriorityQueue<T>
+    public class PriorityQueue<T> where T : class
     {
-        private List<T> m_elements;
+        private Queue<T> m_elements;
 
         public PriorityQueue()
         {
-            m_elements = new List<T>();
+            m_elements = new Queue<T>();
         }
 
-        public void Enqueue(T element)
+        public void Equeue(T element)
         {
-            m_elements.Add(element);
+            m_elements.Enqueue(element);
         }
 
         public T Dequeue()
         {
-            return m_elements[0];
+            return m_elements.Dequeue();
         }
 
         public bool Empty()

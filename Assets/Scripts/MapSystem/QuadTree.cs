@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace MapSystem
 {
-
     public class Bounds
     {
         public float x;
@@ -29,9 +28,9 @@ namespace MapSystem
     public class QuadTree<T> where T: class
     {
         private Rect m_bound;
-        private int m_maxNum;
-        private int m_maxLevels = 10;
-        private int m_level = 4;
+        private int m_maxNum = 10;
+        private int m_maxLevels = 4;
+        private int m_level = 0;
 
         private QuadTreeRoot<T> m_root;
         private QuadTreeLeaf<T> m_leaf;
@@ -76,13 +75,17 @@ namespace MapSystem
                 var obj = m_leaf.objects[i];
                 if (rect != null && obj != null)
                 {
-                    
+                    foreach (var node in GetRelevantNodes(rect))
+                    {
+                        node.Insert(rect, obj);
+                    }
                 }
             }
         }
 
-        public QuadTree<T>[] GetRelevantNodes()
+        public QuadTree<T>[] GetRelevantNodes(Rect bounds)
         {
+            
             return new QuadTree<T>[1];
         }
 

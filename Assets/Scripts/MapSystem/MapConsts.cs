@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Unity.Collections.LowLevel.Unsafe;
+using UnityEngine;
 
 namespace MapSystem
 {
@@ -16,6 +17,10 @@ namespace MapSystem
         
         public static int roadWidth = 10; //路宽度
 
-        public static int normalStreetWidth = 5; //普通路段宽度
+        public static int normalStreetLength = 5; //普通路段宽度
+
+        public static int HighWayStreeetLength = 10; //高速长度
+
+        public static int normalStreetMaxPopulationNum = 10;
     }
 }
