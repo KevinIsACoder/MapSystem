@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -157,7 +158,7 @@ namespace MapSystem
             Random.InitState(Seed);
             m_generateSegment = new List<Segment>();
             m_segmentqueue = new PriorityQueue<Segment>();
-            var initSegment = new Segment(new Vector2(0, 0), new Vector2(0, MapConsts.terrainSize), 0, true);
+            var initSegment = new Segment(new Vector2(0 + MapConsts.terrainSize * 0.5f, 0), new Vector2(0 + MapConsts.terrainSize * 0.5f, MapConsts.terrainSize), 0, true);
             m_segmentqueue.Equeue(initSegment);
             m_quadTreeSegment = new QuadTree<Segment>(MapConsts.QUADTREE_PARAMS, MapConsts.QUADTREE_MAX_OBJECTS, MapConsts.QUADTREE_MAX_LEVELS, 0);
             m_quadTreeSegment.Split();
@@ -262,16 +263,17 @@ namespace MapSystem
 
            var segment = CreateNewSegment(preSegment);
            newBranches.Add(segment);
-
-           if (preSegment.isHignWay)
-           {
-               var population = Random.Range(0f, 1f);
+           
+           //if (preSegment.isHignWay)
+           //{
+               var population = PopulationAtSegment(preSegment);
                if (population > MapConsts.HIGHWAY_POPULATION_THRESOLD)
                {
-                   var brachStreet = CreateNewSegment(preSegment);
+                   var randSegment = m_generateSegment.ElementAt(Random.Range(0, m_generateSegment.Count));
+                   var brachStreet = CreateNewSegment(randSegment);
                    newBranches.Add(brachStreet);
                }
-           }
+           //}
 
            // setup links between each current branch and each existing branch stemming from the previous segment
             for (var i = 0; i < newBranches.Count; i++)
@@ -305,12 +307,37 @@ namespace MapSystem
             {
                 if (rand > 0)
                 {
-                    var angle = Random.Range(0, 2);
-                    endPoint.x += angle > 0 ? MapConsts.terrainSize : -MapConsts.terrainSize;
+                    var angle = Random.Range(0f, 1f);
+                    endPoint.x += angle > 0.3f ? MapConsts.terrainSize : -MapConsts.terrainSize;
+                    if (endPoint.x > MapConsts.mapSize)
+                    {
+                        endPoint.x -= MapConsts.terrainSize * 2;
+                    }
+                    else
+                    {
+                        endPoint.x += MapConsts.terrainSize * 2;
+                    }
+                    
                 }
                 else
                 {
-                    endPoint.y += MapConsts.terrainSize;
+                    if (preSegment.startPoint.y < preSegment.endPoint.y) //向上
+                    {
+                        endPoint.y += MapConsts.terrainSize;   
+                    }
+                    else //向下
+                    {
+                        endPoint.y -= MapConsts.terrainSize;
+                    }
+                    
+                    if (endPoint.y <= 0)
+                    {
+                        endPoint.y += MapConsts.terrainSize;
+                    }
+                    else if (endPoint.y >= MapConsts.mapSize - 1)
+                    {
+                        endPoint.y -= MapConsts.terrainSize;
+                    }
                 }
             }
             else //横线
@@ -319,10 +346,19 @@ namespace MapSystem
                 {
                     var angle = Random.Range(0, 2);
                     endPoint.y += angle > 0 ? MapConsts.terrainSize : -MapConsts.terrainSize;
+                    if (endPoint.y <= 0)
+                    {
+                        endPoint.y += MapConsts.terrainSize;
+                    }
+                    else if (endPoint.y >= MapConsts.mapSize - 1)
+                    {
+                        endPoint.y -= MapConsts.terrainSize;
+                    }
                 }
                 else
                 {
                     endPoint.x += MapConsts.terrainSize;
+                    if(endPoint.x > )
                 }
             }
             return Segment.GenerateSegment(preSegment.endPoint, endPoint, 0);
@@ -358,11 +394,13 @@ namespace MapSystem
            
            if (segment.endPoint.y == 0 || segment.startPoint.y >= MapConsts.mapSize - 1)
            {
+               Debug.LogError($"Start++++ {segment.startPoint}  endPoint:{segment.endPoint}");
                return false;
            }
 
            if (segment.startPoint.x >= MapConsts.mapSize - 1)
            {
+               Debug.LogError($"Start--- {segment.startPoint}  endPoint:{segment.endPoint}");
                return false;
            }
 

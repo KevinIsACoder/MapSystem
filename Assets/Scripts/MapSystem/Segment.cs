@@ -39,6 +39,7 @@ namespace MapSystem
             m_width = isHignWay ? MapConsts.roadWidth : MapConsts.roadWidth;
             startPoint = start_Point;
             endPoint = end_Point;
+            this.isHignWay = isHignWay;
         }
 
         public float Length => Vector2.Distance(startPoint, endPoint);
