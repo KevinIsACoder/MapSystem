@@ -43,8 +43,8 @@ namespace MapSystem
 
         public float Length => Vector2.Distance(startPoint, endPoint);
 
-        public Bound Limits => new Bound(Math.Round(startPoint.x), startPoint.y, Math.Abs(startPoint.x - endPoint.x),
-            Math.Abs(startPoint.y - endPoint.y));
+        public Bound Limits => new Bound((int)Math.Min(startPoint.x, endPoint.x),  (int)Math.Min(startPoint.y, endPoint.y), (int)Math.Abs(startPoint.x - endPoint.x),
+            (int)Math.Abs(startPoint.y - endPoint.y));
 
         public bool StartIsBackwards()
         {
@@ -98,7 +98,7 @@ namespace MapSystem
             var splitSegment = Clone();
             var startIsBackwards = StartIsBackwards();
             segmentList.Add(splitSegment);
-            quadTree.Insert(splitSegment.Limits);
+            quadTree.Insert(splitSegment.Limits, splitSegment);
             splitSegment.endPoint = point;
             startPoint = point;
             // links are not copied in the constructor, so

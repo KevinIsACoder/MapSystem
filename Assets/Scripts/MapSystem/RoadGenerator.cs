@@ -157,7 +157,7 @@ namespace MapSystem
             m_segmentqueue = new PriorityQueue<Segment>();
             var initSegment = new Segment(new Vector2(0, 0), new Vector2(50, 50), 0, true);
             m_segmentqueue.Equeue(initSegment);
-            m_quadTreeSegment = new QuadTree<Segment>(new Rect(0, 0, 0, 0), 10, 4, 0);
+            m_quadTreeSegment = new QuadTree<Segment>(MapConsts.QUADTREE_PARAMS, MapConsts.QUADTREE_MAX_OBJECTS, MapConsts.QUADTREE_MAX_LEVELS, 0);
             StartCoroutine(StartGenerateRoad());
         }
         
@@ -166,9 +166,10 @@ namespace MapSystem
             yield return null;
             while (!m_segmentqueue.Empty())
             {
-                
+                GenerateRoadStep();
                 yield return null;
             }
+            Debug.Log(m_generateSegment);
         }
 
         void GenerateRoadStep()
@@ -207,16 +208,49 @@ namespace MapSystem
                 var population = PopulationAtSegment(straightSegment);
                 if (preSegment.segmentMetaInfo.highway)
                 {
-                    for (var i = 0; i < 2; i++)
+                    for (var i = 0; i < MapConsts.HIGHWAY_POPULATION_SAMPLE_SIZE; i++)
                     {
                         
                     }
+                    newBranches.Add(straightSegment);
+                    if (population > MapConsts.HIGHWAY_POPULATION_THRESOLD)
+                    {
+                        if (Random.Range(0f, 1f) < MapConsts.HIGHWAY_BRANCH_PROBABILITY)
+                        {
+                            
+                        }
+                    }
                 }
-                else if(population > MapConsts.normalStreetMaxPopulationNum)
+                else if(population > MapConsts.HIGHWAY_POPULATION_THRESOLD)
                 {
                     newBranches.Add(straightSegment);
                 }
-                
+
+                if (!MapConsts.onlyHighWay)
+                {
+                    if (population > MapConsts.NORMAL_BRANCH_POPULATION_THRESHOLD)
+                    {
+                        if (Random.Range(0f, 1f) < MapConsts.DEFAULT_BRANCH_PROBABILITY)
+                        {
+                            var randomAngle = Quaternion.AngleAxis(90, Vector3.forward);
+                            var dir = randomAngle * preSegment.Dir();
+                            var branchsegment = Segment.GenerateSegment(preSegment.endPoint, dir,
+                                MapConsts.normalStreetLength, 0);
+                            newBranches.Add(branchsegment);
+                        }
+                        else
+                        {
+                            if (Random.Range(0f, 1f) < MapConsts.DEFAULT_BRANCH_PROBABILITY)
+                            {
+                                var randomAngle = Quaternion.AngleAxis(-90, Vector3.forward);
+                                var dir = randomAngle * preSegment.Dir();
+                                var branchsegment = Segment.GenerateSegment(preSegment.endPoint, dir,
+                                    MapConsts.normalStreetLength, 0);
+                                newBranches.Add(branchsegment);
+                            }
+                        }
+                    }
+                }
             }
             
             // setup links between each current branch and each existing branch stemming from the previous segment
