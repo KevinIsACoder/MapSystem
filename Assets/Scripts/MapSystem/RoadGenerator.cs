@@ -102,6 +102,7 @@ namespace MapSystem
         private void OnEnable()
         {
             m_roadParent = new GameObject("RoadParent");
+            m_roadParent.transform.localPosition = new Vector3(0, 5, 0);
         }
 
         private void OnDrawGizmos()
@@ -267,12 +268,12 @@ namespace MapSystem
            //if (preSegment.isHignWay)
            //{
                var population = PopulationAtSegment(preSegment);
-               if (population > MapConsts.HIGHWAY_POPULATION_THRESOLD)
-               {
-                   var randSegment = m_generateSegment.ElementAt(Random.Range(0, m_generateSegment.Count));
-                   var brachStreet = CreateNewSegment(randSegment);
-                   newBranches.Add(brachStreet);
-               }
+               // if (population > MapConsts.HIGHWAY_POPULATION_THRESOLD)
+               // {
+               //     var randSegment = m_generateSegment.ElementAt(Random.Range(0, m_generateSegment.Count));
+               //     var brachStreet = CreateNewSegment(randSegment);
+               //     newBranches.Add(brachStreet);
+               // }
            //}
 
            // setup links between each current branch and each existing branch stemming from the previous segment
@@ -313,7 +314,7 @@ namespace MapSystem
                     {
                         endPoint.x -= MapConsts.terrainSize * 2;
                     }
-                    else
+                    else if(endPoint.x <= 0)
                     {
                         endPoint.x += MapConsts.terrainSize * 2;
                     }
@@ -357,9 +358,16 @@ namespace MapSystem
                 }
                 else
                 {
-                    endPoint.x += MapConsts.terrainSize;
-                    if(endPoint.x > )
+                    if (endPoint.x + MapConsts.terrainSize < MapConsts.mapSize)
+                    {
+                        endPoint.x += MapConsts.terrainSize;       
+                    }
+                    else
+                    {
+                        endPoint.y += MapConsts.terrainSize;
+                    }
                 }
+                Debug.Log($"endpoint {endPoint.x} {endPoint.y}");
             }
             return Segment.GenerateSegment(preSegment.endPoint, endPoint, 0);
         }
@@ -373,24 +381,26 @@ namespace MapSystem
         
         bool LocalConstraints(Segment segment)
         {
-           /* foreach(var otherSegment in m_quadTreeSegment.Retrieve(segment.Limits))
+            foreach(var otherSegment in m_quadTreeSegment.Retrieve(segment.Limits))
             {
                 //1 intersect
                 var intersect = segment.InterSectWith(otherSegment);
                 if (intersect != null)
                 {
-                    var angle = Vector2.Angle(otherSegment.Dir(), segment.Dir());
-                    if (angle < 30)
-                        return false;
-                    otherSegment.Split(new Vector2(intersect.x, intersect.y), segment, m_generateSegment, m_quadTreeSegment);
-                    segment.endPoint = new Vector2(intersect.x, intersect.y);
-                    segment.segmentMetaInfo.served = true;
-                    return true;
+                    // var angle = Vector2.Angle(otherSegment.Dir(), segment.Dir());
+                    // if (angle < 30)
+                    //     return false;
+                    // otherSegment.Split(new Vector2(intersect.x, intersect.y), segment, m_generateSegment, m_quadTreeSegment);
+                    // segment.endPoint = new Vector2(intersect.x, intersect.y);
+                    // segment.segmentMetaInfo.served = true;
+                    // return true;
+                    Debug.Log("Intersecst");
+                    return false;
                 }
                 
                 //2 crossing
                 
-            }*/
+            }
            
            if (segment.endPoint.y == 0 || segment.startPoint.y >= MapConsts.mapSize - 1)
            {

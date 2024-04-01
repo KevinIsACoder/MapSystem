@@ -115,6 +115,7 @@ namespace MapSystem
             var isBottom = bound.y + bound.height > midY;
             if (bound.x < midX)
             {
+                Debug.LogError(m_nodes.Count);
                 //left
                 if(isTop) qs.Add(m_nodes[0]);
                 if(isBottom) qs.Add(m_nodes[2]);
@@ -129,7 +130,7 @@ namespace MapSystem
         
         public void Insert(Bound bounds, T item)
         {
-            if (m_nodes.Count <= 0)
+            if (m_nodes != null)
             {
                 var nodes = GetRelevantNodes(bounds);
                 for (int i = 0; i < nodes.Count; i++)
@@ -144,18 +145,15 @@ namespace MapSystem
             
             if (m_objects.Count > m_maxNum && m_level < m_maxLevels)
             {
-                if (m_nodes.Count <= 0)
+                Split();
+                for (int i = 0; i < m_objectBounds.Count; i++)
                 {
-                    Split();
-                    for (int i = 0; i < m_objectBounds.Count; i++)
+                    var mBound = m_objectBounds[i];
+                    var mObject = m_objects[i];
+                    var nodes = GetRelevantNodes(mBound);
+                    for (int j = 0; j < nodes.Count; j++)
                     {
-                        var mBound = m_objectBounds[i];
-                        var mObject = m_objects[i];
-                        var nodes = GetRelevantNodes(mBound);
-                        for (int j = 0; j < nodes.Count; j++)
-                        {
-                            nodes[i].Insert(mBound, mObject);
-                        }
+                        nodes[j].Insert(mBound, mObject);
                     }
                 }
             }
@@ -163,7 +161,8 @@ namespace MapSystem
 
         public List<T> Retrieve(Bound bounds)
         {
-            if (m_nodes.Count <= 0) return m_objects;
+            if (m_nodes == null) 
+                return m_objects;
             var items = new List<T>();
             foreach (var node in GetRelevantNodes(bounds))
             {
