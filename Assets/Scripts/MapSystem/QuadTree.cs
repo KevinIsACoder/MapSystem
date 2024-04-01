@@ -44,7 +44,6 @@ namespace MapSystem
             m_maxNum = max_objects;
             m_maxLevels = max_levels;
             m_level = level;
-            m_nodes = new List<QuadTree<T>>(4);
             m_objects = new List<T>();
             m_objectBounds = new List<Bound>();
         }
@@ -56,11 +55,13 @@ namespace MapSystem
             var subHeight = m_bound.height / 2;
             var x = m_bound.x;
             var y = m_bound.y;
-
-            m_nodes[0] = new QuadTree<T>(new Bound(x, y, subWidth, subHeight), m_maxNum, m_maxLevels, nextLevel);
-            m_nodes[1] = new QuadTree<T>(new Bound(x + subWidth, y, subWidth, subHeight), m_maxNum, m_maxLevels, nextLevel);
-            m_nodes[2] = new QuadTree<T>(new Bound(x, y + subHeight, subWidth, subHeight), m_maxNum, m_maxLevels, nextLevel);
-            m_nodes[3] = new QuadTree<T>(new Bound(x + subWidth, y + subHeight, subWidth, subHeight), m_maxNum, m_maxLevels, nextLevel);
+            m_nodes = new List<QuadTree<T>>()
+            {
+                new QuadTree<T>(new Bound(x, y, subWidth, subHeight), m_maxNum, m_maxLevels, nextLevel),
+                new QuadTree<T>(new Bound(x + subWidth, y, subWidth, subHeight), m_maxNum, m_maxLevels, nextLevel),
+                new QuadTree<T>(new Bound(x, y + subHeight, subWidth, subHeight), m_maxNum, m_maxLevels, nextLevel),
+                new QuadTree<T>(new Bound(x + subWidth, y + subHeight, subWidth, subHeight), m_maxNum, m_maxLevels, nextLevel)
+            };
         }
         
         /*
@@ -128,7 +129,7 @@ namespace MapSystem
         
         public void Insert(Bound bounds, T item)
         {
-            if (m_nodes[0] != null)
+            if (m_nodes.Count <= 0)
             {
                 var nodes = GetRelevantNodes(bounds);
                 for (int i = 0; i < nodes.Count; i++)
@@ -143,7 +144,7 @@ namespace MapSystem
             
             if (m_objects.Count > m_maxNum && m_level < m_maxLevels)
             {
-                if (m_nodes[0] == null)
+                if (m_nodes.Count <= 0)
                 {
                     Split();
                     for (int i = 0; i < m_objectBounds.Count; i++)
@@ -162,12 +163,12 @@ namespace MapSystem
 
         public List<T> Retrieve(Bound bounds)
         {
+            if (m_nodes.Count <= 0) return m_objects;
             var items = new List<T>();
             foreach (var node in GetRelevantNodes(bounds))
             {
                 items.AddRange(node.Retrieve(bounds));
             }
-
             return items;
         }
     }

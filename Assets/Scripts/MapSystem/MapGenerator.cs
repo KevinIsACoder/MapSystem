@@ -50,7 +50,7 @@ namespace MapSystem
             //生成路网
             MapUtils.GenerateVoronoiMap(distinctNum, terrainChunkWidth, terrainChunkWidth);
             
-            m_roadGenerator.Generate(terrainChunkWidth, false);
+            m_roadGenerator.GenerateRoad();
         }
 
         private void GenerateTerrain()

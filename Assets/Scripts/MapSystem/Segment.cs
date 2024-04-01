@@ -23,8 +23,8 @@ namespace MapSystem
         public Vector2 startPoint; //路段开始点
         public Vector2 endPoint; //路段结束点
 
-        public List<Segment> forwardSegment; //下个路段
-        public List<Segment> backwardSegment; //上个路段
+        public List<Segment> forwardSegment = new List<Segment>(); //下个路段
+        public List<Segment> backwardSegment = new List<Segment>(); //上个路段
 
         public Func<List<Segment>> setupBranchLinks;
 
@@ -152,9 +152,14 @@ namespace MapSystem
             thirdSegment.forwardSegment.Add(secondSplit);
         }
 
-        public static Segment GenerateSegment(Vector2 startPoint, Vector2 direction, float length, float time, MetaInfo metaInfo = null)
+        // public static Segment GenerateSegment(Vector2 startPoint, Vector2 direction, float length, float time, MetaInfo metaInfo = null)
+        // {
+        //     var endPoint = startPoint + direction * length;
+        //     return new Segment(startPoint, endPoint, time);
+        // }
+        
+        public static Segment GenerateSegment(Vector2 startPoint, Vector2 endPoint, float time, MetaInfo metaInfo = null)
         {
-            var endPoint = startPoint + direction * length;
             return new Segment(startPoint, endPoint, time);
         }
 

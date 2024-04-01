@@ -97,9 +97,10 @@ namespace MapSystem
         private PriorityQueue<Segment> m_segmentqueue;
         private List<Segment> m_generateSegment;
         private QuadTree<Segment> m_quadTreeSegment;
-        
-        public RoadGenerator()
+
+        private void OnEnable()
         {
+            m_roadParent = new GameObject("RoadParent");
         }
 
         private void OnDrawGizmos()
@@ -154,12 +155,15 @@ namespace MapSystem
         public void GenerateRoad()
         {
             Random.InitState(Seed);
+            m_generateSegment = new List<Segment>();
             m_segmentqueue = new PriorityQueue<Segment>();
-            var initSegment = new Segment(new Vector2(0, 0), new Vector2(50, 50), 0, true);
+            var initSegment = new Segment(new Vector2(0, 0), new Vector2(0, MapConsts.terrainSize), 0, true);
             m_segmentqueue.Equeue(initSegment);
             m_quadTreeSegment = new QuadTree<Segment>(MapConsts.QUADTREE_PARAMS, MapConsts.QUADTREE_MAX_OBJECTS, MapConsts.QUADTREE_MAX_LEVELS, 0);
+            m_quadTreeSegment.Split();
             StartCoroutine(StartGenerateRoad());
         }
+        
         
         IEnumerator StartGenerateRoad()
         {
@@ -169,7 +173,6 @@ namespace MapSystem
                 GenerateRoadStep();
                 yield return null;
             }
-            Debug.Log(m_generateSegment);
         }
 
         void GenerateRoadStep()
@@ -186,7 +189,10 @@ namespace MapSystem
                 if (segment != null)
                 {
                     segment.setupBranchLinks?.Invoke();
-                   // CreateRoad(new List<Vector3>(segment.startPoint, segment.endPoint));
+                   // Debug.Log();
+                    var startPoint = new Vector3(segment.startPoint.x, 0, segment.startPoint.y);
+                    var endPoint = new Vector3(segment.endPoint.x, 0, segment.endPoint.y);
+                    CreateRoad(new List<Vector3>(){startPoint, endPoint});
                     m_generateSegment.Add(segment);
                     m_quadTreeSegment.Insert(segment.Limits, segment);
                     foreach (var minSegment in GlobalGoalsGenerate(segment))
@@ -201,7 +207,7 @@ namespace MapSystem
         List<Segment> GlobalGoalsGenerate(Segment preSegment)
         {
             var newBranches = new List<Segment>();
-            if (!preSegment.segmentMetaInfo.served)
+           /* if (!preSegment.segmentMetaInfo.served)
             {
                 var straightSegment =
                     Segment.GenerateSegment(preSegment.endPoint, preSegment.Dir(), MapConsts.HighWayStreeetLength, 0);
@@ -251,9 +257,23 @@ namespace MapSystem
                         }
                     }
                 }
-            }
-            
-            // setup links between each current branch and each existing branch stemming from the previous segment
+            }*/
+
+
+           var segment = CreateNewSegment(preSegment);
+           newBranches.Add(segment);
+
+           if (preSegment.isHignWay)
+           {
+               var population = Random.Range(0f, 1f);
+               if (population > MapConsts.HIGHWAY_POPULATION_THRESOLD)
+               {
+                   var brachStreet = CreateNewSegment(preSegment);
+                   newBranches.Add(brachStreet);
+               }
+           }
+
+           // setup links between each current branch and each existing branch stemming from the previous segment
             for (var i = 0; i < newBranches.Count; i++)
             {
                 var branch = newBranches[i];
@@ -277,6 +297,37 @@ namespace MapSystem
             return newBranches;
         }
 
+        Segment CreateNewSegment(Segment preSegment)
+        {
+            var rand = Random.Range(0, 2);
+            var endPoint = preSegment.endPoint;
+            if (preSegment.startPoint.x == preSegment.endPoint.x) //竖线
+            {
+                if (rand > 0)
+                {
+                    var angle = Random.Range(0, 2);
+                    endPoint.x += angle > 0 ? MapConsts.terrainSize : -MapConsts.terrainSize;
+                }
+                else
+                {
+                    endPoint.y += MapConsts.terrainSize;
+                }
+            }
+            else //横线
+            {
+                if (rand > 0)
+                {
+                    var angle = Random.Range(0, 2);
+                    endPoint.y += angle > 0 ? MapConsts.terrainSize : -MapConsts.terrainSize;
+                }
+                else
+                {
+                    endPoint.x += MapConsts.terrainSize;
+                }
+            }
+            return Segment.GenerateSegment(preSegment.endPoint, endPoint, 0);
+        }
+
         float PopulationAtSegment(Segment segment)
         {
             var start = Mathf.PerlinNoise(segment.startPoint.x, segment.startPoint.y);
@@ -286,7 +337,7 @@ namespace MapSystem
         
         bool LocalConstraints(Segment segment)
         {
-            foreach(var otherSegment in m_quadTreeSegment.Retrieve(segment.Limits))
+           /* foreach(var otherSegment in m_quadTreeSegment.Retrieve(segment.Limits))
             {
                 //1 intersect
                 var intersect = segment.InterSectWith(otherSegment);
@@ -303,10 +354,19 @@ namespace MapSystem
                 
                 //2 crossing
                 
-            }
-            
-            
-            return true;
+            }*/
+           
+           if (segment.endPoint.y == 0 || segment.startPoint.y >= MapConsts.mapSize - 1)
+           {
+               return false;
+           }
+
+           if (segment.startPoint.x >= MapConsts.mapSize - 1)
+           {
+               return false;
+           }
+
+           return true;
         }
 
         private Segment[] InitialSegments()
