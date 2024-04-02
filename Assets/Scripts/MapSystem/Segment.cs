@@ -29,7 +29,7 @@ namespace MapSystem
         public Func<List<Segment>> setupBranchLinks;
 
         public MetaInfo segmentMetaInfo;
-        
+
         public float m_time;
 
         private float m_width;
@@ -44,8 +44,9 @@ namespace MapSystem
 
         public float Length => Vector2.Distance(startPoint, endPoint);
 
-        public Bound Limits => new Bound((int)Math.Min(startPoint.x, endPoint.x),  (int)Math.Min(startPoint.y, endPoint.y), (int)Math.Abs(startPoint.x - endPoint.x),
-            (int)Math.Abs(startPoint.y - endPoint.y));
+        public Bound Limits => new Bound((int)Math.Min(startPoint.x, endPoint.x),
+            (int)Math.Min(startPoint.y, endPoint.y), (int)Math.Abs(endPoint.x - startPoint.x),
+            (int)Math.Abs(endPoint.y - startPoint.y));
 
         public bool StartIsBackwards()
         {
@@ -110,18 +111,21 @@ namespace MapSystem
             Segment firstSplit;
             Segment[] fixLinks;
             Segment secondSplit;
-            
+
             // determine which links correspond to which end of the split segment
-            if (startIsBackwards) {
+            if (startIsBackwards)
+            {
                 firstSplit = splitSegment;
                 secondSplit = this;
                 fixLinks = splitSegment.backwardSegment.ToArray();
-            } else {
+            }
+            else
+            {
                 firstSplit = this;
                 secondSplit = splitSegment;
                 fixLinks = splitSegment.forwardSegment.ToArray();
             }
-            
+
             // one of the ends of our segment is now instead part of the newly created segment
             // go through all linked roads at that end, and replace their inverse references from referring to this to referring to the newly created segment
             for (int i = 0; i < fixLinks.Length; i++)
@@ -140,12 +144,12 @@ namespace MapSystem
                     }
                 }
             }
-            
+
             // new crossing is between firstSplit, secondSplit, and thirdSegment
             firstSplit.forwardSegment.Clear();
             firstSplit.forwardSegment.Add(thirdSegment);
             firstSplit.forwardSegment.Add(secondSplit);
-            
+
             secondSplit.backwardSegment.Clear();
             secondSplit.backwardSegment.Add(thirdSegment);
             secondSplit.backwardSegment.Add(firstSplit);
@@ -158,8 +162,9 @@ namespace MapSystem
         //     var endPoint = startPoint + direction * length;
         //     return new Segment(startPoint, endPoint, time);
         // }
-        
-        public static Segment GenerateSegment(Vector2 startPoint, Vector2 endPoint, float time, MetaInfo metaInfo = null)
+
+        public static Segment GenerateSegment(Vector2 startPoint, Vector2 endPoint, float time,
+            MetaInfo metaInfo = null)
         {
             return new Segment(startPoint, endPoint, time);
         }
@@ -181,17 +186,38 @@ namespace MapSystem
             f /= k;
             var e = MathUtil.CrossProduct(MathUtil.SubtractPoints(segment.startPoint, startPoint), vec2) / k;
             var intersetct = 0.001 < e && 0.999 > e && 0.001 < f && 0.999 > f;
-            return intersetct ? new InterSetctInfo()
-            {
-                x = startPoint.x + e * endPoint.x,
-                y = startPoint.y + e * endPoint.y
-                
-            } : null;
+            return intersetct
+                ? new InterSetctInfo()
+                {
+                    x = startPoint.x + e * endPoint.x,
+                    y = startPoint.y + e * endPoint.y
+                }
+                : null;
         }
+
+        /// <summary>
+        /// 判断endPoint是不是在线段上
+        /// <returns>是否相交 true:相交 false:未相交</returns>
+        public bool TryGetIntersectPoint(Segment segment, out Vector3 intersectPos)
+        {
+            intersectPos = Vector3.zero;
+            Vector2 v1 = endPoint - segment.startPoint;
+            Vector2 v2 = segment.endPoint - segment.startPoint;
+            float angle =Mathf.Abs(Vector3.Angle(v1.normalized,v2.normalized));
+            float length_v1 = Vector3.SqrMagnitude(v1);
+            float length_v2 = Vector3.SqrMagnitude(v2);
+            return angle <= 0.0001f && length_v1 < length_v2;
+        }
+
 
         public Segment Clone()
         {
             return new Segment(startPoint, endPoint, m_time, isHignWay);
+        }
+
+        public bool IsHorizontal()
+        {
+            return Math.Abs(endPoint.x - startPoint.x) > 0;
         }
     }
 }

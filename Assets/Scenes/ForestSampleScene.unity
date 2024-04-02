@@ -43,7 +43,7 @@ RenderSettings:
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 11
+  serializedVersion: 12
   m_GIWorkflowMode: 0
   m_GISettings:
     serializedVersion: 2
@@ -99,7 +99,8 @@ LightmapSettings:
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 112000000, guid: 65da1f6c74e4b2b4ba743fe370cc0f76,
     type: 2}
-  m_UseShadowmask: 1
+  m_LightingSettings: {fileID: 4890085278179872738, guid: 9cf68f7da577b154aad79456cdd3ad0a,
+    type: 2}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -119,6 +120,8 @@ NavMeshSettings:
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
+    maxJobWorkers: 0
+    preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
@@ -214,6 +217,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -37.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -295,6 +299,7 @@ Light:
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
 --- !u!4 &705507995
@@ -307,6 +312,7 @@ Transform:
   m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
   m_LocalPosition: {x: 97.4, y: 148.4, z: 38}
   m_LocalScale: {x: 1, y: 1, z: 0.99999994}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
@@ -336,6 +342,7 @@ GameObject:
   - component: {fileID: 847621382}
   - component: {fileID: 847621378}
   - component: {fileID: 847621379}
+  - component: {fileID: 847621384}
   m_Layer: 0
   m_Name: Map
   m_TagString: Untagged
@@ -355,13 +362,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3682c3d1d55749839e2d86b5b31338c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  seed: 100
-  terrainMaterial: {fileID: 2100000, guid: 706f8427de55fbf498e9aead3be02bea, type: 2}
-  terrainHeight: 10
+  terrainMaterial: {fileID: 2100000, guid: e5b07b01115c5474597abc17778f0cfa, type: 2}
   terrainChunkWidth: 500
-  centerPosistion: {x: 0, y: 0, z: 0}
   distinctNum: 4
-  buildings: []
 --- !u!114 &847621379
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -375,7 +378,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curveResolution: 1
-  roadMaterial: {fileID: 2100000, guid: 97eea5cdb1de9445fb7f71ee7ce5083c, type: 2}
+  roadMaterial: {fileID: 2100000, guid: 054830125dd8746d08823b3ec94acb0d, type: 2}
   Seed: 100
 --- !u!4 &847621380
 Transform:
@@ -387,6 +390,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -402,10 +406,12 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -430,6 +436,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &847621383
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -438,6 +445,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 847621377}
   m_Mesh: {fileID: 0}
+--- !u!114 &847621384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 847621377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a24d6e7f6c924be89fd3fefceb1ac07f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildingList:
+  - {fileID: 8140151319195994720, guid: 62cc7aaa4debc40eea199bb52d65b507, type: 3}
+  - {fileID: 2218692870763311188, guid: e894370f3a79e4865890168e2d812e21, type: 3}
+  - {fileID: 908818198427657557, guid: 8804bd81cb7094c70bbd568516917851, type: 3}
+  - {fileID: 6156328786659050743, guid: dda0512a34f604128ba0f38ebb7f4dcd, type: 3}
 --- !u!1 &1471584237
 GameObject:
   m_ObjectHideFlags: 0
@@ -464,6 +488,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3

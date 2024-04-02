@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using MapSystem.Building;
 using UnityEngine;
 
 namespace MapSystem
@@ -9,25 +10,24 @@ namespace MapSystem
     [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
     public class MapGenerator : MonoBehaviour
     {
-        public int seed = 100; //随机种子
         public Material terrainMaterial; //地形材质
-        public int terrainHeight = 10; //地形高度
         
         private int terrainSize = MapConsts.terrainSize;
         
         public int terrainChunkWidth = 50;
-        public Vector3 centerPosistion = Vector3.zero; //中心点
         public Dictionary<Vector3, TerrainChunk> TerrainChunk = new Dictionary<Vector3, TerrainChunk>();
         private int m_terrainTrunckNum;
         
         private RoadGenerator m_roadGenerator;
+        private BuildingGenerator m_buildingGenerator;
         public int distinctNum = 4; //区域数量
-        public GameObject[] buildings;
         
+
         private void OnEnable()
         {
             gameObject.GetComponent<MeshRenderer>().material = terrainMaterial;
             m_roadGenerator = gameObject.GetComponent<RoadGenerator>();
+            m_buildingGenerator = gameObject.GetComponent<BuildingGenerator>();
         }
         
         private void Start()
@@ -38,18 +38,23 @@ namespace MapSystem
         
         public void GenerateMap()
         {
+            m_roadGenerator.OnGenerateComplete = OnRoadGenerateComplete;
             //生成地形
             GenerateTerrain();
             StartCoroutine(GenerateRoad());
         }
 
+
+        private void OnRoadGenerateComplete()
+        {
+            m_buildingGenerator.BuildingHouse(m_roadGenerator.GetGenerateSegments());
+        }
+
         private IEnumerator GenerateRoad()
         {
             yield return null;
-            
             //生成路网
             MapUtils.GenerateVoronoiMap(distinctNum, terrainChunkWidth, terrainChunkWidth);
-            
             m_roadGenerator.GenerateRoad();
         }
 

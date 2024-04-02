@@ -64,7 +64,7 @@ namespace MapSystem
             {
                 for (var x = 0; x <= meshWidth; x++)
                 {
-                    var vertexHeight = GeneratePerlinValue(x, y) * MapConsts.terrainHeight;
+                    var vertexHeight = 0; //GeneratePerlinValue(x, y) * MapConsts.terrainHeight;
                     vertices[vertIndex] = new Vector3(x, vertexHeight, y);
                     vertIndex++;
                 }

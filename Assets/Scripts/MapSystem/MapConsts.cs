@@ -19,7 +19,7 @@ namespace MapSystem
         
         public static int roadWidth = 10; //路宽度
 
-        public static int normalStreetLength = 5; //普通路段宽度
+        public static int normalStreetLength = 10; //普通路段宽度
 
         public static int HighWayStreeetLength = terrainSize; //高速长度
 
@@ -36,7 +36,7 @@ namespace MapSystem
 
         public static bool onlyHighWay = false;
 
-        public static Bound QUADTREE_PARAMS = new Bound(-20000, -20000, 40000, 40000);
+        public static Bound QUADTREE_PARAMS = new Bound(0, 0, mapSize, mapSize);
         public static int QUADTREE_MAX_OBJECTS = 10;
         public static int QUADTREE_MAX_LEVELS = 10;
     }
