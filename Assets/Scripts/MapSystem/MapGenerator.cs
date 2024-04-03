@@ -43,8 +43,7 @@ namespace MapSystem
             GenerateTerrain();
             StartCoroutine(GenerateRoad());
         }
-
-
+        
         private void OnRoadGenerateComplete()
         {
             m_buildingGenerator.BuildingHouse(m_roadGenerator.GetGenerateSegments());

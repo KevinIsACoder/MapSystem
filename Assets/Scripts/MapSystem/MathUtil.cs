@@ -27,5 +27,20 @@ namespace MapSystem
             return a.x * b.y - a.y * b.x;
         }
         
+        //点与线的位置关系
+        /// <summary>
+        /// 返回 0 在线上  <0 在线的左侧, >0 在线的右侧
+        /// </summary>
+        /// <param name="point"></param>
+        /// <param name="lineStart"></param>
+        /// <param name="lineEnd"></param>
+        /// <returns></returns>
+        public static int GetPointOnlinePosition(Vector2 point, Vector2 lineStart, Vector2 lineEnd)
+        {
+            var crossValue = CrossProduct(point - lineStart, lineEnd - lineStart);
+            if (crossValue > 0) return 1;
+            if (crossValue < 0) return -1;
+            return 0;
+        }
     }
 }

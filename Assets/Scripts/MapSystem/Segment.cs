@@ -34,7 +34,7 @@ namespace MapSystem
 
         private float m_width;
 
-        public Segment(Vector2 start_Point, Vector2 end_Point, float time, bool isHignWay = false)
+        public Segment(Vector2 start_Point, Vector2 end_Point, bool isHignWay = false)
         {
             m_width = isHignWay ? MapConsts.roadWidth : MapConsts.roadWidth;
             startPoint = start_Point;
@@ -163,10 +163,10 @@ namespace MapSystem
         //     return new Segment(startPoint, endPoint, time);
         // }
 
-        public static Segment GenerateSegment(Vector2 startPoint, Vector2 endPoint, float time,
+        public static Segment GenerateSegment(Vector2 startPoint, Vector2 endPoint,
             MetaInfo metaInfo = null)
         {
-            return new Segment(startPoint, endPoint, time);
+            return new Segment(startPoint, endPoint);
         }
 
         public Vector2 Dir()
@@ -201,6 +201,23 @@ namespace MapSystem
         public bool TryGetIntersectPoint(Segment segment, out Vector3 intersectPos)
         {
             intersectPos = Vector3.zero;
+            
+            if (IsHorizontal())
+            {
+                if (Math.Abs(segment.startPoint.y - startPoint.y) < 0.0001f)
+                {
+                    if (Math.Abs(startPoint.x - segment.endPoint.x) < 0.0001f &&
+                        Math.Abs(endPoint.x - segment.startPoint.x) < 0.0001f)
+                    {
+                        return true;
+                    }
+                }
+            }
+            else
+            {
+                
+            }
+            
             Vector2 v1 = endPoint - segment.startPoint;
             Vector2 v2 = segment.endPoint - segment.startPoint;
             float angle =Mathf.Abs(Vector3.Angle(v1.normalized,v2.normalized));
@@ -208,11 +225,10 @@ namespace MapSystem
             float length_v2 = Vector3.SqrMagnitude(v2);
             return angle <= 0.0001f && length_v1 < length_v2;
         }
-
-
+        
         public Segment Clone()
         {
-            return new Segment(startPoint, endPoint, m_time, isHignWay);
+            return new Segment(startPoint, endPoint, isHignWay);
         }
 
         public bool IsHorizontal()

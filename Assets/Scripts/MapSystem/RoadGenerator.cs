@@ -162,7 +162,7 @@ namespace MapSystem
             m_generateSegment = new List<Segment>();
             m_segmentqueue = new PriorityQueue<Segment>();
             var initSegment = new Segment(new Vector2(0 + MapConsts.terrainSize * 0.5f, 0),
-                new Vector2(0 + MapConsts.terrainSize * 0.5f, MapConsts.terrainSize), 0, true);
+                new Vector2(0 + MapConsts.terrainSize * 0.5f, MapConsts.terrainSize), true);
             m_segmentqueue.Equeue(initSegment);
             m_quadTreeSegment = new QuadTree<Segment>(MapConsts.QUADTREE_PARAMS, MapConsts.QUADTREE_MAX_OBJECTS,
                 MapConsts.QUADTREE_MAX_LEVELS, 0);
@@ -213,7 +213,6 @@ namespace MapSystem
                 if (segment != null)
                 {
                     segment.setupBranchLinks?.Invoke();
-                    // Debug.Log();
                     var startPoint = new Vector3(segment.startPoint.x, 0, segment.startPoint.y);
                     var endPoint = new Vector3(segment.endPoint.x, 0, segment.endPoint.y);
                     CreateRoad(new List<Vector3>() { startPoint, endPoint });
@@ -274,102 +273,122 @@ namespace MapSystem
 
         Segment CreateNewSegment(Segment preSegment)
         {
-            var step = 0;
-            bool left = false,  right = false, top = false, bottom = false;
             Segment CreateSegmentInternal()
             {
-                if (step == 3)
-                {
-                    return null;
-                }
-                step++;
-                var endPoint = preSegment.endPoint;
                 segmentLength = MapConsts.terrainSize * 2;
-                if (preSegment.startPoint.x == preSegment.endPoint.x) //竖线
+                if (Math.Abs(preSegment.startPoint.x - preSegment.endPoint.x) < 0.0001f) //竖线
                 {
-                    if (step < 2) //横向扩展
+                    var growType = new int[]{0, 1, 2}; // left, right, up/down
+                    Array.Sort(growType, (a,b) =>
                     {
-                        var angle = Random.Range(0f, 1f);
-                        var rightAngle = angle > 0.3f;
-                        
-                        if (rightAngle && !right || left)
-                        {
-                            right = true;
-                            endPoint.x += segmentLength;
-                        }
-                        else
-                        {
-                            left = true;
-                            endPoint.x -= segmentLength;
-                        }
-                    }
-                    else
+                        var num = Random.Range(0, 1f);
+                        if (num > 0.3f) return 1;
+                        if (num is > 0.3f and < 0.6f) return -1;
+                        return 0;
+                    });
+
+                    Segment segment = null;
+                    for (int i = 0; i < growType.Length; i++)
                     {
-                        if (preSegment.startPoint.y < preSegment.endPoint.y) //向上
-                        {
-                            endPoint.y += segmentLength;
-                        }
-                        else //向下
-                        {
-                            endPoint.y -= segmentLength;
-                        }
+                        segment = GrowVerticalSegment(preSegment, growType[i]);
+                        if (IsSegmentValid(segment))
+                            return segment;
                     }
+                    
+                    return segment;
                 }
                 else //横线
                 {
-                    if (step < 2) //生成竖线处理
+                    var growType = new int[]{0, 1, 2}; // up, down, left/right
+                    Array.Sort(growType, (a,b) =>
                     {
-                        var angle = Random.Range(0f, 1f);
-                        var topAngle = angle > 0.3f;
-                        if (topAngle && !top || bottom)
-                        {
-                            top = true;
-                            endPoint.y += segmentLength;
-                        }
-                        else
-                        {
-                            bottom = true;
-                            endPoint.y -= segmentLength;
-                        }
-                    }
-                    else
-                    {
-                        if (endPoint.x + segmentLength < MapConsts.mapSize)
-                        {
-                            endPoint.x += segmentLength;
-                        }
-                        else
-                        {
-                            endPoint.y += segmentLength;
-                        }
-                    }
-                }
-                var newSegment = Segment.GenerateSegment(preSegment.endPoint, endPoint, 0);
-                return newSegment;
-            }
+                        var num = Random.Range(0, 1f);
+                        if (num > 0.3f) return 1;
+                        if (num is > 0.3f and < 0.6f) return -1;
+                        return 0;
+                    });
 
-            var seg = CreateSegmentInternal();
-            if (seg != null)
-            {
-                foreach (var other in m_quadTreeSegment.Retrieve(seg.Limits))
-                {
-                    if(seg == null) break;
-                    if(other == null) continue;
-                    if (seg.TryGetIntersectPoint(other, out Vector3 intersectPoint) || IsOutMap(seg))
+                    Segment segment = null;
+                    for (int i = 0; i < growType.Length; i++)
                     {
-                        seg = CreateSegmentInternal();
+                        segment = GrowHoritalSegment(preSegment, growType[i]);
+                        if (IsSegmentValid(segment))
+                            return segment;
                     }
-                }   
+
+                    return segment;
+                }
             }
             
-            return seg;
+            return CreateSegmentInternal();
+        }
+
+        Segment GrowVerticalSegment(Segment presegment, int growType)
+        {
+            var startPoint = presegment.endPoint;
+            var endPoint = startPoint;
+            if (growType == 0) //left
+            {
+                endPoint.x -= segmentLength;
+            }
+            else if (growType == 1) //right
+            {
+                endPoint.x += segmentLength;
+            }
+            else if (growType == 2) // up or down
+            {
+                endPoint.y += presegment.startPoint.y < presegment.endPoint.y ? segmentLength : -segmentLength;
+            }
+            return Segment.GenerateSegment(startPoint, endPoint);
+        }
+
+        Segment GrowHoritalSegment(Segment presegment, int growType)
+        {
+            var startPoint = presegment.endPoint;
+            var endPoint = startPoint;
+            if (growType == 0) //up
+            {
+                endPoint.y += segmentLength;
+            }
+            else if (growType == 1) //down
+            {
+                endPoint.y -= segmentLength;
+            }
+            else if (growType == 2) // left or right
+            {
+                endPoint.x += presegment.endPoint.x > presegment.startPoint.x ? segmentLength : -segmentLength;
+            }
+            return Segment.GenerateSegment(startPoint, endPoint);
+        }
+
+        bool IsSegmentValid(Segment segment)
+        {
+            bool isSucceed = !IsOutMap(segment);
+            if (!isSucceed)
+                return false;
+            foreach (var other in m_quadTreeSegment.Retrieve(segment.Limits))
+            {
+                if(other == null) continue;
+                if (segment.TryGetIntersectPoint(other, out Vector3 intersectPoint))
+                {
+                    isSucceed = false;
+                    break;
+                }
+            }
+
+            if (isSucceed)
+            {
+                Debug.Log($"IsSuceed {isSucceed} endPoint {segment.endPoint}");   
+            }
+            
+            return isSucceed;
         }
 
         bool IsOutMap(Segment segment)
         {
-            return segment.endPoint.x >= MapConsts.mapSize - 1 
+            return segment.endPoint.x > MapConsts.mapSize - 1 
                    || segment.endPoint.x <= 0
-                   || segment.endPoint.y >= MapConsts.mapSize - 1 
+                   || segment.endPoint.y > MapConsts.mapSize - 1 
                    || segment.endPoint.y <= 0;
         }
 
