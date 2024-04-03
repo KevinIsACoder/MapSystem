@@ -286,16 +286,15 @@ namespace MapSystem
                         if (num is > 0.3f and < 0.6f) return -1;
                         return 0;
                     });
-
-                    Segment segment = null;
+                    
                     for (int i = 0; i < growType.Length; i++)
                     {
-                        segment = GrowVerticalSegment(preSegment, growType[i]);
+                        var segment = GrowVerticalSegment(preSegment, growType[i]);
                         if (IsSegmentValid(segment))
                             return segment;
                     }
                     
-                    return segment;
+                    return null;
                 }
                 else //横线
                 {
@@ -307,16 +306,15 @@ namespace MapSystem
                         if (num is > 0.3f and < 0.6f) return -1;
                         return 0;
                     });
-
-                    Segment segment = null;
+                    
                     for (int i = 0; i < growType.Length; i++)
                     {
-                        segment = GrowHoritalSegment(preSegment, growType[i]);
+                        var segment = GrowHoritalSegment(preSegment, growType[i]);
                         if (IsSegmentValid(segment))
                             return segment;
                     }
 
-                    return segment;
+                    return null;
                 }
             }
             
