@@ -331,7 +331,7 @@ namespace MapSystem.Runtime
                 {
                     var num = Random.Range(0f, 1f);
                     if (num > 0.3f) return 1;
-                    if (num is > 0.3f and < 0.6f) return -1;
+                    if (num > 0.3f && num  < 0.6f) return -1;
                     return 0;
                 });
                     
@@ -351,7 +351,7 @@ namespace MapSystem.Runtime
                 {
                     var num = Random.Range(0f, 1f);
                     if (num > 0.3f) return 1;
-                    if (num is > 0.3f and < 0.6f) return -1;
+                    if (num > 0.3f && num < 0.6f) return -1;
                     return 0;
                 });
                     

@@ -25,7 +25,7 @@ namespace MapSystem.Runtime
         public Material industrial;
         public Material commercial;
         public Material residential;
-            
+        public Material park;
         private void OnEnable()
         {
             gameObject.GetComponent<MeshRenderer>().material = terrainMaterial;
@@ -92,6 +92,8 @@ namespace MapSystem.Runtime
                     return commercial; //商业
                 case 2:
                     return residential; //居民
+                case 3:
+                    return park;
             }
 
             return default;

@@ -1,26 +1,33 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace MapSystem.Runtime.Building
 {
-    public enum PieceType
-    {
-        ROAD,
-        GRASS,
-        HOUSE,
-    }
+    public enum ZoneType { R, C, I };
+    
+    public enum PieceType { ROAD, HOUSE, SHACK, LAWN, COMMERCIAL, INDUSTRY, NONE };
     public class BuildingGenerator : MonoBehaviour
     {
-        public GameObject[] buildingList;
+        public GameObject[] Residential;
+        public GameObject[] Commercials;
+        public GameObject[] Industry;
         private Dictionary<Vector3Int, PieceType> m_BuildMap = new Dictionary<Vector3Int, PieceType>();
 
         private float extentWidth = 10f;
+        
+        List<List<int>> zones = new List<List<int>>();
         public void BuildingHouse(List<Segment> roads)
         {
+            zones.Add(new List<int> { 0, 1 }); //residential
+            zones.Add(new List<int> { 2, 3 }); //commercials
+            zones.Add(new List<int> { 4, 5 }); //industry
+            
             var location = Vector3.zero;
             foreach (var segment in roads)
             {
+                var pt = PieceType.NONE;
                 if (segment.IsHorizontal())
                 {
                     var startX = segment.startPoint.x < segment.endPoint.x ? Mathf.CeilToInt(segment.startPoint.x) : Mathf.CeilToInt(segment.endPoint.x);
@@ -39,9 +46,6 @@ namespace MapSystem.Runtime.Building
                         }
                         
                         location = new Vector3(i, 0, posZ);
-                        var building = buildingList[Random.Range(0, buildingList.Length)];
-                        var newbuilding = GameObject.Instantiate(building, location, Quaternion.identity);
-                        
                     }
                 }
                 else
@@ -60,14 +64,45 @@ namespace MapSystem.Runtime.Building
                         {
                             posX -= MapConsts.roadWidth * 0.5f + extentWidth;
                         }
-                        
                         location = new Vector3(posX, 0, i);
-                        var building = buildingList[Random.Range(0, buildingList.Length)];
-                        var newbuilding = GameObject.Instantiate(building, location, Quaternion.identity);
-                        
                     }
+                }
+
+                var x = Mathf.RoundToInt(location.x);
+                var z = Mathf.RoundToInt(location.z);
+                
+                if (IsVoronoiType(x, z, ZoneType.R))
+                {
+                    var index = Random.Range(0, Residential.Length);
+                    var go = Instantiate(Residential[index], location, Quaternion.identity);
+                    pt = PieceType.HOUSE;
+                }
+
+                if (IsVoronoiType(x, z, ZoneType.C))
+                {
+                    var index = Random.Range(0, Commercials.Length);
+                    var go = Instantiate(Commercials[index], location, Quaternion.identity);
+                    pt = PieceType.COMMERCIAL;
+                }
+
+                if (IsVoronoiType(x, z, ZoneType.I))
+                {
+                    var index = Random.Range(0, Industry.Length);
+                    var go = Instantiate(Industry[index], location, Quaternion.identity);
+                    pt = PieceType.INDUSTRY;
                 }
             }
         }
+        
+        bool IsVoronoiType(int x, int z, ZoneType type)
+        {
+            foreach (int t in zones[(int)type])
+            {
+                if (MapUtils.voronoiMap[x, z] == t)
+                    return true;
+            }
+            return false;
+        }
+
     }
 }
