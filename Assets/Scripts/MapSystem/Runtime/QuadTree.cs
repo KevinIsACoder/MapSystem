@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using JetBrains.Annotations;
-using UnityEngine;
+﻿using System.Collections.Generic;
 
-namespace MapSystem
+namespace MapSystem.Runtime
 {
     public class Bound
     {
@@ -115,7 +112,6 @@ namespace MapSystem
             var isBottom = bound.y + bound.height > midY;
             if (bound.x < midX)
             {
-                Debug.LogError(m_nodes.Count);
                 //left
                 if(isTop) qs.Add(m_nodes[0]);
                 if(isBottom) qs.Add(m_nodes[2]);

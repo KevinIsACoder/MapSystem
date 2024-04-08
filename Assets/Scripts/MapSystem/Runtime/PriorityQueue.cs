@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MapSystem
+namespace MapSystem.Runtime
 {
     public class PriorityQueue<T> where T : class
     {
@@ -15,7 +15,7 @@ namespace MapSystem
         {
             m_elements.Enqueue(element);
         }
-
+        
         public T Dequeue()
         {
             return m_elements.Dequeue();

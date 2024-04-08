@@ -1,9 +1,7 @@
-
-using System.Collections;
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
-namespace MapSystem
+namespace MapSystem.Runtime
 {
     public static class MapUtils
     {

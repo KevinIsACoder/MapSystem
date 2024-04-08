@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using MapSystem.Building;
+using MapSystem.Runtime.Building;
 using UnityEngine;
 
-namespace MapSystem
+namespace MapSystem.Runtime
 {
     [Serializable]
     [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]

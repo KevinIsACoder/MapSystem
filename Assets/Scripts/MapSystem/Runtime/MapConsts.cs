@@ -1,7 +1,7 @@
-﻿using Unity.Collections.LowLevel.Unsafe;
+﻿using MapSystem;
 using UnityEngine;
 
-namespace MapSystem
+namespace MapSystem.Runtime
 {
     public static class MapConsts
     {
@@ -17,7 +17,7 @@ namespace MapSystem
         [Range(0, 100)] 
         public static int terrainHeight = 5; //地形高度
         
-        public static int roadWidth = 10; //路宽度
+        public static int roadWidth = 20; //路宽度
 
         public static int normalStreetLength = 10; //普通路段宽度
 
@@ -26,7 +26,7 @@ namespace MapSystem
         /** number of possible new segments to search for maximum population */
         public static int HIGHWAY_POPULATION_SAMPLE_SIZE = 1;
 
-        public static float HIGHWAY_POPULATION_THRESOLD = 0.5f; //正常街的长度
+        public static float HIGHWAY_POPULATION_THRESOLD = 50f; //正常街的长度
 
         /** probability of branching from highways */
         public static float HIGHWAY_BRANCH_PROBABILITY = 0.02f;

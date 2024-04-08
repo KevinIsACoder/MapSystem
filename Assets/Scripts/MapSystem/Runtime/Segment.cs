@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace MapSystem
+namespace MapSystem.Runtime
 {
     public class MetaInfo
     {
@@ -19,7 +19,7 @@ namespace MapSystem
 
     public class Segment
     {
-        public bool isHignWay;
+        public bool isHignWay = true;
         public Vector2 startPoint; //路段开始点
         public Vector2 endPoint; //路段结束点
 
@@ -215,7 +215,14 @@ namespace MapSystem
             }
             else
             {
-                
+                if (Math.Abs(segment.startPoint.x - startPoint.x) < 0.0001f)
+                {
+                    if(Math.Abs(startPoint.y - segment.endPoint.y) < 0.0001f &&
+                        Math.Abs(endPoint.y - segment.startPoint.y) < 0.0001f)
+                    {
+                        return true;
+                    }
+                }
             }
             
             Vector2 v1 = endPoint - segment.startPoint;
@@ -225,9 +232,19 @@ namespace MapSystem
             float length_v2 = Vector3.SqrMagnitude(v2);
             return angle <= 0.0001f && length_v1 < length_v2;
         }
+
+        public bool IsEqual(Segment segment)
+        {
+            return Math.Abs(startPoint.x - segment.startPoint.x) <= 0.0001f 
+                   && Math.Abs(startPoint.x - segment.startPoint.x) <= 0.0001f
+                   && Math.Abs(startPoint.y - segment.startPoint.y) <= 0.0001f 
+                   && Math.Abs(startPoint.y - segment.startPoint.y) <= 0.0001f;
+        }
         
         public Segment Clone()
         {
+            var segment = new Segment(startPoint, endPoint, isHignWay);
+            
             return new Segment(startPoint, endPoint, isHignWay);
         }
 

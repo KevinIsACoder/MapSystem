@@ -26,7 +26,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>Temp\Bin\Debug\Assembly-CSharp\</OutputPath>
-    <DefineConstants>UNITY_2021_3_29;UNITY_2021_3;UNITY_2021;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER;UNITY_2019_3_OR_NEWER;UNITY_2019_4_OR_NEWER;UNITY_2020_1_OR_NEWER;UNITY_2020_2_OR_NEWER;UNITY_2020_3_OR_NEWER;UNITY_2021_1_OR_NEWER;UNITY_2021_2_OR_NEWER;UNITY_2021_3_OR_NEWER;PLATFORM_ARCH_64;UNITY_64;UNITY_INCLUDE_TESTS;ENABLE_AR;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_EVENT_QUEUE;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_TEXTURE_STREAMING;ENABLE_VIRTUALTEXTURING;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_UNITYWEBREQUEST;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_HUB_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_DIRECTOR_AUDIO;ENABLE_DIRECTOR_TEXTURE;ENABLE_MANAGED_JOBS;ENABLE_MANAGED_TRANSFORM_JOBS;ENABLE_MANAGED_ANIMATION_JOBS;ENABLE_MANAGED_AUDIO_JOBS;ENABLE_MANAGED_UNITYTLS;INCLUDE_DYNAMIC_GI;ENABLE_SCRIPTING_GC_WBARRIERS;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_VIDEO;ENABLE_ACCELERATOR_CLIENT_DEBUGGING;PLATFORM_STANDALONE;TEXTCORE_1_0_OR_NEWER;PLATFORM_STANDALONE_WIN;UNITY_STANDALONE_WIN;UNITY_STANDALONE;UNITY_UGP_API;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_NVIDIA;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITY_GAME_SERVICES_ANALYTICS_SUPPORT;ENABLE_OUT_OF_PROCESS_CRASH_HANDLER;ENABLE_CLUSTER_SYNC;ENABLE_CLUSTERINPUT;PLATFORM_UPDATES_TIME_OUTSIDE_OF_PLAYER_LOOP;GFXDEVICE_WAITFOREVENT_MESSAGEPUMP;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;NET_STANDARD_2_0;NET_STANDARD;NET_STANDARD_2_1;NETSTANDARD;NETSTANDARD2_1;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_IG;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_UNITY_COLLECTIONS_CHECKS;ENABLE_BURST_AOT;UNITY_TEAM_LICENSE;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_DIRECTOR;ENABLE_LOCALIZATION;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_TILEMAP;ENABLE_TIMELINE;ENABLE_LEGACY_INPUT_MANAGER;TEXTCORE_FONT_ENGINE_1_5_OR_NEWER;CSHARP_7_OR_LATER;CSHARP_7_3_OR_NEWER</DefineConstants>
+    <DefineConstants>UNITY_2021_3_29;UNITY_2021_3;UNITY_2021;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER;UNITY_2019_3_OR_NEWER;UNITY_2019_4_OR_NEWER;UNITY_2020_1_OR_NEWER;UNITY_2020_2_OR_NEWER;UNITY_2020_3_OR_NEWER;UNITY_2021_1_OR_NEWER;UNITY_2021_2_OR_NEWER;UNITY_2021_3_OR_NEWER;PLATFORM_ARCH_64;UNITY_64;UNITY_INCLUDE_TESTS;ENABLE_AR;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_EVENT_QUEUE;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_TEXTURE_STREAMING;ENABLE_VIRTUALTEXTURING;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_UNITYWEBREQUEST;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_HUB_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_DIRECTOR_AUDIO;ENABLE_DIRECTOR_TEXTURE;ENABLE_MANAGED_JOBS;ENABLE_MANAGED_TRANSFORM_JOBS;ENABLE_MANAGED_ANIMATION_JOBS;ENABLE_MANAGED_AUDIO_JOBS;ENABLE_MANAGED_UNITYTLS;INCLUDE_DYNAMIC_GI;ENABLE_SCRIPTING_GC_WBARRIERS;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_VIDEO;ENABLE_ACCELERATOR_CLIENT_DEBUGGING;PLATFORM_STANDALONE;TEXTCORE_1_0_OR_NEWER;PLATFORM_STANDALONE_WIN;UNITY_STANDALONE_WIN;UNITY_STANDALONE;UNITY_UGP_API;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_NVIDIA;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITY_GAME_SERVICES_ANALYTICS_SUPPORT;ENABLE_OUT_OF_PROCESS_CRASH_HANDLER;ENABLE_CLUSTER_SYNC;ENABLE_CLUSTERINPUT;PLATFORM_UPDATES_TIME_OUTSIDE_OF_PLAYER_LOOP;GFXDEVICE_WAITFOREVENT_MESSAGEPUMP;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;NET_STANDARD_2_0;NET_STANDARD;NET_STANDARD_2_1;NETSTANDARD;NETSTANDARD2_1;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_IG;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_UNITY_COLLECTIONS_CHECKS;ENABLE_BURST_AOT;UNITY_TEAM_LICENSE;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_DIRECTOR;ENABLE_LOCALIZATION;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_TILEMAP;ENABLE_TIMELINE;ENABLE_LEGACY_INPUT_MANAGER;TEXTCORE_FONT_ENGINE_1_5_OR_NEWER;AMPLIFY_SHADER_EDITOR;CSHARP_7_OR_LATER;CSHARP_7_3_OR_NEWER</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169,0649</NoWarn>
@@ -41,54 +41,53 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\MapSystem\TerrainManager.cs" />
+     <Compile Include="Assets\Scripts\MapSystem\Runtime\TerrainManager.cs" />
      <Compile Include="Assets\Scripts\MeshGenerator.cs" />
-     <Compile Include="Assets\Scripts\MapSystem\MathUtil.cs" />
+     <Compile Include="Assets\Scripts\MapSystem\Runtime\MathUtil.cs" />
+     <Compile Include="Assets\Scripts\MapSystem\Runtime\Building\BuildingGenerator.cs" />
      <Compile Include="Assets\Scripts\WaterManager.cs" />
-     <Compile Include="Assets\Scripts\TerrainMapGenerator.cs" />
      <Compile Include="Assets\Scripts\CityMaps\SplineTest.cs" />
-     <Compile Include="Assets\Scripts\MapSystem\MeshData.cs" />
+     <Compile Include="Assets\Scripts\MapSystem\Runtime\MeshData.cs" />
      <Compile Include="Assets\Scripts\MapCell.cs" />
      <Compile Include="Assets\Scripts\CityMaps\PlotVoronoi.cs" />
      <Compile Include="Assets\Scripts\CityMaps\PerlingNoiseTest.cs" />
      <Compile Include="Assets\Scripts\MapGenerator.cs" />
-     <Compile Include="Assets\Scripts\MapSystem\MapSlot.cs" />
+     <Compile Include="Assets\Scripts\MapSystem\Runtime\TerrainChunk.cs" />
      <Compile Include="Assets\Scripts\Falloff.cs" />
-     <Compile Include="Assets\Scripts\MapSystem\QuadTree.cs" />
+     <Compile Include="Assets\Scripts\MapSystem\Runtime\QuadTree.cs" />
      <Compile Include="Assets\Scripts\Noise.cs" />
-     <Compile Include="Assets\Scripts\MapSystem\AssetsManager.cs" />
+     <Compile Include="Assets\Scripts\MapSystem\Runtime\AssetsManager.cs" />
      <Compile Include="Assets\Scripts\PerlinNoise\VornoiTest.cs" />
-     <Compile Include="Assets\Scripts\MapSystem\RoadTest.cs" />
+     <Compile Include="Assets\Scripts\MapSystem\Test\RoadTest.cs" />
      <Compile Include="Assets\Scripts\State\StateController.cs" />
-     <Compile Include="Assets\Scripts\MapSystem\Singleton.cs" />
+     <Compile Include="Assets\Scripts\MapSystem\Runtime\Singleton.cs" />
      <Compile Include="Assets\Scripts\TextureCreatorWindow.cs" />
      <Compile Include="Assets\Scripts\Utils.cs" />
      <Compile Include="Assets\MeshUtils.cs" />
-     <Compile Include="Assets\Scripts\MapSystem\MapConsts.cs" />
+     <Compile Include="Assets\Scripts\MapSystem\Runtime\MapConsts.cs" />
      <Compile Include="Assets\Scripts\MapConfig.cs" />
-     <Compile Include="Assets\Scripts\MapSystem\MapUtils.cs" />
-     <Compile Include="Assets\Scripts\MapSystem\TerrainData.cs" />
+     <Compile Include="Assets\Scripts\MapSystem\Runtime\MapUtils.cs" />
      <Compile Include="Assets\Scripts\State\IState.cs" />
      <Compile Include="Assets\Scripts\HydraulicErosion.cs" />
      <Compile Include="Assets\Scripts\PerlinNoiseMapGenerator.cs" />
-     <Compile Include="Assets\Scripts\HeightMapGenerator.cs" />
+     <Compile Include="Assets\ClsureTest.cs" />
      <Compile Include="Assets\PlotPerlin.cs" />
-     <Compile Include="Assets\Scripts\MapSystem\Segment.cs" />
-     <Compile Include="Assets\Scripts\MapSystem\PriorityQueue.cs" />
+     <Compile Include="Assets\Scripts\MapSystem\Runtime\Segment.cs" />
+     <Compile Include="Assets\Scripts\MapSystem\Runtime\PriorityQueue.cs" />
      <Compile Include="Assets\Scripts\MapGrid.cs" />
      <Compile Include="Assets\Scripts\ForestGenerator.cs" />
      <Compile Include="Assets\CreateCity.cs" />
-     <Compile Include="Assets\Scripts\MapSystem\RoadGenerator.cs" />
+     <Compile Include="Assets\Scripts\MapSystem\Runtime\RoadGenerator.cs" />
      <Compile Include="Assets\Scripts\SimplexNoiseGenerator.cs" />
-     <Compile Include="Assets\Scripts\MapSystem\MapGenerator.cs" />
-     <Compile Include="Assets\ClsureTest.cs" />
-     <Compile Include="Assets\Scripts\MapSystem\Building\BuildingGenerator.cs" />
+     <Compile Include="Assets\Scripts\MapSystem\Runtime\MapGenerator.cs" />
      <Folder Include="Assets" />
-     <Folder Include="Assets\Scripts\MapSystem\Building" />
+     <Folder Include="Assets\Scripts\MapSystem\Runtime\Building" />
      <Folder Include="Assets\Prefabs" />
      <Folder Include="Assets\Scripts\State" />
+     <Folder Include="Assets\Scripts\MapSystem\Test" />
      <Folder Include="Assets\Scripts\PerlinNoise" />
      <Folder Include="Assets\Textures" />
+     <None Include="Assets\Scripts\MapSystem\package.json" />
      <Folder Include="Assets\Settings" />
      <Folder Include="Assets\Scripts" />
      <Folder Include="Assets\Scripts\MapSystem" />
@@ -97,6 +96,7 @@
      <Folder Include="Assets\AeonicTexturePack" />
      <Folder Include="Assets\Scenes\Houses" />
      <Folder Include="Assets\Commercials-1" />
+     <Folder Include="Assets\Scripts\MapSystem\Runtime" />
      <None Include="Assets\README.txt" />
      <Folder Include="Assets\Scenes" />
      <Folder Include="Assets\Scripts\CityMaps" />

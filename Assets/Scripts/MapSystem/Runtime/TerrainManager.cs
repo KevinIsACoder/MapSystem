@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace MapSystem
+namespace MapSystem.Runtime
 {
     public class TerrainManager : Singleton<TerrainManager>
     {

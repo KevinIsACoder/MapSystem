@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using MapSystem.Runtime;
 using UnityEngine;
 
-namespace MapSystem
+namespace MapSystem.Test
 {
     public class RoadTest : MonoBehaviour
     {
@@ -15,7 +16,7 @@ namespace MapSystem
         {
             _roadGenerator = gameObject.GetComponent<RoadGenerator>();
         }
-
+        
         private void Start()
         {
             curePoints = _roadGenerator.CreateSplinePoints(Points);
@@ -28,7 +29,7 @@ namespace MapSystem
             for (int i = 0; i < curePoints.Count; i++)
             {
                 Debug.Log(curePoints[i]);
-                Gizmos.DrawSphere(curePoints[i], 1);   
+                Gizmos.DrawSphere(curePoints[i], 100);   
             }
         }
     }

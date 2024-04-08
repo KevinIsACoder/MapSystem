@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace MapSystem
+namespace MapSystem.Runtime
 {
     public class MeshData
     {
@@ -29,13 +29,23 @@ namespace MapSystem
 
         public MeshData(int width, int height, float mapWidth, float offsetX, float offsetZ)
         {
-            vertices = new Vector3[(width + 1) * (height + 1)];
+            /*vertices = new Vector3[(width + 1) * (height + 1)];
             uvs = new Vector2[vertices.Length];
             tangents = new Vector4[vertices.Length];
             colours = new Color[vertices.Length];
             triangles = new int[width * height * 6];
             meshWidth = width;
             meshHeight = height;
+            m_offsetX = offsetX;
+            m_offsetZ = offsetZ;
+            m_mapWidth = mapWidth;*/
+            vertices = new Vector3[4];
+            uvs = new Vector2[vertices.Length];
+            tangents = new Vector4[vertices.Length];
+            colours = new Color[vertices.Length];
+            triangles = new int[6];
+            meshWidth = 1;
+            meshHeight = 1;
             m_offsetX = offsetX;
             m_offsetZ = offsetZ;
             m_mapWidth = mapWidth;
@@ -60,12 +70,12 @@ namespace MapSystem
         {
             //生成顶点数据
             var vertIndex = 0;
-            for (var y = 0; y <= meshHeight; y++)
+            for (var y = 0; y <= 1; y++)
             {
-                for (var x = 0; x <= meshWidth; x++)
+                for (var x = 0; x <= 1; x++)
                 {
-                    var vertexHeight = 0; //GeneratePerlinValue(x, y) * MapConsts.terrainHeight;
-                    vertices[vertIndex] = new Vector3(x, vertexHeight, y);
+                    var vertexHeight = 0;  //GeneratePerlinValue(x, y) * MapConsts.terrainHeight;
+                    vertices[vertIndex] = new Vector3((x / meshWidth) * MapConsts.terrainSize, vertexHeight, (y / meshHeight) * MapConsts.terrainSize);
                     vertIndex++;
                 }
             }

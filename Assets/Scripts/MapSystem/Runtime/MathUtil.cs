@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace MapSystem
+namespace MapSystem.Runtime
 {
     public static class MathUtil
     {

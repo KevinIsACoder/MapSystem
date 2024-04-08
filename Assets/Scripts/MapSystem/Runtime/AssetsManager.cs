@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Threading.Tasks;
+using MapSystem;
 using UnityEditor;
-using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace MapSystem
+namespace MapSystem.Runtime
 {
     public class AssetsManager : Singleton<AssetsManager>
     {
-        public delegate void Test();
-        public event Test TestEvent;
-
-        private Test testdelegate;
         public async void LoadAsset<T>(string assetPath, Action<T> callback = null) where T : Object
         {
     #if UNITY_EDITOR
@@ -22,12 +17,6 @@ namespace MapSystem
         }
         
         public void UnLoadAssets(string assetPath)
-        {
-            TestEvent.Invoke();
-            testdelegate += TestData;
-        }
-
-        void TestData()
         {
             
         }
