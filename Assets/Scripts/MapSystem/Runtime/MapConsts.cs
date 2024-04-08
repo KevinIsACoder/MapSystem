@@ -1,5 +1,4 @@
-﻿using MapSystem;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace MapSystem.Runtime
 {
@@ -10,14 +9,14 @@ namespace MapSystem.Runtime
         [Range(0, 1000)] 
         public static int mapSize = 500;
         [Range(0, 100)] 
-        public static int scaleFatter = 0; //地形缩放，用于柏林噪声
+        public static int scaleFatter = 5; //地形缩放，用于柏林噪声
         [Range(0, 100)] 
         public static int offsetFatter = 5; //地形偏移
         
         [Range(0, 100)] 
         public static int terrainHeight = 5; //地形高度
         
-        public static int roadWidth = 20; //路宽度
+        public static int roadWidth = 5; //路宽度
 
         public static int normalStreetLength = 10; //普通路段宽度
 

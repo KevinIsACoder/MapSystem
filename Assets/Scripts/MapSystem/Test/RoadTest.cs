@@ -28,7 +28,6 @@ namespace MapSystem.Test
                 return;
             for (int i = 0; i < curePoints.Count; i++)
             {
-                Debug.Log(curePoints[i]);
                 Gizmos.DrawSphere(curePoints[i], 100);   
             }
         }

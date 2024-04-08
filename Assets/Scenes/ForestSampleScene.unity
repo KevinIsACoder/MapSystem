@@ -352,6 +352,9 @@ MonoBehaviour:
   terrainMaterial: {fileID: 2100000, guid: 706f8427de55fbf498e9aead3be02bea, type: 2}
   terrainChunkWidth: 500
   distinctNum: 4
+  industrial: {fileID: 2100000, guid: 1628f480e5e71cd4ba6da4ab8fed1b84, type: 2}
+  commercial: {fileID: 2100000, guid: 433ad250ecda7fc49a6bcf1cc1ce1a04, type: 2}
+  residential: {fileID: 2100000, guid: b0289371517799c45899650dd39cbeac, type: 2}
 --- !u!114 &847621379
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -366,7 +369,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curveResolution: 10
   roadMaterial: {fileID: 2100000, guid: 97eea5cdb1de9445fb7f71ee7ce5083c, type: 2}
-  Seed: 100
+  Seed: 150
 --- !u!4 &847621380
 Transform:
   m_ObjectHideFlags: 0
@@ -445,10 +448,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingList:
-  - {fileID: 8140151319195994720, guid: 62cc7aaa4debc40eea199bb52d65b507, type: 3}
-  - {fileID: 2218692870763311188, guid: e894370f3a79e4865890168e2d812e21, type: 3}
-  - {fileID: 908818198427657557, guid: 8804bd81cb7094c70bbd568516917851, type: 3}
-  - {fileID: 6156328786659050743, guid: dda0512a34f604128ba0f38ebb7f4dcd, type: 3}
+  - {fileID: 1237006508135735875, guid: 16f12d6d5cefe4e0085afb31201b3807, type: 3}
+  - {fileID: 4512713713097746603, guid: a1c0b70a463a747b79f1554f758287c3, type: 3}
 --- !u!1 &1471584237
 GameObject:
   m_ObjectHideFlags: 0

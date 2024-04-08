@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using Random = System.Random;
 
 namespace MapSystem.Runtime
 {
@@ -15,21 +17,10 @@ namespace MapSystem.Runtime
         private float m_offsetX, m_offsetZ;
 
         private float m_mapWidth; //地图大小
-        
-        public MeshData(int width, int height)
-        {
-            vertices = new Vector3[(width + 1) * (height + 1)];
-            uvs = new Vector2[vertices.Length];
-            tangents = new Vector4[vertices.Length];
-            colours = new Color[vertices.Length];
-            triangles = new int[width * height * 6]; //三角形个数
-            meshWidth = width;
-            meshHeight = height;
-        }
 
         public MeshData(int width, int height, float mapWidth, float offsetX, float offsetZ)
         {
-            /*vertices = new Vector3[(width + 1) * (height + 1)];
+            vertices = new Vector3[(width + 1) * (height + 1)];
             uvs = new Vector2[vertices.Length];
             tangents = new Vector4[vertices.Length];
             colours = new Color[vertices.Length];
@@ -38,25 +29,15 @@ namespace MapSystem.Runtime
             meshHeight = height;
             m_offsetX = offsetX;
             m_offsetZ = offsetZ;
-            m_mapWidth = mapWidth;*/
-            vertices = new Vector3[4];
-            uvs = new Vector2[vertices.Length];
-            tangents = new Vector4[vertices.Length];
-            colours = new Color[vertices.Length];
-            triangles = new int[6];
-            meshWidth = 1;
-            meshHeight = 1;
-            m_offsetX = offsetX;
-            m_offsetZ = offsetZ;
             m_mapWidth = mapWidth;
         }
         
         //创建三角形
         private void CreateTriangle()
         {
-            for (int ti = 0, vi = 0, y = 0; y < meshHeight; y++, vi++)
+            for (int ti = 0, vi = 0, y = 0; y < meshWidth; y++, vi++)
             {
-                for (var x = 0; x < meshWidth; x++, ti += 6, vi++)
+                for (var x = 0; x < meshHeight; x++, ti += 6, vi++)
                 {
                     triangles[ti] = vi;
                     triangles[ti + 3] = triangles[ti + 2] = vi + 1;
@@ -70,12 +51,12 @@ namespace MapSystem.Runtime
         {
             //生成顶点数据
             var vertIndex = 0;
-            for (var y = 0; y <= 1; y++)
+            for (var y = 0; y <= meshWidth; y++)
             {
-                for (var x = 0; x <= 1; x++)
+                for (var x = 0; x <= meshHeight; x++)
                 {
-                    var vertexHeight = 0;  //GeneratePerlinValue(x, y) * MapConsts.terrainHeight;
-                    vertices[vertIndex] = new Vector3((x / meshWidth) * MapConsts.terrainSize, vertexHeight, (y / meshHeight) * MapConsts.terrainSize);
+                    var vertexHeight = 0; //GeneratePerlinValue(y, x) * MapConsts.terrainHeight;
+                    vertices[vertIndex] = new Vector3((x * 1f / meshWidth) * MapConsts.terrainSize, vertexHeight, (y * 1f / meshHeight) * MapConsts.terrainSize);
                     vertIndex++;
                 }
             }

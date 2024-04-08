@@ -21,8 +21,11 @@ namespace MapSystem.Runtime
         private RoadGenerator m_roadGenerator;
         private BuildingGenerator m_buildingGenerator;
         public int distinctNum = 4; //区域数量
-        
 
+        public Material industrial;
+        public Material commercial;
+        public Material residential;
+            
         private void OnEnable()
         {
             gameObject.GetComponent<MeshRenderer>().material = terrainMaterial;
@@ -53,30 +56,45 @@ namespace MapSystem.Runtime
         {
             yield return null;
             //生成路网
-            MapUtils.GenerateVoronoiMap(distinctNum, terrainChunkWidth, terrainChunkWidth);
             m_roadGenerator.GenerateRoad();
         }
 
         private void GenerateTerrain()
         {
             m_terrainTrunckNum = Mathf.RoundToInt(terrainChunkWidth / terrainSize);
+            MapUtils.GenerateVoronoiMap(4, m_terrainTrunckNum, m_terrainTrunckNum);
             for (var x = 0; x < m_terrainTrunckNum; x++)
             {
                 for (var y = 0; y < m_terrainTrunckNum; y++)
                 {
                     var pos = new Vector3(x * terrainSize, 0, y * terrainSize);
-                    
                     if (TerrainChunk.TryGetValue(pos, out var trunk))
                     {
                         trunk.Destroy();
                     }
                     else
                     {
-                        var trunck = new TerrainChunk(pos, MapConsts.terrainSize, m_terrainTrunckNum * MapConsts.terrainSize, gameObject.transform, terrainMaterial);
+                        var districtType = MapUtils.voronoiMap[x, y];
+                        var trunck = new TerrainChunk(pos, MapConsts.terrainSize, m_terrainTrunckNum * MapConsts.terrainSize, gameObject.transform, GetDistrictMaterial(districtType));
                         TerrainChunk.Add(pos, trunck);
                     }
                 }
             }
+        }
+
+        public Material GetDistrictMaterial(int districtType)
+        {
+            switch (districtType)
+            {
+                case 0:
+                    return industrial; //工业
+                case 1:
+                    return commercial; //商业
+                case 2:
+                    return residential; //居民
+            }
+
+            return default;
         }
         
         public void Clear()

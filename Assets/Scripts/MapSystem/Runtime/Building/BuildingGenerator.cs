@@ -39,7 +39,7 @@ namespace MapSystem.Runtime.Building
                         }
                         
                         location = new Vector3(i, 0, posZ);
-                        var building = buildingList[Random.Range(0, 4)];
+                        var building = buildingList[Random.Range(0, buildingList.Length)];
                         var newbuilding = GameObject.Instantiate(building, location, Quaternion.identity);
                         
                     }
@@ -62,7 +62,7 @@ namespace MapSystem.Runtime.Building
                         }
                         
                         location = new Vector3(posX, 0, i);
-                        var building = buildingList[Random.Range(0, 4)];
+                        var building = buildingList[Random.Range(0, buildingList.Length)];
                         var newbuilding = GameObject.Instantiate(building, location, Quaternion.identity);
                         
                     }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using SimplexNoise;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -101,7 +100,7 @@ namespace MapSystem.Runtime
 
         public Action OnGenerateComplete;
 
-        private float segmentLength;
+        private float segmentLength = MapConsts.terrainSize * 2f;
         private void OnEnable()
         {
             m_roadParent = new GameObject("RoadParent");
@@ -161,8 +160,8 @@ namespace MapSystem.Runtime
             Random.InitState(Seed);
             m_generateSegment = new List<Segment>();
             m_segmentqueue = new PriorityQueue<Segment>();
-            var initSegment = new Segment(new Vector2(MapConsts.terrainSize * 0.5f, 0),
-                new Vector2(MapConsts.terrainSize * 0.5f, MapConsts.terrainSize * 2), true);
+            var initSegment = new Segment(new Vector2(0, MapConsts.terrainSize * 0.5f),
+                new Vector2(MapConsts.terrainSize * 2f, MapConsts.terrainSize * 0.5f), true);
             m_segmentqueue.Equeue(initSegment);
             m_quadTreeSegment = new QuadTree<Segment>(MapConsts.QUADTREE_PARAMS, MapConsts.QUADTREE_MAX_OBJECTS,
                 MapConsts.QUADTREE_MAX_LEVELS, 0);
@@ -185,66 +184,68 @@ namespace MapSystem.Runtime
                 roadNum++;
                 yield return null;
             }*/
-
             var points = new List<Vector3>();
-            for (int i = 0; i < m_generateSegment.Count; i++)
-            {
-                points.AddRange(GenerateRoadStep(i));
-            }
-            
+            GenerateRoadStep(points);
             CreateRoad(points, true);
 
             OnGenerateComplete?.Invoke();
         }
 
-        List<Vector3> GenerateRoadStep(int roadIndex)
+        void GenerateRoadStep(List<Vector3> points)
         {
-            var seg = m_generateSegment[roadIndex];
-            var startPoint = new Vector3(seg.startPoint.x, 0, seg.startPoint.y);
-            var endPoint = new Vector3(seg.endPoint.x, 0, seg.endPoint.y);
-            if (roadIndex > 0)
+            for (int i = 0; i < m_generateSegment.Count; i++)
             {
-                foreach (var forwardSeg in seg.forwardSegment)
+                var seg = m_generateSegment[i];
+                var startPoint = new Vector3(seg.startPoint.x, 0, seg.startPoint.y);
+                var endPoint = new Vector3(seg.endPoint.x, 0, seg.endPoint.y);
+                List<Vector3> cornerPoints = null;
+                if (i > 0)
                 {
-                    var v1 = (seg.endPoint - seg.startPoint).normalized;
-                    var v2 = (forwardSeg.endPoint - forwardSeg.startPoint).normalized;
-                    if (Vector2.Dot(v1, v2) == 0)
+                    foreach (var forwardSeg in seg.forwardSegment)
                     {
-                        var forwardStart = new Vector3(forwardSeg.startPoint.x, 0, forwardSeg.startPoint.y);
-                        if (seg.IsHorizontal())
+                        var v1 = (seg.endPoint - seg.startPoint).normalized;
+                        var v2 = (forwardSeg.endPoint - forwardSeg.startPoint).normalized;
+                        if (Vector2.Dot(v1, v2) == 0)
                         {
-                            endPoint.x += endPoint.x > startPoint.x ? -20 : 20;
-                            forwardStart.z += forwardSeg.endPoint.y > forwardSeg.startPoint.y ? 20 : -20;
+                            var forwardStart = forwardSeg.startPoint;
+                            if (seg.IsHorizontal())
+                            {
+                                endPoint.x += endPoint.x > startPoint.x ? -20 : 20;
+                                forwardStart.y += forwardSeg.endPoint.y > forwardStart.y ? 20 : -20;
+                            }
+                            else
+                            {
+                                forwardStart.x += forwardSeg.endPoint.x > forwardStart.x ? 20 : -20;
+                                endPoint.z += endPoint.z > startPoint.z ? -20 : 20;
+                            }
+                            
+                            cornerPoints = CreateSplinePoints(new List<Vector3>()
+                                { endPoint, new Vector3(forwardStart.x, 0, forwardStart.y) });
+                            break;
                         }
-                        else
+                    }
+                    
+                    foreach (var backwardSeg in seg.backwardSegment)
+                    {
+                        var v1 = (seg.endPoint - seg.startPoint).normalized;
+                        var v2 = (backwardSeg.endPoint - backwardSeg.startPoint).normalized;
+                        if (Vector2.Dot(v1, v2) == 0)
                         {
-                            endPoint.z += endPoint.z > startPoint.z ? -20 : 20;
-                            forwardStart.x += forwardSeg.endPoint.x > forwardSeg.startPoint.x ? 20 : -20;
+                            if (seg.IsHorizontal())
+                            {
+                                startPoint.x += endPoint.x > startPoint.x ? 20 : -20;
+                            }
+                            else
+                            {
+                                startPoint.z += endPoint.z > startPoint.z ? 20 : -20;
+                            }
+                            break;   
                         }
-                        break;
                     }
                 }
-
-                foreach (var backwardSeg in seg.backwardSegment)
-                {
-                    var v1 = (seg.endPoint - seg.startPoint).normalized;
-                    var v2 = (backwardSeg.endPoint - backwardSeg.startPoint).normalized;
-                    if (Vector2.Dot(v1, v2) == 0)
-                    {
-                        if (seg.IsHorizontal())
-                        {
-                            startPoint.x += endPoint.x > startPoint.x ? 20 : -20;
-                        }
-                        else
-                        {
-                            startPoint.z += endPoint.z > startPoint.z ? 20 : -20;
-                        }
-                        break;   
-                    }
-                }
+                points.Add(startPoint);
+                points.Add(endPoint);   
             }
-            
-            return new List<Vector3>() { startPoint, endPoint };
         }
 
         public List<Segment> GetGenerateSegments()
@@ -323,7 +324,6 @@ namespace MapSystem.Runtime
 
         Segment CreateNewSegment(Segment preSegment)
         {
-            segmentLength = MapConsts.terrainSize * 2;
             if (Math.Abs(preSegment.startPoint.x - preSegment.endPoint.x) < 0.0001f) //竖线
             {
                 var growType = new int[]{0, 1, 2}; // left, right, up/down
