@@ -1,14 +1,42 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace MapSystem.Runtime
 {
-    public class PriorityQueue<T> where T : class
+    public class PriorityQueue<TItem, TPriority>
     {
-        private Queue<T> m_elements;
-
-        public PriorityQueue()
+        private int m_count = 0;
+        private TItem[] m_nodes;
+        private Comparison<TPriority> m_compare;
+        
+        public PriorityQueue(int maxNodes, Comparison<TPriority> compare)
         {
-            m_elements = new Queue<T>();
+            m_count = 0;
+            m_nodes = new TItem[maxNodes + 1];
+            m_compare = compare;
+        }
+
+        public int Count
+        {
+            get => m_count;
+        }
+
+        public void Clear()
+        {
+            Array.Clear(m_nodes, 1, m_count);
+        }
+
+        public void Equeue(TItem item, TPriority priority)
+        {
+            if(item == null)
+                return;
+            m_count++;
+            if (m_count > m_nodes.Length - 1) //扩容
+            {
+                Array.Resize(ref m_nodes, m_nodes.Length * 2);
+            }
+            
+            
         }
 
         public void Equeue(T element)
