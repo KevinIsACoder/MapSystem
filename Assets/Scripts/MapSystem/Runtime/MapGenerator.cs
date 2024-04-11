@@ -26,6 +26,8 @@ namespace MapSystem.Runtime
         public Material commercial;
         public Material residential;
         public Material park;
+        public Material sand;
+        
         private void OnEnable()
         {
             gameObject.GetComponent<MeshRenderer>().material = terrainMaterial;
@@ -49,7 +51,7 @@ namespace MapSystem.Runtime
         
         private void OnRoadGenerateComplete()
         {
-            m_buildingGenerator.BuildingHouse(m_roadGenerator.GetGenerateSegments());
+            m_buildingGenerator.BuildHouse(m_roadGenerator.GetGenerateSegments());
         }
 
         private IEnumerator GenerateRoad()
@@ -62,7 +64,7 @@ namespace MapSystem.Runtime
         private void GenerateTerrain()
         {
             m_terrainTrunckNum = Mathf.RoundToInt(terrainChunkWidth / terrainSize);
-            MapUtils.GenerateVoronoiMap(4, m_terrainTrunckNum, m_terrainTrunckNum);
+            MapUtils.GenerateVoronoiMap(5, MapConsts.mapSize, MapConsts.mapSize);
             for (var x = 0; x < m_terrainTrunckNum; x++)
             {
                 for (var y = 0; y < m_terrainTrunckNum; y++)
@@ -74,8 +76,7 @@ namespace MapSystem.Runtime
                     }
                     else
                     {
-                        var districtType = MapUtils.voronoiMap[x, y];
-                        var trunck = new TerrainChunk(pos, MapConsts.terrainSize, m_terrainTrunckNum * MapConsts.terrainSize, gameObject.transform, GetDistrictMaterial(districtType));
+                        var trunck = new TerrainChunk(pos, MapConsts.terrainSize, m_terrainTrunckNum * MapConsts.terrainSize, gameObject.transform, terrainMaterial);
                         TerrainChunk.Add(pos, trunck);
                     }
                 }
@@ -94,6 +95,8 @@ namespace MapSystem.Runtime
                     return residential; //居民
                 case 3:
                     return park;
+                case 4:
+                    return sand;
             }
 
             return default;

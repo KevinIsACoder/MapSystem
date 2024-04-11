@@ -15,10 +15,14 @@ namespace MapSystem.Runtime
         
         [Range(0, 100)] 
         public static int terrainHeight = 5; //地形高度
-        
-        public static int roadWidth = 5; //路宽度
 
-        public static int normalStreetLength = 10; //普通路段宽度
+        public static int maxSegmentNum = 100; 
+        
+        public static int roadWidth = 10; //路宽度
+
+        public static int normalRoadWidth = 7; //支路宽度
+
+        public static int normalStreetLength = 30; //普通路段宽度
 
         public static int HighWayStreeetLength = terrainSize; //高速长度
 

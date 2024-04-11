@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = System.Random;
 
 namespace MapSystem.Runtime
 {
@@ -28,11 +29,8 @@ namespace MapSystem.Runtime
 
         public Func<List<Segment>> setupBranchLinks;
 
-        public MetaInfo segmentMetaInfo;
-
         public float m_time;
-
-        private float m_width;
+        private float m_width; //路宽度
 
         public Segment(Vector2 start_Point, Vector2 end_Point, bool isHignWay = false)
         {
@@ -95,20 +93,35 @@ namespace MapSystem.Runtime
    * @param segmentList the full list of all segments (new segment will be added here)
    * @param qTree quadtree for faster finding of segments (new segment will be added here)
    */
-        public void Split(Vector2 point, Segment thirdSegment, List<Segment> segmentList, QuadTree<Segment> quadTree)
+        public Segment Split(List<Segment> segmentList, QuadTree<Segment> quadTree)
         {
-            var splitSegment = Clone();
-            var startIsBackwards = StartIsBackwards();
+            var splitPoint = (startPoint + endPoint) * 0.5f;
+            var splitEndPoint = splitPoint;
+            if (IsHorizontal())
+            {
+                splitEndPoint.y += UnityEngine.Random.Range(0f, 2f) > 0
+                    ? MapConsts.normalStreetLength
+                    : -MapConsts.normalStreetLength;
+            }
+            else
+            {
+                splitEndPoint.x += UnityEngine.Random.Range(0f, 2f) > 0
+                    ? MapConsts.normalStreetLength
+                    : -MapConsts.normalStreetLength;
+            }
+            
+            var splitSegment = GenerateSegment(splitPoint, splitEndPoint);
             segmentList.Add(splitSegment);
             quadTree.Insert(splitSegment.Limits, splitSegment);
-            splitSegment.endPoint = point;
-            startPoint = point;
+            return splitSegment;
+            // splitSegment.endPoint = point;
+            //startPoint = point;
             // links are not copied in the constructor, so
             // copy link array for the split part, keeping references the same
-            splitSegment.backwardSegment = backwardSegment;
-            splitSegment.forwardSegment = forwardSegment;
+            //splitSegment.backwardSegment = backwardSegment;
+            //splitSegment.forwardSegment = forwardSegment;
 
-            Segment firstSplit;
+            /*Segment firstSplit;
             Segment[] fixLinks;
             Segment secondSplit;
 
@@ -143,25 +156,8 @@ namespace MapSystem.Runtime
                         fixLinks[index] = splitSegment;
                     }
                 }
-            }
-
-            // new crossing is between firstSplit, secondSplit, and thirdSegment
-            firstSplit.forwardSegment.Clear();
-            firstSplit.forwardSegment.Add(thirdSegment);
-            firstSplit.forwardSegment.Add(secondSplit);
-
-            secondSplit.backwardSegment.Clear();
-            secondSplit.backwardSegment.Add(thirdSegment);
-            secondSplit.backwardSegment.Add(firstSplit);
-            thirdSegment.forwardSegment.Add(firstSplit);
-            thirdSegment.forwardSegment.Add(secondSplit);
+            }*/
         }
-
-        // public static Segment GenerateSegment(Vector2 startPoint, Vector2 direction, float length, float time, MetaInfo metaInfo = null)
-        // {
-        //     var endPoint = startPoint + direction * length;
-        //     return new Segment(startPoint, endPoint, time);
-        // }
 
         public static Segment GenerateSegment(Vector2 startPoint, Vector2 endPoint,
             MetaInfo metaInfo = null)
@@ -174,27 +170,28 @@ namespace MapSystem.Runtime
             return (endPoint - startPoint).normalized;
         }
 
-        public InterSetctInfo InterSectWith(Segment segment)
+        public Bounds GetBounds()
         {
-            var vec1 = MathUtil.SubtractPoints(endPoint, startPoint);
-            var vec2 = MathUtil.SubtractPoints(segment.endPoint, segment.startPoint);
-
-            var f = MathUtil.CrossProduct(MathUtil.SubtractPoints(segment.startPoint, startPoint), vec1);
-            var k = MathUtil.CrossProduct(vec1, vec2);
-            if ((f == 0 && k == 0) || k == 0)
-                return null;
-            f /= k;
-            var e = MathUtil.CrossProduct(MathUtil.SubtractPoints(segment.startPoint, startPoint), vec2) / k;
-            var intersetct = 0.001 < e && 0.999 > e && 0.001 < f && 0.999 > f;
-            return intersetct
-                ? new InterSetctInfo()
-                {
-                    x = startPoint.x + e * endPoint.x,
-                    y = startPoint.y + e * endPoint.y
-                }
-                : null;
+            var center = Vector3.zero;
+            var size = Vector3.zero;
+            if (IsHorizontal())
+            {
+                center.x = (startPoint.x + endPoint.x) * 0.5f;
+                center.z = startPoint.y;
+                center.y = 1f;
+                size = new Vector3(Math.Abs(startPoint.x - endPoint.x), 5, MapConsts.roadWidth);
+            }
+            else
+            {
+                center.x = startPoint.x;
+                center.y = 1f;
+                center.z = (startPoint.y + endPoint.y) * 0.5f;
+                size = new Vector3(MapConsts.roadWidth, 5, Math.Abs(startPoint.y - endPoint.y));
+            }
+            var bounds = new Bounds(center, size);
+            return bounds;
         }
-
+        
         /// <summary>
         /// 判断endPoint是不是在线段上
         /// <returns>是否相交 true:相交 false:未相交</returns>
@@ -244,7 +241,6 @@ namespace MapSystem.Runtime
         public Segment Clone()
         {
             var segment = new Segment(startPoint, endPoint, isHignWay);
-            
             return new Segment(startPoint, endPoint, isHignWay);
         }
 

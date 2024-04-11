@@ -93,7 +93,7 @@ namespace MapSystem.Runtime
         private List<Vector3> m_splinePoints;
 
         public int Seed = 200;
-        
+
         private PriorityQueue<Segment> m_segmentqueue;
         private List<Segment> m_generateSegment;
         private QuadTree<Segment> m_quadTreeSegment;
@@ -101,6 +101,8 @@ namespace MapSystem.Runtime
         public Action OnGenerateComplete;
 
         private float segmentLength = MapConsts.terrainSize * 2f;
+        private int m_segmentNum = 0; //线段数目
+        
         private void OnEnable()
         {
             m_roadParent = new GameObject("RoadParent");
@@ -170,10 +172,10 @@ namespace MapSystem.Runtime
             {
                 GenerateRoadData();
             }
-            
+
             StartCoroutine(StartGenerateRoad());
         }
-        
+
         IEnumerator StartGenerateRoad()
         {
             yield return null;
@@ -186,65 +188,82 @@ namespace MapSystem.Runtime
             }*/
             var points = new List<Vector3>();
             GenerateRoadStep(points);
-            CreateRoad(points, true);
-
+            
             OnGenerateComplete?.Invoke();
         }
 
         void GenerateRoadStep(List<Vector3> points)
         {
+            var ext = 20;
+            var extCorner = 2;
             for (int i = 0; i < m_generateSegment.Count; i++)
             {
+                var segmentPoints = new List<Vector3>();
                 var seg = m_generateSegment[i];
                 var startPoint = new Vector3(seg.startPoint.x, 0, seg.startPoint.y);
                 var endPoint = new Vector3(seg.endPoint.x, 0, seg.endPoint.y);
                 List<Vector3> cornerPoints = null;
-                if (i > 0)
+                
+                foreach (var forwardSeg in seg.forwardSegment)
                 {
-                    foreach (var forwardSeg in seg.forwardSegment)
+                    var v1 = (seg.endPoint - seg.startPoint).normalized;
+                    var v2 = (forwardSeg.endPoint - forwardSeg.startPoint).normalized;
+                    var corner = new Vector3(seg.endPoint.x, 0, seg.endPoint.y);
+                    if (Vector2.Dot(v1, v2) == 0)
                     {
-                        var v1 = (seg.endPoint - seg.startPoint).normalized;
-                        var v2 = (forwardSeg.endPoint - forwardSeg.startPoint).normalized;
-                        if (Vector2.Dot(v1, v2) == 0)
+                        var forwardStart = forwardSeg.startPoint;
+                        if (seg.IsHorizontal())
                         {
-                            var forwardStart = forwardSeg.startPoint;
-                            if (seg.IsHorizontal())
-                            {
-                                endPoint.x += endPoint.x > startPoint.x ? -20 : 20;
-                                forwardStart.y += forwardSeg.endPoint.y > forwardStart.y ? 20 : -20;
-                            }
-                            else
-                            {
-                                forwardStart.x += forwardSeg.endPoint.x > forwardStart.x ? 20 : -20;
-                                endPoint.z += endPoint.z > startPoint.z ? -20 : 20;
-                            }
-                            
-                            cornerPoints = CreateSplinePoints(new List<Vector3>()
-                                { endPoint, new Vector3(forwardStart.x, 0, forwardStart.y) });
-                            break;
+                            forwardStart.y += forwardSeg.endPoint.y > forwardSeg.startPoint.y ? ext : -ext;
+                            var isTowardsRight = endPoint.x > startPoint.x;
+                            endPoint.x += isTowardsRight ? -ext : ext;
+                            corner.x += isTowardsRight ? -extCorner : extCorner;
+                            corner.z += forwardSeg.endPoint.y > forwardSeg.startPoint.y ? extCorner : -extCorner;
                         }
-                    }
-                    
-                    foreach (var backwardSeg in seg.backwardSegment)
-                    {
-                        var v1 = (seg.endPoint - seg.startPoint).normalized;
-                        var v2 = (backwardSeg.endPoint - backwardSeg.startPoint).normalized;
-                        if (Vector2.Dot(v1, v2) == 0)
+                        else
                         {
-                            if (seg.IsHorizontal())
-                            {
-                                startPoint.x += endPoint.x > startPoint.x ? 20 : -20;
-                            }
-                            else
-                            {
-                                startPoint.z += endPoint.z > startPoint.z ? 20 : -20;
-                            }
-                            break;   
+                            forwardStart.x += forwardSeg.endPoint.x > forwardStart.x ? ext : -ext;
+                            var isTowardsUp = endPoint.z > startPoint.z;
+                            endPoint.z += isTowardsUp ? -ext : ext;
+                            corner.z += isTowardsUp ? -extCorner : extCorner;
+                            corner.x += forwardSeg.endPoint.x > forwardSeg.startPoint.x ? extCorner : -extCorner;
                         }
+                        
+                        cornerPoints = CreateSplinePoints(new List<Vector3>()
+                            { endPoint, corner, new Vector3(forwardStart.x, 0, forwardStart.y) });
+                        break;
                     }
                 }
-                points.Add(startPoint);
-                points.Add(endPoint);   
+
+                foreach (var backwardSeg in seg.backwardSegment)
+                {
+                    var v1 = (seg.endPoint - seg.startPoint).normalized;
+                    var v2 = (backwardSeg.endPoint - backwardSeg.startPoint).normalized;
+                    if (Vector2.Dot(v1, v2) == 0)
+                    {
+                        if (seg.IsHorizontal())
+                        {
+                            startPoint.x += endPoint.x > startPoint.x ? ext : -ext;
+                        }
+                        else
+                        {
+                            startPoint.z += endPoint.z > startPoint.z ? ext : -ext;
+                        }
+
+                        break;
+                    }
+                }
+
+                segmentPoints.Add(startPoint);
+                segmentPoints.Add(endPoint);
+                if (cornerPoints != null)
+                {
+                    for (int j = 0; j < cornerPoints.Count; j++)
+                    {
+                        segmentPoints.Add(cornerPoints[j]);
+                    }
+                }
+                CreateRoad(segmentPoints, seg.isHignWay, seg.GetBounds());
             }
         }
 
@@ -257,13 +276,7 @@ namespace MapSystem.Runtime
         {
             return segmentLength;
         }
-
-        IEnumerator StartBuildHouse()
-        {
-            yield return null;
-            
-        }
-
+        
         void GenerateRoadData()
         {
             var segment = m_segmentqueue.Dequeue();
@@ -272,14 +285,24 @@ namespace MapSystem.Runtime
                 Debug.Log("No Segment Remain!!!");
                 return;
             }
-            
+
             var accept = LocalConstraints(segment);
             if (accept)
             {
-                if (segment != null)
+                m_segmentNum++;
+                if (segment != null && m_segmentNum < MapConsts.maxSegmentNum)
                 {
                     m_generateSegment.Add(segment);
                     m_quadTreeSegment.Insert(segment.Limits, segment);
+
+                    var destiny = PopulationAtSegment(segment);
+                    if (Math.Abs(destiny) > 0.52f)
+                    {
+                        var seg = segment.Split(m_generateSegment, m_quadTreeSegment);
+                        seg.isHignWay = false;
+                        m_segmentqueue.Equeue(seg);
+                    }
+
                     foreach (var minSegment in GlobalGoalsGenerate(segment))
                     {
                         minSegment.m_time = minSegment.m_time + segment.m_time + 1;
@@ -295,8 +318,7 @@ namespace MapSystem.Runtime
             var segment = CreateNewSegment(preSegment);
             if (segment != null)
             {
-                if (preSegment.isHignWay)
-                    segment.isHignWay = true;
+                segment.isHignWay = preSegment.isHignWay;
                 segment.m_time = preSegment.m_time + 1;
                 newBranches.Add(segment);
             }
@@ -314,11 +336,11 @@ namespace MapSystem.Runtime
                         containing.Add(branch);
                     }
                 }
-                
+
                 preSegment.forwardSegment.Add(branch);
                 branch.backwardSegment.Add(preSegment);
             }
-            
+
             return newBranches;
         }
 
@@ -326,42 +348,42 @@ namespace MapSystem.Runtime
         {
             if (Math.Abs(preSegment.startPoint.x - preSegment.endPoint.x) < 0.0001f) //竖线
             {
-                var growType = new int[]{0, 1, 2}; // left, right, up/down
-                Array.Sort(growType, (a,b) =>
-                {
-                    var num = Random.Range(0f, 1f);
-                    if (num > 0.3f) return 1;
-                    if (num > 0.3f && num  < 0.6f) return -1;
-                    return 0;
-                });
-                    
-                for (int i = 0; i < growType.Length; i++)
-                {
-                    var segment = GrowVerticalSegment(preSegment, growType[i]);
-                    if (IsSegmentValid(segment))
-                        return segment;
-                }
-                    
-                return null;
-            }
-            else //横线
-            {
-                var growType = new int[]{0, 1, 2}; // up, down, left/right
-                Array.Sort(growType, (a,b) =>
+                var growType = new int[] { 0, 1, 2 }; // left, right, up/down
+                Array.Sort(growType, (a, b) =>
                 {
                     var num = Random.Range(0f, 1f);
                     if (num > 0.3f) return 1;
                     if (num > 0.3f && num < 0.6f) return -1;
                     return 0;
                 });
-                    
+
+                for (int i = 0; i < growType.Length; i++)
+                {
+                    var segment = GrowVerticalSegment(preSegment, growType[i]);
+                    if (IsSegmentValid(segment))
+                        return segment;
+                }
+
+                return null;
+            }
+            else //横线
+            {
+                var growType = new int[] { 0, 1, 2 }; // up, down, left/right
+                Array.Sort(growType, (a, b) =>
+                {
+                    var num = Random.Range(0f, 1f);
+                    if (num > 0.3f) return 1;
+                    if (num > 0.3f && num < 0.6f) return -1;
+                    return 0;
+                });
+
                 for (int i = 0; i < growType.Length; i++)
                 {
                     var segment = GrowHoritalSegment(preSegment, growType[i]);
                     if (IsSegmentValid(segment))
                         return segment;
                 }
-                    
+
                 return null;
             }
         }
@@ -382,6 +404,7 @@ namespace MapSystem.Runtime
             {
                 endPoint.y += presegment.startPoint.y < presegment.endPoint.y ? segmentLength : -segmentLength;
             }
+
             return Segment.GenerateSegment(startPoint, endPoint);
         }
 
@@ -401,6 +424,7 @@ namespace MapSystem.Runtime
             {
                 endPoint.x += presegment.endPoint.x > presegment.startPoint.x ? segmentLength : -segmentLength;
             }
+
             return Segment.GenerateSegment(startPoint, endPoint);
         }
 
@@ -409,32 +433,32 @@ namespace MapSystem.Runtime
             bool isSucceed = !IsOutMap(segment);
             if (!isSucceed)
                 return false;
-            foreach (var other in m_quadTreeSegment.Retrieve(segment.Limits))
+            foreach (var other in m_generateSegment)
             {
-                if(other == null) continue;
+                if (other == null) continue;
                 if (segment.TryGetIntersectPoint(other, out Vector3 intersectPoint))
                 {
                     isSucceed = false;
                     break;
                 }
             }
-            
+
             return isSucceed;
         }
 
         bool IsOutMap(Segment segment)
         {
-            return segment.endPoint.x > MapConsts.mapSize - 1 
+            return segment.endPoint.x > MapConsts.mapSize - 1
                    || segment.endPoint.x <= 0
-                   || segment.endPoint.y > MapConsts.mapSize - 1 
+                   || segment.endPoint.y > MapConsts.mapSize - 1
                    || segment.endPoint.y <= 0;
         }
 
         float PopulationAtSegment(Segment segment)
         {
-            var start = Noise.Generate(segment.startPoint.x, segment.startPoint.y) * 128 + 128;
-            var end = Noise.Generate(segment.endPoint.x, segment.endPoint.y) * 128 + 128;
-            return (start + end) * 0.5f;
+            var start = Noise.Generate(segment.startPoint.x, segment.startPoint.y);
+            var end = Noise.Generate(segment.endPoint.x, segment.endPoint.y);
+            return (start + end) * 0.6f;
         }
 
         bool LocalConstraints(Segment segment)
@@ -459,17 +483,17 @@ namespace MapSystem.Runtime
             return segment.ToArray();
         }
 
-        private void CreateRoad(List<Vector3> roadPoints, bool isHighWay)
+        private void CreateRoad(List<Vector3> roadPoints, bool isHighWay, Bounds bounds)
         {
             var road = new GameObject("road");
             road.transform.SetParent(m_roadParent.transform, false);
-            var roadData = new RoadData(roadPoints.ToArray(), MapConsts.roadWidth, isHighWay);
+            var roadData = new RoadData(roadPoints.ToArray(),  isHighWay ? MapConsts.roadWidth : MapConsts.normalRoadWidth, isHighWay);
             var mesh = roadData.CreateRoadMesh();
             road.AddComponent<MeshCollider>();
             road.AddComponent<MeshFilter>().mesh = mesh;
             road.AddComponent<MeshRenderer>().sharedMaterial = roadMaterial;
 
-            int textureRepeat = Mathf.RoundToInt(roadPoints.Count * .05f);
+            int textureRepeat = Mathf.RoundToInt(roadPoints.Count * 0.05f);
             road.GetComponent<MeshRenderer>().sharedMaterial.mainTextureScale = new Vector2(1, textureRepeat);
         }
 

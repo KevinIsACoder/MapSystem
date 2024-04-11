@@ -1,13 +1,28 @@
-﻿using System;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace MapSystem.Runtime.Building
 {
-    public enum ZoneType { R, C, I };
-    
-    public enum PieceType { ROAD, HOUSE, SHACK, LAWN, COMMERCIAL, INDUSTRY, NONE };
+    public enum ZoneType
+    {
+        R,
+        C,
+        I
+    };
+
+    public enum PieceType
+    {
+        ROAD,
+        HOUSE,
+        SHACK,
+        LAWN,
+        COMMERCIAL,
+        INDUSTRY,
+        NONE
+    };
+
     public class BuildingGenerator : MonoBehaviour
     {
         public GameObject[] Residential;
@@ -15,24 +30,37 @@ namespace MapSystem.Runtime.Building
         public GameObject[] Industry;
         private Dictionary<Vector3Int, PieceType> m_BuildMap = new Dictionary<Vector3Int, PieceType>();
 
-        private float extentWidth = 10f;
-        
+        public GameObject testGameobj;
+        private float extentWidth = 10;
+
         List<List<int>> zones = new List<List<int>>();
-        public void BuildingHouse(List<Segment> roads)
+        public Dictionary<Vector3Int, PieceType> cityMap = new Dictionary<Vector3Int, PieceType>();
+
+        private List<Segment> m_segments = new List<Segment>();
+        public void BuildHouse(List<Segment> roads)
         {
+            m_segments = roads;
+            StartCoroutine(CoroutineBuildHouse(roads));
+        }
+        
+        IEnumerator CoroutineBuildHouse(List<Segment> roads)
+        {
+            yield return null;
             zones.Add(new List<int> { 0, 1 }); //residential
             zones.Add(new List<int> { 2, 3 }); //commercials
             zones.Add(new List<int> { 4, 5 }); //industry
             
-            var location = Vector3.zero;
             foreach (var segment in roads)
             {
-                var pt = PieceType.NONE;
                 if (segment.IsHorizontal())
                 {
-                    var startX = segment.startPoint.x < segment.endPoint.x ? Mathf.CeilToInt(segment.startPoint.x) : Mathf.CeilToInt(segment.endPoint.x);
-                    var endX = segment.endPoint.x > segment.startPoint.x ? Mathf.FloorToInt(segment.endPoint.x) : Mathf.FloorToInt(segment.startPoint.x);
-                    for (var i = startX; i < endX; i = i + 10)
+                    var startX = segment.startPoint.x < segment.endPoint.x
+                        ? Mathf.CeilToInt(segment.startPoint.x)
+                        : Mathf.CeilToInt(segment.endPoint.x);
+                    var endX = segment.endPoint.x > segment.startPoint.x
+                        ? Mathf.FloorToInt(segment.endPoint.x)
+                        : Mathf.FloorToInt(segment.startPoint.x);
+                    for (var i = startX; i < endX; i = i + 5)
                     {
                         float posZ = segment.startPoint.y;
                         var randNum = Random.Range(0f, 10f);
@@ -44,14 +72,18 @@ namespace MapSystem.Runtime.Building
                         {
                             posZ -= MapConsts.roadWidth * 0.5f + extentWidth;
                         }
-                        
-                        location = new Vector3(i, 0, posZ);
+
+                        GenerateBuilding(new Vector3(i, 0, posZ));
                     }
                 }
                 else
                 {
-                    var startY = segment.startPoint.y < segment.endPoint.y ? Mathf.CeilToInt(segment.startPoint.y) : Mathf.CeilToInt(segment.endPoint.y);
-                    var endY = segment.endPoint.y > segment.startPoint.y ? Mathf.FloorToInt(segment.endPoint.y) : Mathf.FloorToInt(segment.startPoint.y);
+                    var startY = segment.startPoint.y < segment.endPoint.y
+                        ? Mathf.CeilToInt(segment.startPoint.y)
+                        : Mathf.CeilToInt(segment.endPoint.y);
+                    var endY = segment.endPoint.y > segment.startPoint.y
+                        ? Mathf.FloorToInt(segment.endPoint.y)
+                        : Mathf.FloorToInt(segment.startPoint.y);
                     for (var i = startY; i < endY; i = i + 10)
                     {
                         float posX = segment.startPoint.x;
@@ -64,36 +96,102 @@ namespace MapSystem.Runtime.Building
                         {
                             posX -= MapConsts.roadWidth * 0.5f + extentWidth;
                         }
-                        location = new Vector3(posX, 0, i);
+
+                        GenerateBuilding(new Vector3(posX, 0, i));
                     }
-                }
-
-                var x = Mathf.RoundToInt(location.x);
-                var z = Mathf.RoundToInt(location.z);
-                
-                if (IsVoronoiType(x, z, ZoneType.R))
-                {
-                    var index = Random.Range(0, Residential.Length);
-                    var go = Instantiate(Residential[index], location, Quaternion.identity);
-                    pt = PieceType.HOUSE;
-                }
-
-                if (IsVoronoiType(x, z, ZoneType.C))
-                {
-                    var index = Random.Range(0, Commercials.Length);
-                    var go = Instantiate(Commercials[index], location, Quaternion.identity);
-                    pt = PieceType.COMMERCIAL;
-                }
-
-                if (IsVoronoiType(x, z, ZoneType.I))
-                {
-                    var index = Random.Range(0, Industry.Length);
-                    var go = Instantiate(Industry[index], location, Quaternion.identity);
-                    pt = PieceType.INDUSTRY;
                 }
             }
         }
         
+        void GenerateBuilding(Vector3 location)
+        {
+            var x = (int)location.x;
+            var z = (int)location.z;
+            if (x <= 0 || x >= MapConsts.mapSize || z <= 0 || z >= MapConsts.mapSize)
+                return;
+            var pt = PieceType.NONE;
+            GameObject go = null;
+            if (IsVoronoiType(x, z, ZoneType.R))
+            {
+                var index = Random.Range(0, Residential.Length);
+                go = Instantiate(Residential[index], location, Quaternion.identity);
+                go.transform.localScale = new Vector3(8, 8, 8);
+                pt = PieceType.HOUSE;
+            }
+
+            if (IsVoronoiType(x, z, ZoneType.C))
+            {
+                var index = Random.Range(0, Commercials.Length);
+                go = Instantiate(Commercials[index], location, Quaternion.identity);
+                go.transform.localScale = new Vector3(8, 8, 8);
+                pt = PieceType.COMMERCIAL;
+            }
+
+            if (IsVoronoiType(x, z, ZoneType.I))
+            {
+                var index = Random.Range(0, Industry.Length);
+                go = Instantiate(Industry[index], location, Quaternion.identity);
+                go.transform.localScale = new Vector3(8, 8, 8);
+                pt = PieceType.INDUSTRY;
+            }
+
+            if (go != null)
+            {
+                go.transform.position = new Vector3(0, 1, 0);
+                BoxCollider box = go.GetComponent<BoxCollider>();
+                bool found = false;
+
+                for (int j = (int)(-box.size.z / 2.0f); j < box.size.z / 2.0f; j++)
+                {
+                    for (int i = (int)(-box.size.x / 2.0f); i < box.size.x / 2.0f; i++)
+                    {
+                        Vector3Int mapKey = Vector3Int.RoundToInt(go.transform.position + new Vector3Int(i, 0, j));
+                        if (cityMap.ContainsKey(mapKey))
+                        {
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if (found) break;
+                }
+
+                if (found)
+                {
+                    DestroyImmediate(go);
+                    go = null;
+                }
+
+                //判断建筑和路是否相交
+                if (go != null)
+                {
+                    foreach (var segment in m_segments)
+                    {
+                        var segBound = segment.GetBounds();
+                        var buildBounds = new Bounds(go.transform.position, box.bounds.size * 8);
+                        if (buildBounds.Intersects(segBound))
+                        {
+                            DestroyImmediate(go);
+                            go = null;
+                            break;
+                        }
+                    }
+                }
+
+                if (go != null)
+                {
+                    for (int j = (int)(-box.size.z / 2.0f); j < box.size.z / 2.0f; j++)
+                    {
+                        for (int i = (int)(-box.size.x / 2.0f); i < box.size.x / 2.0f; i++)
+                        {
+                            Vector3Int mapKey = Vector3Int.RoundToInt(go.transform.position + new Vector3Int(i, 0, j));
+                            cityMap.TryAdd(mapKey, pt);
+                        }
+                    }
+                }
+            }
+        }
+
         bool IsVoronoiType(int x, int z, ZoneType type)
         {
             foreach (int t in zones[(int)type])
@@ -101,8 +199,8 @@ namespace MapSystem.Runtime.Building
                 if (MapUtils.voronoiMap[x, z] == t)
                     return true;
             }
+            
             return false;
         }
-
     }
 }
