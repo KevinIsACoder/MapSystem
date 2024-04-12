@@ -159,6 +159,12 @@ namespace MapSystem.Runtime
             }*/
         }
 
+        // public static Segment GenerateSegment(Vector2 startPoint, Vector2 direction, float length, float time, MetaInfo metaInfo = null)
+        // {
+        //     var endPoint = startPoint + direction * length;
+        //     return new Segment(startPoint, endPoint, time);
+        // }
+
         public static Segment GenerateSegment(Vector2 startPoint, Vector2 endPoint,
             MetaInfo metaInfo = null)
         {
@@ -179,14 +185,16 @@ namespace MapSystem.Runtime
                 center.x = (startPoint.x + endPoint.x) * 0.5f;
                 center.z = startPoint.y;
                 center.y = 1f;
-                size = new Vector3(Math.Abs(startPoint.x - endPoint.x), 5, MapConsts.roadWidth);
+                size = new Vector3(Math.Abs(startPoint.x - endPoint.x), 2,
+                    isHignWay ? MapConsts.roadWidth : MapConsts.normalRoadWidth);
             }
             else
             {
                 center.x = startPoint.x;
                 center.y = 1f;
                 center.z = (startPoint.y + endPoint.y) * 0.5f;
-                size = new Vector3(MapConsts.roadWidth, 5, Math.Abs(startPoint.y - endPoint.y));
+                size = new Vector3(  isHignWay ? MapConsts.roadWidth : MapConsts.normalRoadWidth, 2,
+                    Math.Abs(startPoint.y - endPoint.y));
             }
             var bounds = new Bounds(center, size);
             return bounds;

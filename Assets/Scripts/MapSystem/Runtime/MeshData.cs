@@ -16,7 +16,22 @@ namespace MapSystem.Runtime
 
         private float m_mapWidth; //地图大小
 
-        public MeshData(int width, int height, float mapWidth, float offsetX, float offsetZ)
+        public float[,] verticeHeight = null;
+
+        private MapGenerator.EDistrict m_districtType;
+        
+        public MeshData(int width, int height)
+        {
+            vertices = new Vector3[(width + 1) * (height + 1)];
+            uvs = new Vector2[vertices.Length];
+            tangents = new Vector4[vertices.Length];
+            colours = new Color[vertices.Length];
+            triangles = new int[width * height * 6]; //三角形个数
+            meshWidth = width;
+            meshHeight = height;
+        }
+        
+        public MeshData(int width, int height, float mapWidth, float offsetX, float offsetZ, MapGenerator.EDistrict district)
         {
             vertices = new Vector3[(width + 1) * (height + 1)];
             uvs = new Vector2[vertices.Length];
@@ -28,14 +43,16 @@ namespace MapSystem.Runtime
             m_offsetX = offsetX;
             m_offsetZ = offsetZ;
             m_mapWidth = mapWidth;
+            m_districtType = district;
+            verticeHeight = new float[width, height];
         }
         
         //创建三角形
         private void CreateTriangle()
         {
-            for (int ti = 0, vi = 0, y = 0; y < meshWidth; y++, vi++)
+            for (int ti = 0, vi = 0, y = 0; y < meshHeight; y++, vi++)
             {
-                for (var x = 0; x < meshHeight; x++, ti += 6, vi++)
+                for (var x = 0; x < meshWidth; x++, ti += 6, vi++)
                 {
                     triangles[ti] = vi;
                     triangles[ti + 3] = triangles[ti + 2] = vi + 1;
@@ -45,18 +62,34 @@ namespace MapSystem.Runtime
             }
         }
 
-        public Mesh GenerateNoiseMesh()
+        public Mesh GenerateNoiseMesh(float[,] noiseMap)
         {
             //生成顶点数据
             var vertIndex = 0;
-            for (var y = 0; y <= meshWidth; y++)
+            for (var y = 0; y <= meshHeight; y++)
             {
-                for (var x = 0; x <= meshHeight; x++)
+                for (var x = 0; x <= meshWidth; x++)
                 {
-                    var vertexHeight = 0; //GeneratePerlinValue(y, x) * MapConsts.terrainHeight;
+                    var posX = Mathf.Clamp(x + (int)m_offsetX, 0, m_mapWidth - 1);
+                    var posY = Mathf.Clamp(y + (int)m_offsetZ, 0, m_mapWidth - 1);
+                    var vertexHeight = noiseMap != null ? noiseMap[(int)posX, (int)posY] * MapConsts.terrainHeight : 0;
                     vertices[vertIndex] = new Vector3((x * 1f / meshWidth) * MapConsts.terrainSize, vertexHeight, (y * 1f / meshHeight) * MapConsts.terrainSize);
+                    verticeHeight[(int)posX, (int)posY] = vertexHeight;
                     vertIndex++;
                 }
+            }
+            
+            //检测临界的地块
+            TerrainChunk leftChunk = TerrainManager.Instance.GetTerrainTrunk(new Vector2((m_offsetX - meshWidth), m_offsetZ));
+            if (leftChunk != null)
+            {
+                CheckVertice(0, leftChunk);   
+            }
+            
+            TerrainChunk rightChunk = TerrainManager.Instance.GetTerrainTrunk(new Vector2((m_offsetX + meshWidth), m_offsetZ));
+            if (rightChunk != null)
+            {
+                CheckVertice(1, rightChunk);   
             }
 
             //生成三角形
@@ -82,11 +115,45 @@ namespace MapSystem.Runtime
             return mesh;
         }
 
-        private float GeneratePerlinValue(int x, int y)
+        void CheckVertice(int towards, TerrainChunk trunk)
         {
-            var xCoord = (float) (x + m_offsetX) / m_mapWidth * MapConsts.scaleFatter + MapConsts.offsetFatter;
-            var zCoord = (float) (y + m_offsetZ) / m_mapWidth * MapConsts.scaleFatter + MapConsts.offsetFatter;
-            return Mathf.PerlinNoise(xCoord, zCoord);
+            if (towards == 0) //left
+            {
+                for (var y = 0; y <= meshHeight; y++)
+                {
+                    var x = (int)m_offsetX;
+                    var posY = (int)m_offsetZ + y;
+                    verticeHeight[x, posY] = trunk.MeshData.verticeHeight[x, posY];
+                }
+            }
+            else if (towards == 1) //right
+            {
+                for (var y = 0; y <= meshWidth; y++)
+                {
+                    var x = (int)m_offsetX + meshWidth;
+                    var posY = (int)m_offsetZ + y;
+                    verticeHeight[x, posY] = trunk.MeshData.verticeHeight[x, posY];
+                }
+            }
+            else if (towards == 2) //top
+            {
+                for (var y = 0; y <= meshWidth; y++)
+                {
+                    var x = (int)m_offsetX + meshWidth;
+                    var posY = (int)m_offsetZ + y;
+                    verticeHeight[x, posY] = trunk.MeshData.verticeHeight[x, posY];
+                }
+            }
+            else if (towards == 3) //bottom
+            {
+                for (var y = 0; y <= meshWidth; y++)
+                {
+                    var x = (int)m_offsetX + meshWidth;
+                    var posY = (int)m_offsetZ + y;
+                    verticeHeight[x, posY] = trunk.MeshData.verticeHeight[x, posY];
+                }
+            }
+            
         }
     }
 }

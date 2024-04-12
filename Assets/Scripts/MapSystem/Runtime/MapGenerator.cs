@@ -20,7 +20,7 @@ namespace MapSystem.Runtime
         
         private RoadGenerator m_roadGenerator;
         private BuildingGenerator m_buildingGenerator;
-        public int distinctNum = 4; //区域数量
+        public int districtNum = 5; //区域数量
 
         public Material industrial;
         public Material commercial;
@@ -28,6 +28,20 @@ namespace MapSystem.Runtime
         public Material park;
         public Material sand;
         
+        public enum EDistrict
+        {
+            Industrial,
+            Commercial,
+            Residential,
+            Park,
+            Sand
+        }
+
+        public List<TerrainChunk> m_IndustrialChunks = new List<TerrainChunk>();
+        public List<TerrainChunk> m_CommercialChunks = new List<TerrainChunk>();
+        public List<TerrainChunk> m_ResidentialChunks = new List<TerrainChunk>();
+        public List<TerrainChunk> m_ParkChunks = new List<TerrainChunk>();
+        public List<TerrainChunk> m_SandChunks = new List<TerrainChunk>();
         private void OnEnable()
         {
             gameObject.GetComponent<MeshRenderer>().material = terrainMaterial;
@@ -46,7 +60,7 @@ namespace MapSystem.Runtime
             m_roadGenerator.OnGenerateComplete = OnRoadGenerateComplete;
             //生成地形
             GenerateTerrain();
-            StartCoroutine(GenerateRoad());
+            //StartCoroutine(GenerateRoad());
         }
         
         private void OnRoadGenerateComplete()
@@ -64,39 +78,85 @@ namespace MapSystem.Runtime
         private void GenerateTerrain()
         {
             m_terrainTrunckNum = Mathf.RoundToInt(terrainChunkWidth / terrainSize);
-            MapUtils.GenerateVoronoiMap(5, MapConsts.mapSize, MapConsts.mapSize);
+            MapUtils.GenerateVoronoiMap(districtNum, m_terrainTrunckNum, m_terrainTrunckNum);
             for (var x = 0; x < m_terrainTrunckNum; x++)
             {
                 for (var y = 0; y < m_terrainTrunckNum; y++)
                 {
                     var pos = new Vector3(x * terrainSize, 0, y * terrainSize);
-                    if (TerrainChunk.TryGetValue(pos, out var trunk))
+                    var districtType = MapUtils.voronoiMap[x, y];
+                    var trunck = new TerrainChunk(pos, MapConsts.terrainSize, gameObject.transform, terrainMaterial, (EDistrict)districtType);
+                    
+                    TerrainManager.Instance.AddTerrainTrunk(pos, trunck);
+                    switch (districtType)
                     {
-                        trunk.Destroy();
-                    }
-                    else
-                    {
-                        var trunck = new TerrainChunk(pos, MapConsts.terrainSize, m_terrainTrunckNum * MapConsts.terrainSize, gameObject.transform, terrainMaterial);
-                        TerrainChunk.Add(pos, trunck);
+                        case (int)EDistrict.Commercial:
+                            m_CommercialChunks.Add(trunck);
+                            break;
+                        case (int)EDistrict.Industrial:
+                            m_IndustrialChunks.Add(trunck);
+                            break;
+                        case (int)EDistrict.Residential:
+                            m_ResidentialChunks.Add(trunck);
+                            break;
+                        case (int)EDistrict.Park:
+                            m_ParkChunks.Add(trunck);
+                            break;
+                        case (int)EDistrict.Sand:
+                            m_SandChunks.Add(trunck);
+                            break;
                     }
                 }
             }
+
+            var noiseMap = MapUtils.GeneratePerlinValue(m_terrainTrunckNum * terrainSize,
+                m_terrainTrunckNum * terrainSize, MapConsts.scaleFatter, 4, 100, 1, 100);
+            
+            foreach (var chunk in m_IndustrialChunks)
+            {
+                 chunk.GenerateMesh();
+            }
+            
+            foreach (var chunk in m_ParkChunks)
+            {
+                chunk.GenerateMesh(noiseMap);
+            }
+            
+            foreach (var chunk in m_SandChunks)
+            {
+                chunk.GenerateMesh(noiseMap);
+            }
+            
+            foreach (var chunk in m_CommercialChunks)
+            {
+                chunk.GenerateMesh();
+            }
+            
+            foreach (var chunk in m_ResidentialChunks)
+            {
+                chunk.GenerateMesh();
+            }
         }
 
+        public void CheckTerrainTrunck()
+        {
+            
+        }
+        
         public Material GetDistrictMaterial(int districtType)
         {
             switch (districtType)
             {
-                case 0:
+                case (int)EDistrict.Industrial:
                     return industrial; //工业
-                case 1:
+                case (int)EDistrict.Commercial:
                     return commercial; //商业
-                case 2:
+                case (int)EDistrict.Residential:
                     return residential; //居民
-                case 3:
-                    return park;
-                case 4:
-                    return sand;
+                case (int)EDistrict.Park:
+                    return park; //公园
+                case (int)EDistrict.Sand:
+                    return sand; //沙地
             }
 
             return default;

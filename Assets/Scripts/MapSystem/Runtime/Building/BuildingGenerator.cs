@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -14,10 +15,7 @@ namespace MapSystem.Runtime.Building
 
     public enum PieceType
     {
-        ROAD,
         HOUSE,
-        SHACK,
-        LAWN,
         COMMERCIAL,
         INDUSTRY,
         NONE
@@ -29,8 +27,7 @@ namespace MapSystem.Runtime.Building
         public GameObject[] Commercials;
         public GameObject[] Industry;
         private Dictionary<Vector3Int, PieceType> m_BuildMap = new Dictionary<Vector3Int, PieceType>();
-
-        public GameObject testGameobj;
+        
         private float extentWidth = 10;
 
         List<List<int>> zones = new List<List<int>>();
@@ -40,15 +37,15 @@ namespace MapSystem.Runtime.Building
         public void BuildHouse(List<Segment> roads)
         {
             m_segments = roads;
-            StartCoroutine(CoroutineBuildHouse(roads));
+            //StartCoroutine(CoroutineBuildHouse(roads));
         }
         
         IEnumerator CoroutineBuildHouse(List<Segment> roads)
         {
             yield return null;
-            zones.Add(new List<int> { 0, 1 }); //residential
-            zones.Add(new List<int> { 2, 3 }); //commercials
-            zones.Add(new List<int> { 4, 5 }); //industry
+            zones.Add(new List<int> { 0 }); //residential
+            zones.Add(new List<int> { 1 }); //commercials
+            zones.Add(new List<int> { 2 }); //industry
             
             foreach (var segment in roads)
             {
@@ -109,13 +106,14 @@ namespace MapSystem.Runtime.Building
             var z = (int)location.z;
             if (x <= 0 || x >= MapConsts.mapSize || z <= 0 || z >= MapConsts.mapSize)
                 return;
+            
             var pt = PieceType.NONE;
             GameObject go = null;
+            
             if (IsVoronoiType(x, z, ZoneType.R))
             {
                 var index = Random.Range(0, Residential.Length);
                 go = Instantiate(Residential[index], location, Quaternion.identity);
-                go.transform.localScale = new Vector3(8, 8, 8);
                 pt = PieceType.HOUSE;
             }
 
@@ -123,7 +121,6 @@ namespace MapSystem.Runtime.Building
             {
                 var index = Random.Range(0, Commercials.Length);
                 go = Instantiate(Commercials[index], location, Quaternion.identity);
-                go.transform.localScale = new Vector3(8, 8, 8);
                 pt = PieceType.COMMERCIAL;
             }
 
@@ -131,13 +128,13 @@ namespace MapSystem.Runtime.Building
             {
                 var index = Random.Range(0, Industry.Length);
                 go = Instantiate(Industry[index], location, Quaternion.identity);
-                go.transform.localScale = new Vector3(8, 8, 8);
                 pt = PieceType.INDUSTRY;
             }
 
             if (go != null)
             {
-                go.transform.position = new Vector3(0, 1, 0);
+                go.transform.localScale = new Vector3(6, 6, 6);
+                
                 BoxCollider box = go.GetComponent<BoxCollider>();
                 bool found = false;
 
@@ -155,20 +152,22 @@ namespace MapSystem.Runtime.Building
 
                     if (found) break;
                 }
+                
 
                 if (found)
                 {
                     DestroyImmediate(go);
                     go = null;
                 }
-
+                
                 //判断建筑和路是否相交
                 if (go != null)
                 {
                     foreach (var segment in m_segments)
                     {
                         var segBound = segment.GetBounds();
-                        var buildBounds = new Bounds(go.transform.position, box.bounds.size * 8);
+                        var buildBounds = new Bounds(go.transform.position, box.bounds.size * (go.transform.localScale.x));
+
                         if (buildBounds.Intersects(segBound))
                         {
                             DestroyImmediate(go);
@@ -180,6 +179,10 @@ namespace MapSystem.Runtime.Building
 
                 if (go != null)
                 {
+                    var pos = go.transform.position;
+                    pos.y += 1;
+                    go.transform.position = pos;
+                    
                     for (int j = (int)(-box.size.z / 2.0f); j < box.size.z / 2.0f; j++)
                     {
                         for (int i = (int)(-box.size.x / 2.0f); i < box.size.x / 2.0f; i++)
@@ -194,6 +197,8 @@ namespace MapSystem.Runtime.Building
 
         bool IsVoronoiType(int x, int z, ZoneType type)
         {
+            x = Mathf.FloorToInt(x * 1.0f / MapConsts.terrainSize);
+            z = Mathf.FloorToInt(z * 1.0f / MapConsts.terrainSize);
             foreach (int t in zones[(int)type])
             {
                 if (MapUtils.voronoiMap[x, z] == t)

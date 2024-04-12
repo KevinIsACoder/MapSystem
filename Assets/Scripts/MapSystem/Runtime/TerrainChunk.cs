@@ -7,24 +7,40 @@ namespace MapSystem.Runtime
     {
         public GameObject trunkObject;
         private MeshData meshData;
+        public MeshData MeshData
+        {
+            get
+            {
+                return meshData;
+            }
+        }
+        
         private Material terrainMaterial;
+        private int m_chunkSize;
+        private Transform m_parent;
+        private Vector3 m_position;
+        public Vector3 Position => m_position;
 
-        public TerrainChunk(Vector3 position, int chunkSize, float mapWidth, Transform parent, Material material)
+        private MapGenerator.EDistrict m_districtType;
+        public TerrainChunk(Vector3 position, int chunkSize, Transform parent, Material material, MapGenerator.EDistrict districtType)
+        {
+            terrainMaterial = material;
+            m_chunkSize = chunkSize;
+            m_parent = parent;
+            m_position = position;
+            m_districtType = districtType;
+        }
+
+        public void GenerateMesh(float[,] noiseMap = null)
         {
             trunkObject= new GameObject("TerrainTrunk")
             {
                 isStatic = true
             };
-            trunkObject.transform.SetParent(parent, false);
-            trunkObject.transform.position = position;
-            terrainMaterial = material;
-            meshData = new MeshData(chunkSize, chunkSize, mapWidth, position.x, position.z);
-            GenerateMesh();
-        }
-
-        private void GenerateMesh()
-        {
-            var mesh = meshData.GenerateNoiseMesh();
+            trunkObject.transform.SetParent(m_parent, false);
+            trunkObject.transform.position = m_position;
+            meshData = new MeshData(m_chunkSize, m_chunkSize, MapConsts.mapSize, m_position.x, m_position.z, m_districtType);
+            var mesh = meshData.GenerateNoiseMesh(noiseMap);
             var terrain = new GameObject("Terrain");
             terrain.AddComponent<MeshFilter>().mesh = mesh;
             terrain.AddComponent<MeshRenderer>().sharedMaterial = terrainMaterial;

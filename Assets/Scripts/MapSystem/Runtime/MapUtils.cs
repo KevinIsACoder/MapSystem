@@ -82,5 +82,70 @@ namespace MapSystem.Runtime
                 }
             }
         }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="mapWidth">地图宽度</param>
+        /// <param name="mapHeight">地图高度</param>
+        /// <param name="scale"></param>
+        /// <param name="octaves">叠加层数</param>
+        /// <param name="peristance">持续度</param>
+        /// <param name="lacunarity">孔隙度</param>
+        /// <returns></returns>
+        public static float[,] GeneratePerlinValue(int mapWidth, int mapHeight, float scale, int octaves, float peristance, float lacunarity, int seed)
+        {
+            float maxNoiseValue = float.MinValue;
+            float minNoiseValue = float.MaxValue;
+
+            var random = new System.Random(seed);
+            var octaveOffsets = new Vector2[octaves];
+            for (var i = 0; i < octaves; i++)
+            {
+                var offsetX = random.Next(0, mapWidth);
+                var offsetY = random.Next(0, mapWidth);
+                octaveOffsets[i] = new Vector2(offsetX, offsetY);
+            }
+            
+            var noiseMap = new float[mapWidth, mapHeight];
+            for (var x = 0; x < mapWidth; x++)
+            {
+                for (var y = 0; y < mapHeight; y++)
+                {
+                    float altitude = 1; //高度
+                    float frequency = 1; //频率
+                    float noiseHeight = 0;
+                    for (var i = 0; i < octaves; i++)
+                    {
+                        var sampleX = (x +  octaveOffsets[i].x) / scale * frequency;
+                        var sampleY = (y + octaveOffsets[i].y) / scale * frequency;
+                        var perlinValue = Mathf.PerlinNoise(sampleX, sampleY) * 2 - 1;
+                        noiseHeight += perlinValue * altitude;
+                        if (noiseHeight > maxNoiseValue)
+                        {
+                            maxNoiseValue = noiseHeight;
+                        }
+                        else if(noiseHeight < minNoiseValue)
+                        {
+                            minNoiseValue = noiseHeight;
+                        }
+                        altitude *= peristance;
+                        frequency *= lacunarity;
+                    }
+                    
+                    noiseMap[x, y] = noiseHeight;
+                }
+            }
+
+            for (var i = 0; i < mapWidth; i++)
+            {
+                for (var j = 0; j < mapHeight; j++)
+                {
+                    noiseMap[i, j] = Mathf.InverseLerp(minNoiseValue, maxNoiseValue, noiseMap[i, j]);
+                }
+            }
+            
+            return noiseMap;
+        }
     }   
 }

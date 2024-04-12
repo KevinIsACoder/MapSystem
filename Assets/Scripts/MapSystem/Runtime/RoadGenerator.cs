@@ -276,7 +276,12 @@ namespace MapSystem.Runtime
         {
             return segmentLength;
         }
-        
+
+        IEnumerator StartBuildHouse()
+        {
+            yield return null;
+        }
+
         void GenerateRoadData()
         {
             var segment = m_segmentqueue.Dequeue();

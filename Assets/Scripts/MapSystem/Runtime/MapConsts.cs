@@ -9,7 +9,7 @@ namespace MapSystem.Runtime
         [Range(0, 1000)] 
         public static int mapSize = 500;
         [Range(0, 100)] 
-        public static int scaleFatter = 5; //地形缩放，用于柏林噪声
+        public static int scaleFatter = 20; //地形缩放，用于柏林噪声
         [Range(0, 100)] 
         public static int offsetFatter = 5; //地形偏移
         
