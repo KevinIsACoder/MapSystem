@@ -10,7 +10,10 @@
             {
                 lock (m_lockObj)
                 {
-                    m_instance ??= new T();
+                    if (m_instance == null)
+                    {
+                        m_instance = new T();   
+                    }
                 }
                 return m_instance;
             }

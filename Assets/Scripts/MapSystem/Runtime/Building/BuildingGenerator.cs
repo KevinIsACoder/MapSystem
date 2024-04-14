@@ -188,7 +188,7 @@ namespace MapSystem.Runtime.Building
                         for (int i = (int)(-box.size.x / 2.0f); i < box.size.x / 2.0f; i++)
                         {
                             Vector3Int mapKey = Vector3Int.RoundToInt(go.transform.position + new Vector3Int(i, 0, j));
-                            cityMap.TryAdd(mapKey, pt);
+                            cityMap[mapKey] = pt;
                         }
                     }
                 }

@@ -5,14 +5,14 @@ namespace MapSystem.Runtime
 {
     public class TerrainManager : Singleton<TerrainManager>
     {
-        private Dictionary<Vector2, TerrainChunk> m_TerrainLoaded = new Dictionary<Vector2, TerrainChunk>();
+        private Dictionary<Vector3, TerrainChunk> m_TerrainLoaded = new Dictionary<Vector3, TerrainChunk>();
         
-        public void AddTerrainTrunk(Vector2 position, TerrainChunk terrainChunk)
+        public void AddTerrainTrunk(Vector3 position, TerrainChunk terrainChunk)
         {
             m_TerrainLoaded[position] = terrainChunk;
         }
 
-        public TerrainChunk GetTerrainTrunk(Vector2 position)
+        public TerrainChunk GetTerrainTrunk(Vector3 position)
         {
             if (m_TerrainLoaded.TryGetValue(position, out TerrainChunk mTerrainChunk))
             {
