@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Drawing;
+using System.Numerics;
+using UnityEngine;
 
 namespace MapSystem.Runtime
 {
@@ -58,7 +60,7 @@ namespace MapSystem.Runtime
             {
                 for (var x = 0; x <= meshWidth; x++)
                 {
-                    var vertexHeight = noiseMap == null ? 0 : noiseMap[x, y] * MapConsts.terrainHeight;                  
+                    var vertexHeight = noiseMap[x, y] == null ? 0 : noiseMap[x, y] * MapConsts.terrainHeight;                  
                     vertices[vertIndex] = new Vector3((x * 1f / meshWidth) * m_mapWidth, vertexHeight, (y * 1f / meshHeight) * m_mapWidth);
                     vertIndex++;
                 }
