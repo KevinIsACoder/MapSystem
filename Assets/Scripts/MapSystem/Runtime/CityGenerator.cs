@@ -41,7 +41,9 @@ namespace MapSystem.Runtime
                 TerrainChunk trunk = null;
                 if (i == (int)MapGenerator.EDistrict.Commercial)
                 {
-                    trunk = new TerrainChunk(coord, trunkSize, 10, cityParent.transform, cityMaterial);
+                    var noiseMap = MapUtils.GeneratePerlinValue(trunkSize,
+                        trunkSize, MapConsts.scaleFatter, 4, 200, 2, 100);
+                    trunk = new TerrainChunk(coord, trunkSize, 10, cityParent.transform, cityMaterial, noiseMap);
                 }
                 else if (i == (int)MapGenerator.EDistrict.Residential)
                 {

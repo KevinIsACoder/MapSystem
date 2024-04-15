@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-using System.Numerics;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace MapSystem.Runtime
 {
@@ -51,7 +49,20 @@ namespace MapSystem.Runtime
             
             TerrainChunk leftChunk = TerrainManager.Instance.GetTerrainTrunk(new Vector2((m_offsetX - meshWidth), m_offsetZ));
             TerrainChunk bottomChunk = TerrainManager.Instance.GetTerrainTrunk(new Vector2(m_offsetX, (m_offsetZ - meshHeight)));
-            
+
+            var leftchunkHeigtht = new float[meshHeight];
+            if (leftChunk != null)
+            {
+                for (var y = 0; y <= meshHeight; y++)
+                {
+                    // (y + 1) * meshWidth
+                }
+            }
+
+            if (bottomChunk != null)
+            {
+                
+            }
             
             //生成顶点数据
             var vertIndex = 0;
@@ -60,7 +71,13 @@ namespace MapSystem.Runtime
             {
                 for (var x = 0; x <= meshWidth; x++)
                 {
-                    var vertexHeight = noiseMap[x, y] == null ? 0 : noiseMap[x, y] * MapConsts.terrainHeight;                  
+                    var vertexHeight = noiseMap == null ? 0 : noiseMap[x, y] * MapConsts.terrainHeight;
+                    
+                    if (bottomChunk != null && y < meshHeight * 0.5)
+                    {
+                        
+                    }
+                    
                     vertices[vertIndex] = new Vector3((x * 1f / meshWidth) * m_mapWidth, vertexHeight, (y * 1f / meshHeight) * m_mapWidth);
                     vertIndex++;
                 }
