@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-
+﻿
+using UnityEngine;
 namespace MapSystem.Runtime
 {
     public class MeshData
@@ -15,9 +15,6 @@ namespace MapSystem.Runtime
         private float m_offsetX, m_offsetZ;
 
         private float m_mapWidth; //地图大小
-
-        public float[,] verticeHeight = null;
-
         private MapGenerator.EDistrict m_districtType;
 
         public bool isChanged = false;
@@ -45,24 +42,9 @@ namespace MapSystem.Runtime
             m_offsetZ = offsetZ;
             m_mapWidth = width;
             m_districtType = district;
-            verticeHeight = new float[width + 1, height + 1];
-            
+
             TerrainChunk leftChunk = TerrainManager.Instance.GetTerrainTrunk(new Vector2((m_offsetX - meshWidth), m_offsetZ));
             TerrainChunk bottomChunk = TerrainManager.Instance.GetTerrainTrunk(new Vector2(m_offsetX, (m_offsetZ - meshHeight)));
-
-            var leftchunkHeigtht = new float[meshHeight];
-            if (leftChunk != null)
-            {
-                for (var y = 0; y <= meshHeight; y++)
-                {
-                    // (y + 1) * meshWidth
-                }
-            }
-
-            if (bottomChunk != null)
-            {
-                
-            }
             
             //生成顶点数据
             var vertIndex = 0;
@@ -71,20 +53,13 @@ namespace MapSystem.Runtime
             {
                 for (var x = 0; x <= meshWidth; x++)
                 {
-                    var vertexHeight = noiseMap == null ? 0 : noiseMap[x, y] * MapConsts.terrainHeight;
-                    
-                    if (bottomChunk != null && y < meshHeight * 0.5)
-                    {
-                        
-                    }
-                    
-                    vertices[vertIndex] = new Vector3((x * 1f / meshWidth) * m_mapWidth, vertexHeight, (y * 1f / meshHeight) * m_mapWidth);
+                    var vertexHeight = noiseMap == null ? 0 : noiseMap[x, y] * MapConsts.terrainHeight;                  
+                    vertices[vertIndex] = new Vector3((x * 1f / meshWidth) * m_mapWidth + m_offsetX, vertexHeight, (y * 1f / meshHeight) * m_mapWidth + m_offsetZ);
                     vertIndex++;
                 }
             }
-            
         }
-        
+
         //创建三角形
         private void CreateTriangle()
         {
@@ -99,22 +74,9 @@ namespace MapSystem.Runtime
                 }
             }
         }
-
+        
         public Mesh GenerateNoiseMesh(float[,] noiseMap)
         {
-            //检测临界的地块
-            TerrainChunk leftChunk = TerrainManager.Instance.GetTerrainTrunk(new Vector2((m_offsetX - meshWidth), m_offsetZ));
-            if (leftChunk != null)
-            {
-              // CheckVertice(0, leftChunk);   
-            }
-            
-            TerrainChunk rightChunk = TerrainManager.Instance.GetTerrainTrunk(new Vector2((m_offsetX + meshWidth), m_offsetZ));
-            if (rightChunk != null)
-            {
-               // CheckVertice(1, rightChunk);   
-            }
-
             //生成三角形
             CreateTriangle();
             
@@ -137,46 +99,30 @@ namespace MapSystem.Runtime
             mesh.RecalculateNormals(); //重新计算法线
             return mesh;
         }
-
-        void CheckVertice(int towards, TerrainChunk trunk)
+        
+        //获取底边的顶点数据
+        public Vector3[] GetBottomSideVerticesInfo()
         {
-            if (towards == 0) //left
+            var verticeData = new Vector3[meshWidth + 1];
+            for (int i = 0; i <= meshWidth; i++)
             {
-                for (var y = 0; y <= meshHeight; y++)
-                {
-                    var x = 0;
-                    var posY = y;
-                    verticeHeight[x, posY] = trunk.MeshData.verticeHeight[x, posY];
-                }
-            }
-            else if (towards == 1) //right
-            {
-                for (var y = 0; y <= meshWidth; y++)
-                {
-                    var x = (int)m_offsetX + meshWidth;
-                    var posY = (int)m_offsetZ + y;
-                    verticeHeight[x, posY] = trunk.MeshData.verticeHeight[x, posY];
-                }
-            }
-            else if (towards == 2) //top
-            {
-                for (var y = 0; y <= meshWidth; y++)
-                {
-                    var x = (int)m_offsetX + meshWidth;
-                    var posY = (int)m_offsetZ + y;
-                    verticeHeight[x, posY] = trunk.MeshData.verticeHeight[x, posY];
-                }
-            }
-            else if (towards == 3) //bottom
-            {
-                for (var y = 0; y <= meshWidth; y++)
-                {
-                    var x = (int)m_offsetX + meshWidth;
-                    var posY = (int)m_offsetZ + y;
-                    verticeHeight[x, posY] = trunk.MeshData.verticeHeight[x, posY];
-                }
+                verticeData[i] = vertices[i];
             }
             
+            return verticeData;
         }
+        
+        //获取顶边的顶点数据
+        public Vector3[] GetUpSideVerticesInfo()
+        {
+            var verticeData = new Vector3[meshWidth + 1];
+            var startIndex = (meshHeight + 1) * (meshWidth + 1) - (meshWidth + 1);
+            for (int i = 0; i <= meshWidth; i++)
+            {
+                verticeData[i] = vertices[startIndex + i];
+            }
+            return verticeData;
+        }
+        
     }
 }

@@ -40,13 +40,23 @@ namespace MapSystem.Runtime
                 isStatic = true
             };
             trunkObject.transform.SetParent(m_parent, false);
-            trunkObject.transform.position = m_position;
+           // trunkObject.transform.position = m_position;
             var mesh = meshData.GenerateNoiseMesh(noiseMap);
             var terrain = new GameObject("Terrain");
             terrain.AddComponent<MeshFilter>().mesh = mesh;
             terrain.AddComponent<MeshRenderer>().sharedMaterial = terrainMaterial;
             terrain.AddComponent<MeshCollider>();
             terrain.transform.SetParent(trunkObject.transform, false);
+        }
+
+        public Vector3[] GetBottomSideVerticesInfo()
+        {
+            return meshData.GetBottomSideVerticesInfo();
+        }
+
+        public Vector3[] GetUpSideVerticesInfo()
+        {
+            return meshData.GetUpSideVerticesInfo();
         }
         
         public void Destroy()

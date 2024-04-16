@@ -43,11 +43,11 @@ namespace MapSystem.Runtime
                 {
                     var noiseMap = MapUtils.GeneratePerlinValue(trunkSize,
                         trunkSize, MapConsts.scaleFatter, 4, 200, 2, 100);
-                    trunk = new TerrainChunk(coord, trunkSize, 10, cityParent.transform, cityMaterial, noiseMap);
+                    trunk = new TerrainChunk(coord, trunkSize, 5, cityParent.transform, cityMaterial, noiseMap);
                 }
                 else if (i == (int)MapGenerator.EDistrict.Residential)
                 {
-                    trunk = new TerrainChunk(coord, trunkSize, 10, cityParent.transform, cityMaterial);
+                    trunk = new TerrainChunk(coord, trunkSize, 20, cityParent.transform, cityMaterial);
                 }
                 else if (i == (int)MapGenerator.EDistrict.Industrial)
                 {
@@ -59,20 +59,42 @@ namespace MapSystem.Runtime
                         trunkSize, MapConsts.scaleFatter, 4, 200, 2, 100);
                     trunk = new TerrainChunk(coord, trunkSize, 10, cityParent.transform, cityMaterial, noiseMap);
                 }
-
-                if (trunk != null)
-                {
-                    m_terrainTrunks.Add((MapGenerator.EDistrict)i, trunk);
-                    TerrainManager.Instance.AddTerrainTrunk(coord, trunk);
-                }
+                
+                if (trunk == null) 
+                    continue;
+                m_terrainTrunks.Add((MapGenerator.EDistrict)i, trunk);
+                TerrainManager.Instance.AddTerrainTrunk(coord, trunk);
             }
 
             foreach (var trunk in m_terrainTrunks)
             {
+                var position = trunk.Value.Position;
+                var upTrunk = TerrainManager.Instance.GetTerrainTrunk(new Vector3(position.x, 0,position.z + trunkSize));
+                if (upTrunk != null)
+                {
+                    //得到上面trucnk底边的顶点坐标
+                    var bottomVertice = upTrunk.GetBottomSideVerticesInfo();
+                    //本地块上边缘的坐标
+                    var upSide = trunk.Value.GetUpSideVerticesInfo();
+                    
+                    //生成裙边，链接两个地块的顶点组成三角形
+                    for (var i = 0; i < upSide.Length; i++)
+                    {
+                        for (var j = 0; j < bottomVertice.Length; j++)
+                        {
+                            
+                        }
+                    }
+                }
                 trunk.Value.GenerateMesh();
             }
 
             return null;
+        }
+
+        void GenerateTriangle(List<Vector3> vertices, Transform parent)
+        {
+            
         }
     }
 }

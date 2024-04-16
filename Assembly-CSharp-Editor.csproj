@@ -41,8 +41,8 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\EVP5\Scripts\Editor\VehicleControllerInspector.cs" />
      <Compile Include="Assets\EVP5\Scripts\Editor\VehicleStandardInputInspector.cs" />
+     <Compile Include="Assets\EVP5\Scripts\Editor\VehicleControllerInspector.cs" />
      <Compile Include="Assets\EVP5\Scripts\Editor\InspectorTools.cs" />
      <Folder Include="Assets\EVP5\Scripts\Editor" />
      <Reference Include="UnityEngine">

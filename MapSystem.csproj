@@ -42,6 +42,7 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\MapSystem\Runtime\TerrainManager.cs" />
+     <Compile Include="Assets\Scripts\MapSystem\Runtime\ForestGenerator.cs" />
      <Compile Include="Assets\Scripts\MapSystem\Runtime\MathUtil.cs" />
      <Compile Include="Assets\Scripts\MapSystem\Runtime\Building\BuildingGenerator.cs" />
      <Compile Include="Assets\Scripts\MapSystem\Runtime\MeshData.cs" />
@@ -51,17 +52,24 @@
      <Compile Include="Assets\Scripts\MapSystem\Runtime\AssetsManager.cs" />
      <Compile Include="Assets\Scripts\MapSystem\Test\RoadTest.cs" />
      <Compile Include="Assets\Scripts\MapSystem\Runtime\Singleton.cs" />
+     <Compile Include="Assets\Scripts\MapSystem\Runtime\IMapGenerator.cs" />
      <Compile Include="Assets\Scripts\MapSystem\Runtime\MapConsts.cs" />
      <Compile Include="Assets\Scripts\MapSystem\Runtime\MapUtils.cs" />
      <Compile Include="Assets\Scripts\MapSystem\Runtime\Segment.cs" />
      <Compile Include="Assets\Scripts\MapSystem\Runtime\PriorityQueue.cs" />
+     <Compile Include="Assets\Scripts\MapSystem\Runtime\CityGenerator.cs" />
      <Compile Include="Assets\Scripts\MapSystem\Runtime\RoadGenerator.cs" />
      <Compile Include="Assets\Scripts\MapSystem\Runtime\MapGenerator.cs" />
      <Folder Include="Assets\Scripts\MapSystem\Runtime\Building" />
      <Folder Include="Assets\Scripts\MapSystem\Test" />
+     <Folder Include="Assets\Scripts\MapSystem\Runtime\Art\Prefabs" />
+     <Folder Include="Assets\Scripts\MapSystem\Runtime\Art\Houses" />
      <None Include="Assets\Scripts\MapSystem\package.json" />
      <Folder Include="Assets\Scripts\MapSystem" />
+     <Folder Include="Assets\Scripts\MapSystem\Runtime\Art" />
+     <Folder Include="Assets\Scripts\MapSystem\Runtime\Art\Texture" />
      <Folder Include="Assets\Scripts\MapSystem\Runtime" />
+     <Folder Include="Assets\Scripts\MapSystem\Runtime\Art\Material" />
      <None Include="Assets\Scripts\MapSystem\MapSystem.asmdef" />
      <Reference Include="UnityEngine">
      <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.29f1c1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
