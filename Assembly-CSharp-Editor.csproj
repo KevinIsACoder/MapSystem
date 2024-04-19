@@ -44,7 +44,15 @@
      <Compile Include="Assets\EVP5\Scripts\Editor\VehicleStandardInputInspector.cs" />
      <Compile Include="Assets\EVP5\Scripts\Editor\VehicleControllerInspector.cs" />
      <Compile Include="Assets\EVP5\Scripts\Editor\InspectorTools.cs" />
+     <Compile Include="Assets\Fantastic_City_Generator\DayNight\Editor\DayNightEditor.cs" />
+     <Compile Include="Assets\Fantastic_City_Generator\WayTool\Editor\FCGWPEditor.cs" />
+     <Compile Include="Assets\Fantastic_City_Generator\WayTool\Editor\IconManager.cs" />
+     <Compile Include="Assets\Fantastic_City_Generator\Editor\TCarEditor.cs" />
+     <Compile Include="Assets\Fantastic_City_Generator\Editor\FCityGenerator.cs" />
+     <Folder Include="Assets\Fantastic_City_Generator\Editor" />
      <Folder Include="Assets\EVP5\Scripts\Editor" />
+     <Folder Include="Assets\Fantastic_City_Generator\WayTool\Editor" />
+     <Folder Include="Assets\Fantastic_City_Generator\DayNight\Editor" />
      <Reference Include="UnityEngine">
      <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.29f1c1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
      </Reference>
