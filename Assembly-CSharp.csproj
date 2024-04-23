@@ -41,9 +41,13 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\Fantastic_City_Generator\Scripts\RunTimeSample.cs" />
      <Compile Include="Assets\EVP5\Scripts\Tools\CommonTools.cs" />
+     <Compile Include="Assets\Fantastic_City_Generator\Scripts\TrafficLight.cs" />
+     <Compile Include="Assets\Fantastic_City_Generator\Traffic System\DataSpawn.cs" />
      <Compile Include="Assets\Scripts\MeshGenerator.cs" />
      <Compile Include="Assets\EVP5\Scripts\Extra\RigidbodyImpulse.cs" />
+     <Compile Include="Assets\Fantastic_City_Generator\Player\Player Mobile\MobileControl.cs" />
      <Compile Include="Assets\Scripts\WaterManager.cs" />
      <Compile Include="Assets\EVP5\Scripts\VehicleRandomInput.cs" />
      <Compile Include="Assets\EVP5\Scripts\VehicleTelemetry.cs" />
@@ -52,28 +56,42 @@
      <Compile Include="Assets\EVP5\Scripts\VehicleController.cs" />
      <Compile Include="Assets\Scripts\MapCell.cs" />
      <Compile Include="Assets\Scripts\CityMaps\PlotVoronoi.cs" />
+     <Compile Include="Assets\Fantastic_City_Generator\Scripts\FPSDisplay.cs" />
+     <Compile Include="Assets\Fantastic_City_Generator\Player\Player\CharacterControl.cs" />
      <Compile Include="Assets\Scripts\CityMaps\PerlingNoiseTest.cs" />
      <Compile Include="Assets\Scripts\MapGenerator.cs" />
      <Compile Include="Assets\EVP5\Scripts\Ground Materials\GroundMaterialManager.cs" />
+     <Compile Include="Assets\Fantastic_City_Generator\Scripts\MapGenerator.cs" />
+     <Compile Include="Assets\Fantastic_City_Generator\Scripts\Mesh_CombineUtility.cs" />
      <Compile Include="Assets\Scripts\Falloff.cs" />
+     <Compile Include="Assets\Fantastic_City_Generator\Scripts\CityGenerator.cs" />
      <Compile Include="Assets\EVP5\Scripts\VehicleStandardInput.cs" />
      <Compile Include="Assets\MeshTools.cs" />
      <Compile Include="Assets\Scripts\PerlinNoise\VornoiTest.cs" />
+     <Compile Include="Assets\Fantastic_City_Generator\Scripts\FreeCamera.cs" />
      <Compile Include="Assets\Scripts\State\StateController.cs" />
      <Compile Include="Assets\EVP5\Scripts\Tools\SceneTools.cs" />
      <Compile Include="Assets\Scripts\TextureCreatorWindow.cs" />
+     <Compile Include="Assets\Fantastic_City_Generator\Scripts\TFShiftHand.cs" />
+     <Compile Include="Assets\Fantastic_City_Generator\Water\WaterSample.cs" />
      <Compile Include="Assets\EVP5\Scripts\VehicleDamage.cs" />
+     <Compile Include="Assets\Fantastic_City_Generator\Scripts\TrafficSystem.cs" />
+     <Compile Include="Assets\Fantastic_City_Generator\DayNight\DayNight.cs" />
+     <Compile Include="Assets\Fantastic_City_Generator\Scripts\TrafficLights2.cs" />
      <Compile Include="Assets\Scripts\Utils.cs" />
      <Compile Include="Assets\EVP5\Scripts\VehicleTireEffects.cs" />
      <Compile Include="Assets\MeshUtils.cs" />
      <Compile Include="Assets\Scripts\MapConfig.cs" />
      <Compile Include="Assets\EVP5\Scripts\VehicleCameraController.cs" />
      <Compile Include="Assets\CityGridGenerator.cs" />
+     <Compile Include="Assets\Fantastic_City_Generator\Scripts\TrafficLights.cs" />
      <Compile Include="Assets\EVP5\Scripts\VehicleAudio.cs" />
      <Compile Include="Assets\Scripts\State\IState.cs" />
      <Compile Include="Assets\Scripts\HydraulicErosion.cs" />
      <Compile Include="Assets\Scripts\PerlinNoiseMapGenerator.cs" />
      <Compile Include="Assets\ClsureTest.cs" />
+     <Compile Include="Assets\Fantastic_City_Generator\WayTool\FCGWaypointsContainer.cs" />
+     <Compile Include="Assets\Fantastic_City_Generator\Scripts\TFShiftHand2.cs" />
      <Compile Include="Assets\PlotPerlin.cs" />
      <Compile Include="Assets\Scenes\Test.cs" />
      <Compile Include="Assets\EVP5\Scripts\VehicleVisualEffects.cs" />
@@ -86,31 +104,20 @@
      <Compile Include="Assets\EVP5\Scripts\Tools\TextureCanvas.cs" />
      <Compile Include="Assets\Scripts\SimplexNoiseGenerator.cs" />
      <Compile Include="Assets\EVP5\Scripts\VehicleViewConfig.cs" />
+     <Compile Include="Assets\Fantastic_City_Generator\DayNight\ShiftAtRuntime.cs" />
+     <Compile Include="Assets\Fantastic_City_Generator\Scripts\TrafficCar.cs" />
      <Compile Include="Assets\EVP5\Scripts\Extra\VehicleNitro.cs" />
      <Compile Include="Assets\EVP5\Scripts\Extra\FollowHeading.cs" />
-     <Compile Include="Assets\Fantastic_City_Generator\Scripts\TrafficCar.cs" />
-     <Compile Include="Assets\Fantastic_City_Generator\Scripts\TrafficSystem.cs" />
-     <Compile Include="Assets\Fantastic_City_Generator\Scripts\TrafficLights.cs" />
-     <Compile Include="Assets\Fantastic_City_Generator\WayTool\FCGWaypointsContainer.cs" />
-     <Compile Include="Assets\Fantastic_City_Generator\Scripts\RunTimeSample.cs" />
-     <Compile Include="Assets\Fantastic_City_Generator\Scripts\TFShiftHand2.cs" />
-     <Compile Include="Assets\Fantastic_City_Generator\Scripts\FPSDisplay.cs" />
-     <Compile Include="Assets\Fantastic_City_Generator\Player\Player\CharacterControl.cs" />
-     <Compile Include="Assets\Fantastic_City_Generator\Scripts\TrafficLight.cs" />
-     <Compile Include="Assets\Fantastic_City_Generator\Traffic System\DataSpawn.cs" />
-     <Compile Include="Assets\Fantastic_City_Generator\DayNight\DayNight.cs" />
-     <Compile Include="Assets\Fantastic_City_Generator\Scripts\FreeCamera.cs" />
-     <Compile Include="Assets\Fantastic_City_Generator\Scripts\TFShiftHand.cs" />
-     <Compile Include="Assets\Fantastic_City_Generator\Scripts\MapGenerator.cs" />
-     <Compile Include="Assets\Fantastic_City_Generator\Water\WaterSample.cs" />
-     <Compile Include="Assets\Fantastic_City_Generator\Player\Player Mobile\MobileControl.cs" />
-     <Compile Include="Assets\Fantastic_City_Generator\Scripts\CityGenerator.cs" />
-     <Compile Include="Assets\Fantastic_City_Generator\DayNight\ShiftAtRuntime.cs" />
-     <Compile Include="Assets\Fantastic_City_Generator\Scripts\Mesh_CombineUtility.cs" />
-     <Compile Include="Assets\Fantastic_City_Generator\Scripts\TrafficLights2.cs" />
+     <Compile Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\LensFlares\Scripts\ScreenSpacePlacement.cs" />
+     <Compile Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\SharedAssets\Scripts\FirstPersonController.cs" />
+     <Compile Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\SharedAssets\Scripts\AutoLoadPipelineAsset.cs" />
+     <Compile Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\CameraStacking\3D Skybox\Scripts\SkyboxCamera.cs" />
+     <Compile Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\RendererFeatures\KeepFrame\KeepFrameFeature.cs" />
+     <Compile Include="Assets\MeshCombiner\Scripts\MeshCombiner.cs" />
      <Folder Include="Assets" />
      <Folder Include="Assets\Prefabs" />
      <Folder Include="Assets\Fantastic_City_Generator\Buildings\Prefabs\BR" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\Decals\ProxyLighting\Shaders" />
      <Folder Include="Assets\EVP5\World\Pixelactive City\tex" />
      <Folder Include="Assets\Fantastic_City_Generator\Objects\Trees\Prefabs" />
      <Folder Include="Assets\Scripts\State" />
@@ -119,17 +126,26 @@
      <Folder Include="Assets\Fantastic_City_Generator\Objects\Trees\FBX" />
      <Folder Include="Assets\EVP5\Physic Materials" />
      <Folder Include="Assets\Fantastic_City_Generator\Objects" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\SharedAssets\Textures" />
      <Folder Include="Assets\Fantastic_City_Generator\Roads\FBX" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\Shaders\Lit\Models" />
      <Folder Include="Assets\EVP5\Vehicles\L200\Materials" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples" />
      <Folder Include="Assets\Fantastic_City_Generator\Buildings\Prefabs\Bases\EB EC" />
      <Folder Include="Assets\Fantastic_City_Generator\Buildings\FBX\Bases" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\RendererFeatures\AmbientOcclusion\AmbientOcclusion" />
      <Folder Include="Assets\Fantastic_City_Generator\Objects\Others\FBX" />
      <Folder Include="Assets\Fantastic_City_Generator\Traffic System\Vehicles" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\RendererFeatures\TrailEffect\Animation" />
      <Folder Include="Assets\EVP5\World\Ramp" />
      <Folder Include="Assets\Fantastic_City_Generator\SkyBox" />
+     <Folder Include="Assets\MeshCombiner\Scripts" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\Shaders\Lit\Lit" />
      <Folder Include="Assets\Scripts\PerlinNoise" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\Shaders\Lit\Textures" />
      <Folder Include="Assets\Fantastic_City_Generator\Objects\Flowerbed\FBX" />
      <Folder Include="Assets\Fantastic_City_Generator\Objects\Others" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\RendererFeatures\AmbientOcclusion\Animation" />
      <Folder Include="Assets\Fantastic_City_Generator\Traffic_Light\New Prefabs" />
      <None Include="Assets\Fantastic_City_Generator\Shaders\DiffuseAlpha.shader" />
      <Folder Include="Assets\Fantastic_City_Generator\Water\Materials" />
@@ -137,13 +153,20 @@
      <Folder Include="Assets\Fantastic_City_Generator\Textures\Materials" />
      <Folder Include="Assets\Fantastic_City_Generator\Buildings\Prefabs\Bases\BB BC BR" />
      <Folder Include="Assets\EVP5\Visual Effects\Tire marks" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\CameraStacking\3D Skybox\Prefabs" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\LensFlares\Scripts" />
      <Folder Include="Assets\Fantastic_City_Generator\Traffic System\Vehicles\Prefabs" />
      <Folder Include="Assets\Fantastic_City_Generator\Scripts" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\SharedAssets\Prefabs" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\RendererFeatures\TrailEffect\TrailEffect" />
      <None Include="Assets\EVP5\Visual Effects\Shaders\EVP Particles Alpha Blended Shadows.shader" />
      <Folder Include="Assets\EVP5\Vehicles\L200" />
      <Folder Include="Assets\EVP5\World\Pixelactive City\Materials" />
      <Folder Include="Assets\Textures" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\SharedAssets\Settings" />
      <Folder Include="Assets\Fantastic_City_Generator\Buildings\Prefabs\EB" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\SharedAssets" />
+     <Folder Include="Assets\Samples" />
      <Folder Include="Assets\EVP5\Visual Effects" />
      <Folder Include="Assets\Fantastic_City_Generator\Objects\Signs\Prefab" />
      <Folder Include="Assets\EVP5\World\Textures" />
@@ -151,41 +174,60 @@
      <Folder Include="Assets\Fantastic_City_Generator\Objects\StreetLight\Prefab" />
      <None Include="Assets\EVP5\Visual Effects\Shaders\EVP Tire Marks Debug.shader" />
      <Folder Include="Assets\Fantastic_City_Generator\Objects\Parkbench" />
+     <Folder Include="Assets\Samples\Universal RP" />
      <Folder Include="Assets\EVP5\World\Terrain" />
      <Folder Include="Assets\Settings" />
      <Folder Include="Assets\Fantastic_City_Generator\HighWay\FBX" />
      <Folder Include="Assets\EVP5\Visual Effects\Tire particles" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\SharedAssets\VolumeProfiles" />
      <Folder Include="Assets\Scripts" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\LensFlares\LensFlarePresets" />
      <Folder Include="Assets\EVP5\Scripts" />
      <Folder Include="Assets\Fantastic_City_Generator\Objects\StreetLight\FBX" />
      <Folder Include="Assets\Resources" />
      <Folder Include="Assets\EVP5" />
      <Folder Include="Assets\EVP5\Prefabs" />
      <Folder Include="Assets\Fantastic_City_Generator\Buildings\Prefabs\BK" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\RendererFeatures" />
      <Folder Include="Assets\Fantastic_City_Generator\Objects\Signs\FBX" />
      <Folder Include="Assets\Fantastic_City_Generator\Buildings\Prefabs\Bases\Slopes" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\LensFlares\Textures" />
      <Folder Include="Assets\Fantastic_City_Generator\Roads" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\SharedAssets\Fonts" />
      <Folder Include="Assets\EVP5\Vehicles\veBus\Materials" />
      <None Include="Assets\Fantastic_City_Generator\Shaders\TransparentRef.shader" />
      <Folder Include="Assets\Fantastic_City_Generator\URP Settings" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\CameraStacking\3D Skybox\Animation" />
      <Folder Include="Assets\Fantastic_City_Generator\Buildings\Prefabs\BB" />
      <Folder Include="Assets\Fantastic_City_Generator\Objects\Trees" />
      <Folder Include="Assets\Fantastic_City_Generator\Buildings\Prefabs\EC" />
      <Folder Include="Assets\Fantastic_City_Generator\WayTool" />
      <Folder Include="Assets\Fantastic_City_Generator\Objects\StreetLight" />
+     <Folder Include="Assets\MeshCombiner" />
      <Folder Include="Assets\Fantastic_City_Generator\Buildings\Prefabs\SB" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\SharedAssets\Scripts" />
      <Folder Include="Assets\EVP5\Vehicles" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\RendererFeatures\GlitchEffect\GlitchEffect" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\CameraStacking\MixedFOV\Prefabs" />
      <Folder Include="Assets\Fantastic_City_Generator" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\CameraStacking\3D Skybox\3DSkybox" />
      <Folder Include="Assets\Houses\Materials" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\Shaders" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\CameraStacking\MixedFOV" />
      <Folder Include="Assets\Fantastic_City_Generator\Objects\Parkbench\Prefab" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\RendererFeatures\GlitchEffect" />
      <Folder Include="Assets\EVP5\Visual Effects\Shaders" />
      <Folder Include="Assets\Fantastic_City_Generator\Roads\Prefab" />
      <Folder Include="Assets\Fantastic_City_Generator\Buildings\Prefabs\Bases\MB" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\Decals\PaintSplat\PaintSplat" />
      <Folder Include="Assets\Fantastic_City_Generator\Traffic System\Materials" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\LensFlares\Animation" />
      <Folder Include="Assets\Fantastic_City_Generator\Buildings\Prefabs\Bases\BK" />
      <Folder Include="Assets\Fantastic_City_Generator\Buildings\Prefabs\MB" />
      <Folder Include="Assets\Fantastic_City_Generator\DayNight" />
      <Folder Include="Assets\Fantastic_City_Generator\SkyBox\Materials" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\Decals\BlobShadow\Animation" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12" />
      <Folder Include="Assets\EVP5\Vehicles\veBus" />
      <Folder Include="Assets\Fantastic_City_Generator\Objects\Flowerbed\Prefab" />
      <None Include="Assets\Fantastic_City_Generator\Shaders\Splat.shader" />
@@ -194,12 +236,18 @@
      <Folder Include="Assets\Fantastic_City_Generator\HighWay" />
      <Folder Include="Assets\EVP5\Vehicles\L200\Textures" />
      <Folder Include="Assets\Fantastic_City_Generator\BackGrounds" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\SharedAssets\Materials" />
      <Folder Include="Assets\Fantastic_City_Generator\BackGrounds\Materials" />
      <Folder Include="Assets\Fantastic_City_Generator\Traffic System\Vehicles\Parked Prefabs" />
      <Folder Include="Assets\Fantastic_City_Generator\Objects\Signs" />
      <Folder Include="Assets\Fantastic_City_Generator\Documentation" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\CameraStacking\SplitScreen\SplitScreen" />
      <Folder Include="Assets\Material" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\RendererFeatures\TrailEffect" />
+     <None Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\SharedAssets\Shaders\3DText.shader" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\LensFlares\SunFlare" />
      <None Include="Assets\EVP5\Readme 5.3.txt" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\Decals\PaintSplat" />
      <Folder Include="Assets\Fantastic_City_Generator\Player\Player" />
      <Folder Include="Assets\EVP5\Scripts\Extra" />
      <Folder Include="Assets\AeonicTexturePack" />
@@ -208,15 +256,22 @@
      <Folder Include="Assets\Fantastic_City_Generator\Traffic_Light" />
      <Folder Include="Assets\EVP5\Vehicles\SportCoupe" />
      <Folder Include="Assets\Fantastic_City_Generator\Player\Player Mobile" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\CameraStacking\3D Skybox\Shaders" />
      <Folder Include="Assets\Houses" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\RendererFeatures\OcclusionEffect" />
      <Folder Include="Assets\Scenes\Houses" />
      <Folder Include="Assets\Commercials-1" />
      <None Include="Assets\Fantastic_City_Generator\Water\FXWaterBasic.shader" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\CameraStacking\3D Skybox\Materials" />
      <Folder Include="Assets\Fantastic_City_Generator\Buildings\Prefabs\Bases" />
      <Folder Include="Assets\Fantastic_City_Generator\Player" />
      <Folder Include="Assets\EVP5\World\Terrain\Terrain Textures" />
      <Folder Include="Assets\Fantastic_City_Generator\Objects\Others\Prefab" />
      <Folder Include="Assets\Fantastic_City_Generator\Objects\Parkbench\FBX" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\CameraStacking\SplitScreen" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\CameraStacking\3D Skybox" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\RendererFeatures\TrailEffect\Shaders" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\RendererFeatures\OcclusionEffect\OcclusionEffect" />
      <Folder Include="Assets\Fantastic_City_Generator\HighWay\Prefab" />
      <None Include="Assets\EVP5\Visual Effects\Shaders\EVP Tire Marks Bump.shader" />
      <Folder Include="Assets\EVP5\Scripts\Ground Materials" />
@@ -225,25 +280,41 @@
      <None Include="Assets\Fantastic_City_Generator\Shaders\Volumetric.shader" />
      <Folder Include="Assets\Fantastic_City_Generator\Objects\StreetLight\FBX\Materials" />
      <Folder Include="Assets\Fantastic_City_Generator\Buildings\Prefabs\Bases\SB" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\CameraStacking" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\RendererFeatures\OcclusionEffect\Animation" />
      <Folder Include="Assets\Fantastic_City_Generator\Buildings" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\Decals\BlobShadow\BlobShadow" />
      <Folder Include="Assets\Fantastic_City_Generator\Player\Player Mobile\IMG" />
      <Folder Include="Assets\Fantastic_City_Generator\Buildings\Prefabs\Bases\DC" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\CameraStacking\MixedFOV\MixedFOV" />
      <Folder Include="Assets\Fantastic_City_Generator\Textures" />
      <Folder Include="Assets\Fantastic_City_Generator\Traffic System" />
      <Folder Include="Assets\Fantastic_City_Generator\Buildings\Prefabs" />
      <None Include="Assets\README.txt" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\RendererFeatures\AmbientOcclusion" />
      <Folder Include="Assets\Fantastic_City_Generator\Buildings\Prefabs\DC" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\Decals\ProxyLighting" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\Shaders\Lit\Materials" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\Decals" />
      <Folder Include="Assets\Fantastic_City_Generator\Water" />
      <Folder Include="Assets\EVP5\Vehicles\SportCoupe\Materials" />
      <Folder Include="Assets\Scenes" />
      <Folder Include="Assets\Fantastic_City_Generator\Traffic_Light\FBX" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\Shaders\Lit" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\SharedAssets\Shaders" />
      <Folder Include="Assets\Fantastic_City_Generator\Shaders" />
      <Folder Include="Assets\EVP5\World\Pixelactive City" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\Decals\BlobShadow" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\RendererFeatures\KeepFrame" />
      <Folder Include="Assets\Fantastic_City_Generator\Buildings\FBX" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\Shaders\Lit\Prefabs" />
      <Folder Include="Assets\Fantastic_City_Generator\Objects\Flowerbed" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\LensFlares" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\Decals\ProxyLighting\Materials" />
      <Folder Include="Assets\EVP5\Scripts\Tools" />
      <Folder Include="Assets\Scripts\CityMaps" />
      <Folder Include="Assets\EVP5\World" />
+     <Folder Include="Assets\Samples\Universal RP\12.1.12\URP Package Samples\CameraStacking\3D Skybox\Scripts" />
      <Reference Include="UnityEngine">
      <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.29f1c1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
      </Reference>
@@ -894,6 +965,51 @@
      </Reference>
      <Reference Include="UnityEngine.UI">
      <HintPath>G:\MapSystem\Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.RenderPipelines.Universal.Shaders">
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Shaders.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.RenderPipelines.Core.Runtime">
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\Unity.RenderPipelines.Core.Runtime.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Searcher.Editor">
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\Unity.Searcher.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="PPv2URPConverters">
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\PPv2URPConverters.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.RenderPipelines.Universal.Editor">
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Mathematics.Editor">
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\Unity.Mathematics.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.RenderPipeline.Universal.ShaderLibrary">
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\Unity.RenderPipeline.Universal.ShaderLibrary.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.RenderPipelines.Core.Editor">
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\Unity.RenderPipelines.Core.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.RenderPipelines.Core.ShaderLibrary">
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\Unity.RenderPipelines.Core.ShaderLibrary.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Mathematics">
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\Unity.Mathematics.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary">
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Burst">
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\Unity.Burst.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.ShaderGraph.Editor">
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\Unity.ShaderGraph.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.RenderPipelines.Universal.Runtime">
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Burst.Editor">
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\Unity.Burst.Editor.dll</HintPath>
      </Reference>
   </ItemGroup>
   <ItemGroup>

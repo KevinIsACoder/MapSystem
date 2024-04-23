@@ -41,14 +41,16 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\EVP5\Scripts\Editor\VehicleStandardInputInspector.cs" />
-     <Compile Include="Assets\EVP5\Scripts\Editor\VehicleControllerInspector.cs" />
-     <Compile Include="Assets\EVP5\Scripts\Editor\InspectorTools.cs" />
+     <Compile Include="Assets\Fantastic_City_Generator\Editor\TCarEditor.cs" />
      <Compile Include="Assets\Fantastic_City_Generator\DayNight\Editor\DayNightEditor.cs" />
      <Compile Include="Assets\Fantastic_City_Generator\WayTool\Editor\FCGWPEditor.cs" />
+     <Compile Include="Assets\EVP5\Scripts\Editor\VehicleStandardInputInspector.cs" />
      <Compile Include="Assets\Fantastic_City_Generator\WayTool\Editor\IconManager.cs" />
-     <Compile Include="Assets\Fantastic_City_Generator\Editor\TCarEditor.cs" />
      <Compile Include="Assets\Fantastic_City_Generator\Editor\FCityGenerator.cs" />
+     <Compile Include="Assets\EVP5\Scripts\Editor\VehicleControllerInspector.cs" />
+     <Compile Include="Assets\EVP5\Scripts\Editor\InspectorTools.cs" />
+     <Compile Include="Assets\MeshCombiner\Editor\MeshCombinerEditor.cs" />
+     <Folder Include="Assets\MeshCombiner\Editor" />
      <Folder Include="Assets\Fantastic_City_Generator\Editor" />
      <Folder Include="Assets\EVP5\Scripts\Editor" />
      <Folder Include="Assets\Fantastic_City_Generator\WayTool\Editor" />
@@ -748,6 +750,51 @@
      </Reference>
      <Reference Include="UnityEngine.UI">
      <HintPath>G:\MapSystem\Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.RenderPipelines.Universal.Shaders">
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Shaders.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.RenderPipelines.Core.Runtime">
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\Unity.RenderPipelines.Core.Runtime.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Searcher.Editor">
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\Unity.Searcher.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="PPv2URPConverters">
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\PPv2URPConverters.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.RenderPipelines.Universal.Editor">
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Mathematics.Editor">
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\Unity.Mathematics.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.RenderPipeline.Universal.ShaderLibrary">
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\Unity.RenderPipeline.Universal.ShaderLibrary.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.RenderPipelines.Core.Editor">
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\Unity.RenderPipelines.Core.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.RenderPipelines.Core.ShaderLibrary">
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\Unity.RenderPipelines.Core.ShaderLibrary.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Mathematics">
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\Unity.Mathematics.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary">
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Burst">
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\Unity.Burst.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.ShaderGraph.Editor">
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\Unity.ShaderGraph.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.RenderPipelines.Universal.Runtime">
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Burst.Editor">
+     <HintPath>G:\MapSystem\Library\ScriptAssemblies\Unity.Burst.Editor.dll</HintPath>
      </Reference>
   </ItemGroup>
   <ItemGroup>
