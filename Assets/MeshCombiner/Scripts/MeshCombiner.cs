@@ -74,7 +74,7 @@ public class MeshCombiner : MonoBehaviour
 	{
 		#region Save our parent scale and our Transform and reset it temporarily:
 		// When we are unparenting and get parent again then sometimes scale is a little bit different so save scale before unparenting:
-		Vector3 oldScaleAsChild = transform.localScale;
+		/*Vector3 oldScaleAsChild = transform.localScale;
 
 		// If we have parent then his scale will affect to our new combined Mesh scale so unparent us:
 		int positionInParentHierarchy = transform.GetSiblingIndex();
@@ -87,7 +87,7 @@ public class MeshCombiner : MonoBehaviour
 		Vector3 oldScale = transform.localScale;
 		transform.rotation = Quaternion.identity;
 		transform.position = Vector3.zero;
-		transform.localScale = Vector3.one;
+		transform.localScale = Vector3.one;*/
 		#endregion Save Transform and reset it temporarily.
 
 		#region Combine Meshes into one Mesh:
@@ -102,7 +102,7 @@ public class MeshCombiner : MonoBehaviour
 		#endregion Combine Meshes into one Mesh.
 
 		#region Set old Transform values:
-		// Bring back the Transform values:
+		/*// Bring back the Transform values:
 		transform.rotation = oldRotation;
 		transform.position = oldPosition;
 		transform.localScale = oldScale;
@@ -112,7 +112,7 @@ public class MeshCombiner : MonoBehaviour
 		transform.SetSiblingIndex(positionInParentHierarchy);
 
 		// Set back the scale value as child:
-		transform.localScale = oldScaleAsChild;
+		transform.localScale = oldScaleAsChild;*/
 		#endregion Set old Transform values.
 	}
 
@@ -300,6 +300,7 @@ public class MeshCombiner : MonoBehaviour
 			finalCombineInstance.transform = Matrix4x4.identity;
 			finalMeshCombineInstancesList.Add(finalCombineInstance);
 		}
+		
 		#endregion Combine submeshes (children Meshes) with the same Material.
 
 		#region Set Materials array & combine submeshes into one multimaterial Mesh:

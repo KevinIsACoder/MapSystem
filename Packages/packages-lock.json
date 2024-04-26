@@ -1,5 +1,19 @@
 {
   "dependencies": {
+    "com.aigroup.distributebundlesystem": {
+      "version": "file:distributebundlesystem",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.unity.scriptablebuildpipeline": "1.20.2"
+      }
+    },
+    "com.aigroup.mapsystem": {
+      "version": "file:MapSystem",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.unity.burst": {
       "version": "1.8.4",
       "depth": 1,
@@ -75,6 +89,13 @@
         "com.unity.render-pipelines.core": "12.1.12",
         "com.unity.shadergraph": "12.1.12"
       }
+    },
+    "com.unity.scriptablebuildpipeline": {
+      "version": "1.20.2",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.cn"
     },
     "com.unity.searcher": {
       "version": "4.9.1",
